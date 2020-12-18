@@ -417,6 +417,8 @@
 #define ACT_HOLDING_BOWSER             0x00000391 // (0x191 | ACT_FLAG_STATIONARY)
 #define ACT_RELEASING_BOWSER           0x00000392 // (0x192 | ACT_FLAG_STATIONARY)
 
+#define ACT_BATTLE                     0x000A1200
+
 /*
  this input mask is unused by the controller,
  but END_DEMO is used internally to signal

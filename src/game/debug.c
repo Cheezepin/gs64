@@ -343,9 +343,9 @@ static void check_debug_button_seq(void) {
 
     buttonArr = sDebugInfoButtonSeq;
 
-    if (!(gPlayer1Controller->buttonDown & L_TRIG)) {
+    //if (!(gPlayer1Controller->buttonDown & L_TRIG)) {
         sDebugInfoButtonSeqID = 0;
-    } else {
+    //} else {
         if ((s16)(cButtonMask = (gPlayer1Controller->buttonPressed & C_BUTTONS))) {
             if (buttonArr[sDebugInfoButtonSeqID] == cButtonMask) {
                 sDebugInfoButtonSeqID += 1;
@@ -360,7 +360,7 @@ static void check_debug_button_seq(void) {
                 sDebugInfoButtonSeqID = 0;
             }
         }
-    }
+    //}
 }
 
 /*

@@ -1,0 +1,71 @@
+diff --git a/Makefile b/Makefile
+index c461169..8ac8cc1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -78,7 +78,7 @@ else ifeq ($(GRUCODE),f3dex) # Fast3DEX
+ else ifeq ($(GRUCODE),f3dex2) # Fast3DEX2
+   DEFINES += F3DEX_GBI_2=1 F3DEX_GBI_SHARED=1
+ else ifeq ($(GRUCODE),f3dzex) # Fast3DZEX (2.08J / Animal Forest - Dōbutsu no Mori)
+-  DEFINES += F3DZEX_GBI_2=1 F3DEX_GBI_2=1 F3DEX_GBI_SHARED=1
++  DEFINES += F3DZEX_GBI_2=1 F3DEX_GBI_2=1 F3DEX_GBI_SHARED=1 S2DEX_GBI_2=1
+ else ifeq ($(GRUCODE),super3d) # Super3D
+   $(warning Super3D is experimental. Try at your own risk.)
+   DEFINES += SUPER3D_GBI=1 F3D_NEW=1
+@@ -230,7 +230,7 @@ ACTOR_DIR      := actors
+ LEVEL_DIRS     := $(patsubst levels/%,%,$(dir $(wildcard levels/*/header.h)))
+ 
+ # Directories containing source files
+-SRC_DIRS := src src/usb src/engine src/game src/audio src/menu src/buffers actors levels bin data assets asm lib sound
++SRC_DIRS := src src/s2d_engine src/usb src/engine src/game src/audio src/menu src/buffers actors levels bin data assets asm lib sound
+ BIN_DIRS := bin bin/$(VERSION)
+ 
+ # File dependencies and variables for specific files
+@@ -384,8 +384,8 @@ else
+   RSPASM              := $(TOOLS_DIR)/armips
+ endif
+ ENDIAN_BITWIDTH       := $(BUILD_DIR)/endian-and-bitwidth
+-EMULATOR = mupen64plus
+-EMU_FLAGS = --noosd
++EMULATOR = ~/Downloads/mupen64plus/mupen64plus-gui
++EMU_FLAGS = 
+ LOADER = loader64
+ LOADER_FLAGS = -vwf
+ SHA1SUM = sha1sum
+diff --git a/sm64.ld b/sm64.ld
+index c77f951..0f324e3 100755
+--- a/sm64.ld
++++ b/sm64.ld
+@@ -116,6 +116,7 @@ SECTIONS
+       BUILD_DIR/asm/entry.o(.text);
+ 
+       BUILD_DIR/src/game*.o(.text);
++      BUILD_DIR/src/s2d_engine*.o(.text);
+ #ifdef UNF
+       BUILD_DIR/src/usb*.o(.text);
+ #endif
+@@ -132,6 +133,8 @@ SECTIONS
+       /* data */
+       BUILD_DIR/src/game*.o(.data*);
+       BUILD_DIR/src/game*.o(.sdata*);
++      BUILD_DIR/src/s2d_engine*.o(.data*);
++      BUILD_DIR/src/s2d_engine*.o(.sdata*);
+ #ifdef UNF
+       BUILD_DIR/src/usb*.o(.data*);
+       BUILD_DIR/src/usb*.o(.sdata*);
+@@ -148,6 +151,7 @@ SECTIONS
+ 
+       /* rodata */
+       BUILD_DIR/src/game*.o(.rodata*);
++      BUILD_DIR/src/s2d_engine*.o(.rodata*);
+ #ifdef UNF
+       BUILD_DIR/src/usb*.o(.rodata*);
+ #endif
+@@ -164,6 +168,8 @@ SECTIONS
+    {
+       BUILD_DIR/src/game*.o(.bss*);
+       BUILD_DIR/src/game*.o(.sbss*);
++      BUILD_DIR/src/s2d_engine*.o(.bss*);
++      BUILD_DIR/src/s2d_engine*.o(.sbss*);
+       BUILD_DIR/src/usb*.o(.bss*);
+       BUILD_DIR/src/usb*.o(.sbss*);
+       BUILD_DIR/src/audio*.o(.bss*);

@@ -57,7 +57,7 @@ else ifeq ($(VERSION),sh)
   VERSION_JP_US  ?= false
 endif
 
-TARGET := sm64.$(VERSION)
+TARGET := gs64.$(VERSION)
 
 
 # GRUCODE - selects which RSP microcode to use.
@@ -78,7 +78,7 @@ else ifeq ($(GRUCODE),f3dex) # Fast3DEX
 else ifeq ($(GRUCODE),f3dex2) # Fast3DEX2
   DEFINES += F3DEX_GBI_2=1 F3DEX_GBI_SHARED=1
 else ifeq ($(GRUCODE),f3dzex) # Fast3DZEX (2.08J / Animal Forest - Dōbutsu no Mori)
-  DEFINES += F3DZEX_GBI_2=1 F3DEX_GBI_2=1 F3DEX_GBI_SHARED=1
+  DEFINES += F3DZEX_GBI_2=1 F3DEX_GBI_2=1 F3DEX_GBI_SHARED=1 S2DEX_GBI_2=1
 else ifeq ($(GRUCODE),super3d) # Super3D
   $(warning Super3D is experimental. Try at your own risk.)
   DEFINES += SUPER3D_GBI=1 F3D_NEW=1
@@ -130,7 +130,7 @@ endif
 COMPARE ?= 0
 $(eval $(call validate-option,COMPARE,0 1))
 
-TARGET_STRING := sm64.$(VERSION).$(GRUCODE)
+TARGET_STRING := gs64.$(VERSION).$(GRUCODE)
 # If non-default settings were chosen, disable COMPARE
 ifeq ($(filter $(TARGET_STRING), sm64.jp.f3d_old sm64.us.f3d_old sm64.eu.f3d_new sm64.sh.f3d_new),)
   COMPARE := 0
@@ -230,7 +230,7 @@ ACTOR_DIR      := actors
 LEVEL_DIRS     := $(patsubst levels/%,%,$(dir $(wildcard levels/*/header.h)))
 
 # Directories containing source files
-SRC_DIRS := src src/usb src/engine src/game src/audio src/menu src/buffers actors levels bin data assets asm lib sound
+SRC_DIRS := src src/s2d_engine src/usb src/engine src/game src/audio src/menu src/buffers actors levels bin data assets asm lib sound
 BIN_DIRS := bin bin/$(VERSION)
 
 # File dependencies and variables for specific files
@@ -384,8 +384,8 @@ else
   RSPASM              := $(TOOLS_DIR)/armips
 endif
 ENDIAN_BITWIDTH       := $(BUILD_DIR)/endian-and-bitwidth
-EMULATOR = mupen64plus
-EMU_FLAGS = --noosd
+EMULATOR = ~/Downloads/mupen64plus/mupen64plus-gui
+EMU_FLAGS = 
 LOADER = loader64
 LOADER_FLAGS = -vwf
 SHA1SUM = sha1sum

@@ -295,7 +295,7 @@ void draw_profiler_mode_0(void) {
 // renderer is active.
 void draw_profiler(void) {
     if (gPlayer1Controller->buttonPressed & L_TRIG) {
-        gProfilerMode ^= 1;
+        //gProfilerMode ^= 1;
     }
 
     if (gProfilerMode == 0) {

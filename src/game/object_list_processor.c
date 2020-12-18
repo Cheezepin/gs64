@@ -19,6 +19,7 @@
 #include "platform_displacement.h"
 #include "profiler.h"
 #include "spawn_object.h"
+#include "game_init.h"
 
 
 /**
@@ -267,7 +268,7 @@ void spawn_particle(u32 activeParticleFlag, s16 model, const BehaviorScript *beh
 void bhv_mario_update(void) {
     u32 particleFlags = 0;
     s32 i;
-
+    
     particleFlags = execute_mario_action(gCurrentObject);
     gCurrentObject->oMarioParticleFlags = particleFlags;
 

@@ -116,6 +116,7 @@ SECTIONS
       BUILD_DIR/asm/entry.o(.text);
 
       BUILD_DIR/src/game*.o(.text);
+      BUILD_DIR/src/s2d_engine*.o(.text);
 #ifdef UNF
       BUILD_DIR/src/usb*.o(.text);
 #endif
@@ -132,6 +133,8 @@ SECTIONS
       /* data */
       BUILD_DIR/src/game*.o(.data*);
       BUILD_DIR/src/game*.o(.sdata*);
+      BUILD_DIR/src/s2d_engine*.o(.data*);
+      BUILD_DIR/src/s2d_engine*.o(.sdata*);
 #ifdef UNF
       BUILD_DIR/src/usb*.o(.data*);
       BUILD_DIR/src/usb*.o(.sdata*);
@@ -148,6 +151,7 @@ SECTIONS
 
       /* rodata */
       BUILD_DIR/src/game*.o(.rodata*);
+      BUILD_DIR/src/s2d_engine*.o(.rodata*);
 #ifdef UNF
       BUILD_DIR/src/usb*.o(.rodata*);
 #endif
@@ -164,6 +168,8 @@ SECTIONS
    {
       BUILD_DIR/src/game*.o(.bss*);
       BUILD_DIR/src/game*.o(.sbss*);
+      BUILD_DIR/src/s2d_engine*.o(.bss*);
+      BUILD_DIR/src/s2d_engine*.o(.sbss*);
       BUILD_DIR/src/usb*.o(.bss*);
       BUILD_DIR/src/usb*.o(.sbss*);
       BUILD_DIR/src/audio*.o(.bss*);

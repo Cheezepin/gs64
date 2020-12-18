@@ -3,6 +3,14 @@
 #include "surface_terrains.h"
 #include "geo_commands.h"
 
+//#include "src/s2d_engine/fonts/impact.c"
+#include "src/s2d_engine/fonts/gs.c"
+
+#include "src/s2d_engine/icons/icons.c"
+
+#include "src/s2d_engine/icons/bar.c"
+#include "src/s2d_engine/icons/barscripts/bar.c"
+
 #include "make_const_nonconst.h"
 
 // Note: This bin does not use bin IDs, unlike the other segmented bins.

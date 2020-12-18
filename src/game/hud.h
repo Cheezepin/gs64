@@ -3,6 +3,20 @@
 
 #include <PR/ultratypes.h>
 #include <PR/gbi.h>
+#include "sm64.h"
+#include "actors/common1.h"
+#include "gfx_dimensions.h"
+#include "game_init.h"
+#include "level_update.h"
+#include "camera.h"
+#include "print.h"
+#include "ingame_menu.h"
+#include "hud.h"
+#include "segment2.h"
+#include "area.h"
+#include "save_file.h"
+#include "print.h"
+#include "battle_helpers.h"
 
 enum PowerMeterAnimation {
     POWER_METER_HIDDEN,
