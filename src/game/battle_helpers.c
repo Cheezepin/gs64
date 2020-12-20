@@ -31,6 +31,10 @@
 #include "src/s2d_engine/icons/icons.h"
 #include "src/s2d_engine/icons/bar.h"
 #include "src/s2d_engine/icons/barscripts/bar.h"
+#include "src/s2d_engine/icons/elements.c"
+#include "src/s2d_engine/icons/elements.h"
+#include "src/s2d_engine/icons/psynergy.c"
+#include "src/s2d_engine/icons/psynergy.h"
 
 extern s16 gCutsceneTimer;
 
@@ -38,7 +42,94 @@ struct BattleInfo gBattleInfo;
 
 extern struct SaveBuffer gSaveBuffer;
 
+struct SequenceQueueItem {
+    u8 seqId;
+    u8 priority;
+};
+
+extern struct SequenceQueueItem sBackgroundMusicQueue[6];
+
 u8 gCharactersUnlocked;
+
+struct Spell None = {
+    "",
+    "",
+    SPELL_NONE,
+    0,
+    0,
+    0,
+};
+
+struct Spell Guard = {
+    "Guard",
+    "Boost ally's Defense.",
+    SPELL_GUARD,
+    5,
+    0,
+    3,
+};
+
+struct Spell Protect = {
+    "Protect",
+    "Boost party's Defense.",
+    SPELL_PROTECT,
+    5,
+    4,
+    5,
+};
+
+struct Spell Flare = {
+    "Flare",
+    "Attack with flaring flames.",
+    SPELL_FLARE,
+    5,
+    0,
+    4,
+};
+
+struct Spell FlareWall = {
+    "Flare Wall",
+    "Attack with searing flames.",
+    SPELL_FLARE_WALL,
+    12,
+    2,
+    7,
+};
+
+struct Spell FlareStorm = {
+    "Flare Storm",
+    "Attack with incinerating flames.",
+    SPELL_FLARE_STORM,
+    20,
+    6,
+    12,
+};
+
+struct Spell Volcano = {
+    "Volcano",
+    "Attack with volcanic might.",
+    SPELL_VOLCANO,
+    15,
+    8,
+    6,
+};
+
+struct Spell *MarsPool[7] = {
+    &Flare,
+    &FlareWall,
+    &FlareStorm,
+    &Guard,
+    &Protect,
+    &Volcano,
+    &None,
+};
+
+struct Spell **SpellPool[4] = {
+    &MarsPool,
+    &MarsPool,
+    &MarsPool,
+    &MarsPool,
+};
 
 void setup_mtx(uObjMtx *buf, int x, int y, float scale) {
 	buf->m.A = FTOFIX32(scale);
@@ -232,7 +323,8 @@ void exit_battle(void) {
     menuState = MENU_NONE;
     overIcon = OVER_FIGHT;
     set_mario_action(gMarioState, ACT_IDLE, 0);
-    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(0, SEQ_LEVEL_GRASS), 0);
+    stop_background_music(sBackgroundMusicQueue[0].seqId);
+    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(0, gBattleInfo.lastSeq), 0);
     gCamera->cutscene = 0;
     vec3f_copy(gMarioState->pos, gBattleInfo.lastPos);
     vec3f_copy(gMarioObject->header.gfx.pos, gMarioState->pos);
@@ -270,6 +362,9 @@ void determine_menu_switch(void) {
             } else if(overIcon == OVER_ATTACK && gPlayer1Controller->buttonPressed & A_BUTTON) {
                 menuState = MENU_ATTACK;
                 play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+            } else if(overIcon == OVER_PSYNERGY && gPlayer1Controller->buttonPressed & A_BUTTON) {
+                menuState = MENU_PSYNERGY;
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
             }
             break;
         case MENU_ATTACK:
@@ -282,6 +377,13 @@ void determine_menu_switch(void) {
                 determine_turn_order();
                 menuState = MENU_TURN;
                 gBattleInfo.player[0].action = ACT_ATTACK;
+            }
+            break;
+        case MENU_PSYNERGY:
+            if(gPlayer1Controller->buttonPressed & B_BUTTON) {
+                menuState = MENU_FIGHT;
+                overIcon = OVER_PSYNERGY;
+                play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gGlobalSoundSource);
             }
             break;
     }
@@ -393,12 +495,53 @@ void render_battle_icons(void) {
         sprintf(cbuf, "%s", overString);
         gs_print(254, 220, cbuf, SHADOW);
     } else if (menuState == MENU_ATTACK) {
-        call_icons_sprite_dl(OVER_ATTACK, (s32) 80, 208, &buf[0], 0, 1.0f);
+        call_icons_sprite_dl(OVER_ATTACK, 80, 208, &buf[0], 0, 1.0f);
         render_bar_wh(112, 208, 128, 32);
         gs_print(148, 220, "Attack", SHADOW);
         print_pointer();
     }
 
+    s2d_stop();
+}
+
+void call_spell_sprite_dl(int idx, int x, int y, uObjMtx *buffer) {
+	gDPPipeSync(gDisplayListHead++);
+	gSPDisplayList(gDisplayListHead++, s2d_init_dl);
+	gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+	gDPSetRenderMode(gDisplayListHead++, G_RM_XLU_SPRITE, G_RM_XLU_SPRITE2);
+	gSPObjRenderMode(gDisplayListHead++, G_OBJRM_XLU | G_OBJRM_BILERP);
+	gSPObjLoadTxtr(gDisplayListHead++, &spell_tex[idx]);
+	setup_mtx(&buffer[0], x, y, 1);
+	gSPObjMatrix(gDisplayListHead++, &buffer[0]);
+	gSPObjSprite(gDisplayListHead++, &spell_obj);
+}
+
+uObjMtx ebuf[6];
+uObjMtx hebuf2[6];
+char spbuf[512];
+void render_psynergy_menu(void) {
+    struct Spell **movePool;
+    u8 i, j = 0;
+    determine_menu_switch();
+    s2d_init();
+    call_icons_sprite_dl(OVER_PSYNERGY, 96, 208, &buf[0], 0, 1.0f);
+    render_bar_wh(128, 88, 192, 152);
+    render_bar_wh(0, 56, 320, 32);
+    movePool = SpellPool[0];
+    while(i < 255) {
+        if(movePool[i]->sprite != SPELL_NONE) {
+            //if(movePool[i]->baseLevel <= gSaveBuffer.files[gCurrSaveFileNum - 1][0].level) {
+                call_spell_sprite_dl(movePool[i]->sprite, 136, 96 + j*24, &ebuf[j]);
+                call_element_sprite_dl(0, 156, 100 + j*24, &hebuf2[j]);
+                sprintf(spbuf, "%s", movePool[i]->name);
+                gs_print(160, 100 + j*24, spbuf, SHADOW);
+                j++;
+            //}
+            i++;
+        } else {
+            i = 255;
+        }
+    }
     s2d_stop();
 }
 
@@ -558,6 +701,8 @@ void render_battle_attack_text(void) {
             isAttackDone = 0;
             if(gBattleInfo.enemy[0].obj == 0 && gBattleInfo.enemy[1].obj == 0 && gBattleInfo.enemy[2].obj == 0) {
                 menuState = MENU_WIN;
+                stop_background_music(sBackgroundMusicQueue[0].seqId);
+                play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(0, SEQ_VICTORY), 0);
                 render_previous_text();
             }
         } else {
@@ -590,7 +735,21 @@ void render_battle_win_text(void) {
     }
 }
 
+void call_element_sprite_dl(int idx, int x, int y, uObjMtx *buffer) {
+	gDPPipeSync(gDisplayListHead++);
+	gSPDisplayList(gDisplayListHead++, s2d_init_dl);
+	gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+	gDPSetRenderMode(gDisplayListHead++, G_RM_XLU_SPRITE, G_RM_XLU_SPRITE2);
+	gSPObjRenderMode(gDisplayListHead++, G_OBJRM_XLU | G_OBJRM_BILERP);
+	gSPObjLoadTxtr(gDisplayListHead++, &element_tex[idx]);
+	setup_mtx(&buffer[0], x, y, 1);
+	gSPObjMatrix(gDisplayListHead++, &buffer[0]);
+	gSPObjSprite(gDisplayListHead++, &element_obj);
+}
+
 char hbuf[512];
+uObjMtx hebuf[4];
+
 void render_health(void) {
     u8 i;
     s2d_init();
@@ -615,18 +774,33 @@ void render_health(void) {
         sprintf(hbuf, "PP %d", gBattleInfo.player[gCharactersUnlocked - i].PP);
         gs_print(256 - (i*64), 20, hbuf, SHADOW);
     }
+    call_element_sprite_dl(0, 198 - (gCharactersUnlocked*64), 6, &hebuf[0]);
+    call_element_sprite_dl(1, 198 - (gCharactersUnlocked*64), 18, &hebuf[1]);
+    call_element_sprite_dl(2, 230 - (gCharactersUnlocked*64), 6, &hebuf[2]);
+    call_element_sprite_dl(3, 230 - (gCharactersUnlocked*64), 18, &hebuf[3]);
+
+    sprintf(hbuf, " %d", gBattleInfo.player[0].agility);
+    gs_print(196 - (gCharactersUnlocked*64), 6, hbuf, SHADOW);
+    sprintf(hbuf, " %d", 01);
+    gs_print(196 - (gCharactersUnlocked*64), 18, hbuf, SHADOW);
+    sprintf(hbuf, " %d", 01);
+    gs_print(228 - (gCharactersUnlocked*64), 6, hbuf, SHADOW);
+    sprintf(hbuf, " %d", 01);
+    gs_print(228 - (gCharactersUnlocked*64), 18, hbuf, SHADOW);
     s2d_stop();
 }
 
 void initialize_player(u8 player) {
-    gBattleInfo.player[0].agility = 5;
-    gBattleInfo.player[0].attack = 4;
-    gBattleInfo.player[0].defense = 3;
+    struct BattlePlayer *partyStats = &gBattleInfo.player[player];
+    struct Player *file = &gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[player];
+    partyStats->agility = partyStats->baseAgility = file->agility;
+    partyStats->attack = partyStats->baseAttack = file->attack;
+    partyStats->defense = partyStats->baseDefense = file->defense;
     gBattleInfo.player[0].target = 4;
-    gBattleInfo.player[player].HP = random_u16() % 30;
-    gBattleInfo.player[player].PP = random_u16() % 20;
-    gBattleInfo.player[player].baseHP = 30;
-    gBattleInfo.player[player].basePP = 20;
+    partyStats->HP = file->HP;
+    partyStats->PP = file->PP;
+    partyStats->baseHP = file->baseHP;
+    partyStats->basePP = file->basePP;
 
     if(player == 0) {
         gBattleInfo.player[0].obj = &gMarioObject;
@@ -634,12 +808,11 @@ void initialize_player(u8 player) {
         gMarioState->pos[1] = -11000.0f;
         vec3f_copy(gMarioObject->header.gfx.pos, gMarioState->pos);
     } else {
-        struct BattlePlayer *me; 
-        gBattleInfo.player[player].obj = spawn_object(gMarioObject, MODEL_MARIO, bhvPointer);
-        me = &gBattleInfo.player[player];
-        me->obj->oPosX = (-62.5*gCharactersUnlocked) + (125.0f*player);
-        me->obj->oPosZ = (-62.5*gCharactersUnlocked) + (125.0f*player);
-        me->obj->oPosY = -11000.0f;
+        if(partyStats->obj == 0)
+            partyStats->obj = spawn_object(gMarioObject, MODEL_MARIO, bhvPointer);
+        partyStats->obj->oPosX = (-62.5*gCharactersUnlocked) + (125.0f*player);
+        partyStats->obj->oPosZ = (-62.5*gCharactersUnlocked) + (125.0f*player);
+        partyStats->obj->oPosY = -11000.0f;
     }
 }
 
@@ -652,7 +825,9 @@ void initialize_battle(void) {
     vec3f_copy(gBattleInfo.lastPos, gMarioState->pos);
     start_cutscene(gCamera, CUTSCENE_BATTLE);
     set_mario_action(gMarioState, ACT_BATTLE, 0);
-    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_BATTLE), 0);
+    gBattleInfo.lastSeq = sBackgroundMusicQueue[0].seqId;
+    stop_background_music(sBackgroundMusicQueue[0].seqId);
+    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(0, SEQ_BATTLE), 0);
     copy_mario_state_to_object();
     for(i = 0; i <= gCharactersUnlocked; i++) {
         initialize_player(i);
@@ -666,7 +841,6 @@ void render_battle(void) {
     update_camera(gCamera);
     gSPSetOtherMode(gDisplayListHead++, G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0);
     render_battle_fill_rect(0, 208, 320, 240, 0, 0, 0);
-    render_health();
     switch(menuState) {
         case MENU_NONE:
             render_battle_init_text();
@@ -677,11 +851,15 @@ void render_battle(void) {
         case MENU_WIN:
             render_battle_win_text();
             break;
+        case MENU_PSYNERGY:
+            render_psynergy_menu();
+            break;
         default:
             render_battle_icons();
             break;
 
     }
+    render_health();
     gSPSetOtherMode(gDisplayListHead++, G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0x3000);
 
     print_text_fmt_int(50, 50, "%d", gBattleInfo.enemy[0].HP);

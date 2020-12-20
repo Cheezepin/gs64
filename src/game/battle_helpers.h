@@ -11,12 +11,13 @@
 #define OVER_ITEM     7
 #define OVER_DEFEND   8
 
-#define MENU_NONE   0
-#define MENU_START  1
-#define MENU_FIGHT  2
-#define MENU_ATTACK 3
-#define MENU_TURN   4
-#define MENU_WIN    5
+#define MENU_NONE     0
+#define MENU_START    1
+#define MENU_FIGHT    2
+#define MENU_ATTACK   3
+#define MENU_TURN     4
+#define MENU_WIN      5
+#define MENU_PSYNERGY 6
 
 #define SHADOW    0
 #define NO_SHADOW 1
@@ -39,6 +40,38 @@
 #define TURN_ENEMY1  4
 #define TURN_ENEMY2  5
 #define TURN_ENEMY3  6
+
+#define MARS    0
+#define VENUS   1
+#define JUPITER 2
+#define MERCURY 3
+
+#define SPELL_LIFT         0 //field only
+#define SPELL_MOVE         1 //field only
+#define SPELL_GUARD        2
+#define SPELL_PROTECT      3
+#define SPELL_FLARE        4
+#define SPELL_FLARE_WALL   5
+#define SPELL_FLARE_STORM  6
+#define SPELL_VOLCANO      7
+#define SPELL_GROWTH       8 //field + battle
+#define SPELL_QUAKE        9
+#define SPELL_EARTHQUAKE   10
+#define SPELL_QUAKE_SPHERE 11
+#define SPELL_SPIRE        12
+#define SPELL_WHIRLWIND    13 //field + battle
+#define SPELL_TORNADO      14
+#define SPELL_IMPACT       15
+#define SPELL_HIGH_IMPACT  16
+#define SPELL_REVIVE       17 //field + battle
+#define SPELL_FROST        18 //field + battle
+#define SPELL_TUNDRA       19
+#define SPELL_GLACIER      20
+#define SPELL_PLY          21 //field + battle
+#define SPELL_PLY_WELL     22 //field + battle
+#define SPELL_WISH         23 //field + battle
+
+#define SPELL_NONE        255
 
 #ifndef BATTLE_HELPERS_H
 #define BATTLE_HELPERS_H
@@ -87,15 +120,31 @@ struct BattleInfo
 {
     Vec3f lastPos;
     u32 turn;
-    u8 turnUser;
+    u8 turnUser; //when fighting
     u8 turnActionProgress;
     u8 camState;
-    u8 currentUser;
-    u8 selectedUser;
+    u8 selectedUser; //when in menus
+    u8 lastSeq;
     s8 turnOrder[7];
     struct Enemy enemy[3];
     struct BattlePlayer player[4];
 };
+
+struct Spell
+{
+    const char name[12];
+    const char tooltip[32];
+    u8 sprite;
+    u8 damage;
+    u8 baseLevel;
+    u8 PP;
+};
+
+//extern u8 MarsPool[7];
+extern u8 VenusPool[6];
+extern u8 JupiterPool[6];
+extern u8 MercuryPool[8];
+//extern u32 SpellPool[4];
 
 #endif
 

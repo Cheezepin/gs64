@@ -50,6 +50,8 @@ struct SaveFile
     struct SaveBlockSignature signature;
 
     u8 charactersUnlocked;
+    u8 level;
+    u32 exp;
     struct Player player[4];
 };
 

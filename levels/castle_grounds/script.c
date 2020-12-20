@@ -34,8 +34,9 @@ const LevelScript level_castle_grounds_entry[] = {
 	JUMP_LINK(script_func_global_15), 
 
 	AREA(1, castle_grounds_area_1),
+		WARP_NODE(0x01, LEVEL_WF, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		MARIO_POS(0x01, 0, 0, 0, 0),
-		OBJECT(MODEL_GOOMBA, 1866, 0, -2218, 0, 0, 0, 0x00000000, bhvGoomba),
+		OBJECT(MODEL_NONE, 0, 0, -5000, 0, 0, 0, 0x30010000, bhvWarp),
 		TERRAIN(castle_grounds_area_1_collision),
 		MACRO_OBJECTS(castle_grounds_area_1_macro_objs),
 		SET_BACKGROUND_MUSIC(0x00, SEQ_LEVEL_GRASS),

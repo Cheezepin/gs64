@@ -20,6 +20,7 @@
 #include "obj_behaviors.h"
 #include "save_file.h"
 #include "debug_course.h"
+#include "battle_helpers.h"
 #ifdef VERSION_EU
 #include "memory.h"
 #include "eu_translation.h"
@@ -178,6 +179,7 @@ s16 unusedEULevelUpdateBss1;
 #endif
 s8 sTimerRunning;
 s8 gNeverEnteredCastle;
+extern struct SaveBuffer gSaveBuffer;
 
 struct MarioState *gMarioState = &gMarioStates[0];
 u8 unused1[4] = { 0 };
@@ -1197,7 +1199,44 @@ s32 init_level(void) {
                 set_mario_action(gMarioState, ACT_IDLE, 0);
             } else if (gDebugLevelSelect == 0) {
                 if (gMarioState->action != ACT_UNINITIALIZED) {
-                        set_mario_action(gMarioState, ACT_IDLE, 0);
+                        if (!(save_file_exists(gCurrSaveFileNum - 1))) {
+                            u8 i;
+                            struct SaveFile *file = &gSaveBuffer.files[gCurrSaveFileNum - 1][0];
+                            gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
+                            file->charactersUnlocked = 0;
+                            for(i = 0; i < 4; i++) {
+                                file->player[i].HP = file->player[i].baseHP = 30;
+                                file->player[i].PP = file->player[i].basePP = 20;
+                                switch(i) {
+                                    case 0:
+                                        file->player[i].attack = 7;
+                                        file->player[i].defense = 3;
+                                        file->player[i].agility = 5;
+                                        file->player[i].element = MARS;
+                                        break;
+                                    case 1:
+                                        file->player[i].attack = 5;
+                                        file->player[i].defense = 7;
+                                        file->player[i].agility = 3;
+                                        file->player[i].element = VENUS;
+                                        break;
+                                    case 2:
+                                        file->player[i].attack = 3;
+                                        file->player[i].defense = 5;
+                                        file->player[i].agility = 7;
+                                        file->player[i].element = JUPITER;
+                                        break;
+                                    case 3:
+                                        file->player[i].attack = 5;
+                                        file->player[i].defense = 5;
+                                        file->player[i].agility = 5;
+                                        file->player[i].element = MERCURY;
+                                        break;
+                                }
+                            }
+                        } else {
+                            set_mario_action(gMarioState, ACT_IDLE, 0);
+                        }
                 }
             }
         }
