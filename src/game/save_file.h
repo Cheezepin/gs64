@@ -8,8 +8,20 @@
 
 #include "course_table.h"
 
-#define EEPROM_SIZE 0x200
+#define EEPROM_SIZE 0x800
 #define NUM_SAVE_FILES 4
+
+struct Player
+{
+    u16 baseHP;
+    s16 HP;
+    u16 basePP;
+    s16 PP;
+    s16 attack;
+    s16 defense;
+    s16 agility;
+    u8 element;
+};
 
 struct SaveBlockSignature
 {
@@ -36,6 +48,9 @@ struct SaveFile
     u8 courseCoinScores[COURSE_STAGES_COUNT];
 
     struct SaveBlockSignature signature;
+
+    u8 charactersUnlocked;
+    struct Player player[4];
 };
 
 enum SaveFileIndex {

@@ -1,16 +1,6 @@
 --- include/segments.h
 +++ include/segments.h
-@@ -1,6 +1,9 @@
- #ifndef SEGMENTS_H
- #define SEGMENTS_H
- 
-+#ifndef LINKER
-+#include "segment_symbols.h"
-+#endif
- /*
-  * Memory addresses for segments. Ideally, this header file would not be
-  * needed, and the addresses would be defined in sm64.ld and linker-inserted
-@@ -11,46 +14,21 @@
+@@ -14,46 +17,21 @@
   * linker script syntax.
  */
  

@@ -5,13 +5,11 @@
 
 #include "types.h"
 
-// Range level area is 16384x16384 (-8192 to +8192 in x and z)
-#define LEVEL_BOUNDARY_MAX  0x2000 // 8192
+#include "engine/extended_bounds.h"
 
-#define CELL_SIZE           (1 << 10) // 0x400
 
 #define CELL_HEIGHT_LIMIT           20000
-#define FLOOR_LOWER_LIMIT           -11000
+#define FLOOR_LOWER_LIMIT           -22000
 #define FLOOR_LOWER_LIMIT_MISC      (FLOOR_LOWER_LIMIT + 1000)
 // same as FLOOR_LOWER_LIMIT_MISC, explicitly for shadow.c 
 // It doesn't match if ".0" is removed or ".f" is added

@@ -14,12 +14,16 @@
  * linker script syntax.
 */
 
+#define USE_EXT_RAM
 #ifndef USE_EXT_RAM
-#define RAM_END          0x80400000
+#define RAM_END          0x80800000
 #else
 #define RAM_END          0x80800000
 #endif
 
+#ifndef LINKER
+#include "segment_symbols.h"
+#endif
 /*
  * Workaround for running out of pool space due to
  * importing large custom content.

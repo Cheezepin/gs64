@@ -33,3 +33,5 @@
 #include "white_particle_small/model.inc.c"
 
 #include "sparkle_animation/model.inc.c"
+
+#include "pointer/model.inc.c"
