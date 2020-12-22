@@ -1207,6 +1207,7 @@ s32 init_level(void) {
                             for(i = 0; i < 4; i++) {
                                 file->player[i].HP = file->player[i].baseHP = 30;
                                 file->player[i].PP = file->player[i].basePP = 20;
+                                file->charactersUnlocked = gCurrSaveFileNum - 1;
                                 switch(i) {
                                     case 0:
                                         file->player[i].attack = 7;

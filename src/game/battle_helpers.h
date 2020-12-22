@@ -18,6 +18,7 @@
 #define MENU_TURN     4
 #define MENU_WIN      5
 #define MENU_PSYNERGY 6
+#define MENU_SELECT   7
 
 #define SHADOW    0
 #define NO_SHADOW 1
@@ -73,6 +74,11 @@
 
 #define SPELL_NONE        255
 
+#define RANGE_SINGLE_ENEMY 0
+#define RANGE_ALL_ENEMIES  1
+#define RANGE_SINGLE_PARTY 2
+#define RANGE_ALL_PARTY    3
+
 #ifndef BATTLE_HELPERS_H
 #define BATTLE_HELPERS_H
 
@@ -90,7 +96,7 @@ struct Enemy
     u8 action;
     u8 subAction;
     u8 actionProgressMax;
-    u8 target;
+    u8 target[4];
 };
 
 struct BattlePlayer
@@ -112,7 +118,7 @@ struct BattlePlayer
     u8 element;
     u8 action;
     u8 subAction;
-    u8 target;
+    u8 target[3];
     u8 actionProgressMax;
 };
 
@@ -123,8 +129,10 @@ struct BattleInfo
     u8 turnUser; //when fighting
     u8 turnActionProgress;
     u8 camState;
-    u8 selectedUser; //when in menus
+    u8 selectingUser; //when in menus
     u8 lastSeq;
+    u8 prevMenu;
+    u8 totalEnemies;
     s8 turnOrder[7];
     struct Enemy enemy[3];
     struct BattlePlayer player[4];
@@ -132,18 +140,19 @@ struct BattleInfo
 
 struct Spell
 {
-    const char name[12];
-    const char tooltip[32];
+    const char name[15];
+    const char tooltip[36];
     u8 sprite;
     u8 damage;
     u8 baseLevel;
     u8 PP;
+    u8 range;
 };
 
 //extern u8 MarsPool[7];
-extern u8 VenusPool[6];
-extern u8 JupiterPool[6];
-extern u8 MercuryPool[8];
+// extern u8 VenusPool[6];
+// extern u8 JupiterPool[6];
+// extern u8 MercuryPool[8];
 //extern u32 SpellPool[4];
 
 #endif
