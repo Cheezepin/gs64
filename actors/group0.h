@@ -344,4 +344,89 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "pointer/geo_header.h"
 
+#include "verio/geo_header.h"
+
+#include "jurio/geo_header.h"
+
+#include "merio/geo_header.h"
+
+
+#include "player/anim_header.h"
+#include "halo/geo_header.h"
+
+#include "liftrock/geo_header.h"
+
+#include "liftrock/collision_header.h"
+
+#include "plant/geo_header.h"
+
+#include "plant/collision_header.h"
+
+#include "tornado_psy/geo_header.h"
+
+#include "leaf/geo_header.h"
+
+#include "leaf/collision_header.h"
+
+#include "growth/geo_header.h"
+
+#include "spire/geo_header.h"
+
+#include "glacier/geo_header.h"
+
+#include "ground/geo_header.h"
+
+#include "frost_spire/geo_header.h"
+
+#include "frost_spire/collision_header.h"
+
+#include "puddle/geo_header.h"
+
+#include "chest/geo_header.h"
+
+
+#include "chest/anim_header.h"
+
+#include "transition/header.h"
+
+extern const GeoLayout bully_geo[];
+extern const GeoLayout bully_boss_geo[];
+extern const Gfx bully_seg5_dl_050002E0[];
+extern const Gfx bully_seg5_dl_05000398[];
+extern const Gfx bully_seg5_dl_05003708[];
+extern const Gfx bully_seg5_dl_050037A0[];
+extern const Gfx bully_seg5_dl_05003838[];
+extern const Gfx bully_seg5_dl_05003878[];
+extern const Gfx bully_seg5_dl_05003CD0[];
+extern const Gfx bully_seg5_dl_05003D08[];
+extern const Gfx bully_seg5_dl_05003D40[];
+extern const Gfx bully_seg5_dl_05003E38[];
+extern const Gfx bully_seg5_dl_05003E70[];
+extern const Gfx bully_seg5_dl_05003EA8[];
+extern const Gfx bully_seg5_dl_05003F80[];
+extern const Gfx bully_seg5_dl_05003FC8[];
+extern const struct Animation *const bully_seg5_anims_0500470C[];
+
+extern const GeoLayout scuttlebug_geo[];
+extern const Gfx scuttlebug_seg6_dl_06013988[];
+extern const Gfx scuttlebug_seg6_dl_060139C0[];
+extern const Gfx scuttlebug_seg6_dl_060139F8[];
+extern const Gfx scuttlebug_seg6_dl_06013AB0[];
+extern const Gfx scuttlebug_seg6_dl_06013AE8[];
+extern const Gfx scuttlebug_seg6_dl_06013B98[];
+extern const Gfx scuttlebug_seg6_dl_06013BD0[];
+extern const Gfx scuttlebug_seg6_dl_06013C80[];
+extern const Gfx scuttlebug_seg6_dl_06013CB8[];
+extern const Gfx scuttlebug_seg6_dl_06013D68[];
+extern const Gfx scuttlebug_seg6_dl_06013DA0[];
+extern const Gfx scuttlebug_seg6_dl_06013FC8[];
+extern const Gfx scuttlebug_seg6_dl_060140F0[];
+extern const Gfx scuttlebug_seg6_dl_06014150[];
+extern const Gfx scuttlebug_seg6_dl_06014188[];
+extern const Gfx scuttlebug_seg6_dl_06014238[];
+extern const Gfx scuttlebug_seg6_dl_06014270[];
+extern const Gfx scuttlebug_seg6_dl_06014338[];
+extern const Gfx scuttlebug_seg6_dl_06014378[];
+extern const struct Animation *const scuttlebug_seg6_anims_06015064[];
+
 #endif

@@ -23,6 +23,10 @@
 #include "math_util.h"
 #include "surface_collision.h"
 #include "surface_load.h"
+#include "game/save_file.h"
+#include "menu/file_select.h"
+
+extern struct SaveBuffer gSaveBuffer;
 
 #define CMD_GET(type, offset) (*(type *) (CMD_PROCESS_OFFSET(offset) + (u8 *) sCurrentCmd))
 
@@ -639,14 +643,30 @@ static void level_cmd_unload_area(void) {
     sCurrentCmd = CMD_NEXT;
 }
 
-static void level_cmd_set_mario_start_pos(void) {
-    gMarioSpawnInfo->areaIndex = CMD_GET(u8, 2);
+f32 startArray[6][3] = {
+    0.0f, 1000.0f, 19750.0f,
+    0.0f, 250.0f, 5857.25f,
+    0.0f, 250.0f, 22894.65f,
+    0.0f, 250.0f, 1145.735f,
+    0.0f, 250.0f, 19192.4f,
+    198.644f, -5000.0f, 1818.455f
+};
 
-#if IS_64_BIT
-    vec3s_set(gMarioSpawnInfo->startPos, CMD_GET(s16, 6), CMD_GET(s16, 8), CMD_GET(s16, 10));
-#else
-    vec3s_copy(gMarioSpawnInfo->startPos, CMD_GET(Vec3s, 6));
-#endif
+void level_cmd_set_mario_start_pos(void) {
+    //gPlayerSpawnInfos[0].areaIndex = gMarioSpawnInfo->areaIndex = CMD_GET(u8, 2);
+
+if(gCurrLevelNum != LEVEL_BOB) {
+    gPlayerSpawnInfos[0].areaIndex = gMarioSpawnInfo->areaIndex = CMD_GET(u8, 2);
+ #if IS_64_BIT
+     vec3s_set(gMarioSpawnInfo->startPos, CMD_GET(s16, 6), CMD_GET(s16, 8), CMD_GET(s16, 10));
+ #else
+     vec3s_copy(gMarioSpawnInfo->startPos, CMD_GET(Vec3s, 6));
+ #endif
+} else {
+    gPlayerSpawnInfos[0].areaIndex = gMarioSpawnInfo->areaIndex = gSaveBuffer.files[gCurrSaveFileNum - 1][0].lastFloor;
+    vec3s_set(gMarioSpawnInfo->startPos, startArray[gMarioSpawnInfo->areaIndex - 1][0], startArray[gMarioSpawnInfo->areaIndex - 1][1], startArray[gMarioSpawnInfo->areaIndex - 1][2]);
+}
+
     vec3s_set(gMarioSpawnInfo->startAngle, 0, CMD_GET(s16, 4) * 0x8000 / 180, 0);
 
     sCurrentCmd = CMD_NEXT;
@@ -740,6 +760,15 @@ static void level_cmd_get_or_set_var(void) {
     }
 
     sCurrentCmd = CMD_NEXT;
+}
+
+s32 determine_starting_level(void) {
+    if(gEnteringPassword != 0)
+        return LEVEL_WF;
+    else if(gSaveBuffer.files[gCurrSaveFileNum - 1][0].lastFloor == 0)
+        return LEVEL_CASTLE_GROUNDS;
+    else
+        return LEVEL_BOB;
 }
 
 static void (*LevelScriptJumpTable[])(void) = {

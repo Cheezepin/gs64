@@ -6,6 +6,8 @@
 #include "segment_symbols.h"
 #include "level_commands.h"
 
+#include "engine/level_script.h"
+
 #include "game/area.h"
 #include "game/level_update.h"
 #include "menu/file_select.h"
@@ -37,13 +39,13 @@ const LevelScript level_main_menu_entry_1[] = {
 
     AREA(/*index*/ 1, geo_menu_file_select_strings_and_menu_cursor),
         OBJECT(/*model*/ MODEL_NONE,         /*pos*/ 0, 0, -19000, /*angle*/ 0, 0, 0, /*behParam*/ 0x04000000, /*beh*/ bhvMenuButtonManager),
-        OBJECT(/*model*/ MODEL_MAIN_MENU_YELLOW_FILE_BUTTON, /*pos*/ 0, 0, -19000, /*angle*/ 0, 0, 0, /*behParam*/ 0x04000000, /*beh*/ bhvYellowBackgroundInMenu),
+        //OBJECT(/*model*/ MODEL_MAIN_MENU_YELLOW_FILE_BUTTON, /*pos*/ 0, 0, -19000, /*angle*/ 0, 0, 0, /*behParam*/ 0x04000000, /*beh*/ bhvYellowBackgroundInMenu),
         TERRAIN(/*terrainData*/ main_menu_seg7_collision),
     END_AREA(),
 
     FREE_LEVEL_POOL(),
     LOAD_AREA(/*area*/ 1),
-    SET_MENU_MUSIC(/*seq*/ 0x0021),
+    SET_MENU_MUSIC(/*seq*/ SEQ_MENU),
     TRANSITION(/*transType*/ WARP_TRANSITION_FADE_FROM_COLOR, /*time*/ 16, /*color*/ 0xFF, 0xFF, 0xFF),
     CALL(/*arg*/ 0, /*func*/ lvl_init_menu_values_and_cursor_pos),
     CALL_LOOP(/*arg*/ 0, /*func*/ lvl_update_obj_and_load_file_selected),
@@ -53,7 +55,8 @@ const LevelScript level_main_menu_entry_1[] = {
     SLEEP(/*frames*/ 16),
     CLEAR_LEVEL(),
     SLEEP_BEFORE_EXIT(/*frames*/ 1),
-    SET_REG(LEVEL_CASTLE_GROUNDS),
+    //SET_REG(LEVEL_CASTLE_GROUNDS),
+    CALL(0, determine_starting_level),
     EXIT_AND_EXECUTE(/*seg*/ 0x15, _scriptsSegmentRomStart, _scriptsSegmentRomEnd, level_main_scripts_entry),
 };
 

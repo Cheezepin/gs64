@@ -931,6 +931,7 @@ static void treat_far_home_as_mario(f32 threshold) {
 #include "behaviors/mad_piano.inc.c"
 #include "behaviors/flying_bookend_switch.inc.c"
 #include "behaviors/enemy.inc.c"
+#include "behaviors/psynergy.inc.c"
 
 /**
  * Used by bowser, fly guy, piranha plant, and fire spitters.

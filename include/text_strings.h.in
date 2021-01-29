@@ -147,9 +147,9 @@
 #define TEXT_ERASE _("ERASE")
 
 // Sound Options
-#define TEXT_STEREO _("STEREO")
-#define TEXT_MONO _("MONO")
-#define TEXT_HEADSET _("HEADSET")
+#define TEXT_STEREO _("PASSWORD")
+#define TEXT_MONO _("PASSWORD")
+#define TEXT_HEADSET _("PASSWORD")
 
 // Misc Menu Text
 #define TEXT_SAVED_DATA_EXISTS _("SAVED DATA EXITS") // Misspell

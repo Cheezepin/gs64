@@ -188,9 +188,9 @@
 #define SHAKE_ENV_FALLING_BITS_PLAT   10
 
 #define SHAKE_FOV_SMALL     1
-#define SHAKE_FOV_UNUSED    2
-#define SHAKE_FOV_MEDIUM    3
-#define SHAKE_FOV_LARGE     4
+#define SHAKE_FOV_UNUSED    4
+#define SHAKE_FOV_MEDIUM    2
+#define SHAKE_FOV_LARGE     3
 
 #define SHAKE_POS_SMALL         1
 #define SHAKE_POS_MEDIUM        2

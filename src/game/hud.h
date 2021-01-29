@@ -38,4 +38,7 @@ enum CameraHUDLut {
 void set_hud_camera_status(s16 status);
 void render_hud(void);
 
+extern u8 gItemGot;
+extern u8 gPartyMemberGot;
+
 #endif // HUD_H

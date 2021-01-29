@@ -1,0 +1,10 @@
+extern const GeoLayout lighthouse_gate_geo[];
+extern Lights1 lighthouse_gate_sm64_material_lights;
+extern u8 lighthouse_gate_hb_tou_ci4[];
+extern u8 lighthouse_gate_hb_tou_ci4_pal_rgba16[];
+extern Vtx lighthouse_gate_000_displaylist_mesh_vtx_0[24];
+extern Gfx lighthouse_gate_000_displaylist_mesh_tri_0[];
+extern Gfx mat_lighthouse_gate_sm64_material[];
+extern Gfx mat_revert_lighthouse_gate_sm64_material[];
+extern Gfx lighthouse_gate_000_displaylist_mesh[];
+extern Gfx lighthouse_gate_material_revert_render_settings[];

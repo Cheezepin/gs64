@@ -1,0 +1,10 @@
+extern const GeoLayout icyblock_geo[];
+extern Lights1 icyblock_block_lights;
+extern u8 icyblock_icyblock_ci8[];
+extern u8 icyblock_icyblock_ci8_pal_rgba16[];
+extern Vtx icyblock_op_005_mesh_vtx_0[24];
+extern Gfx icyblock_op_005_mesh_tri_0[];
+extern Gfx mat_icyblock_block[];
+extern Gfx mat_revert_icyblock_block[];
+extern Gfx icyblock_op_005_mesh[];
+extern Gfx icyblock_material_revert_render_settings[];

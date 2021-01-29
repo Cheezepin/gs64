@@ -6,8 +6,12 @@
  * the environment.
  */
 
+#include "game/object_helpers.h"
+
 void bhv_purple_switch_loop(void) {
     UNUSED s32 unused;
+    struct Object *cringeObject;
+    f32 homeX, homeY, homeZ, dist;
     switch (o->oAction) {
         /**
          * Set the switch's model and scale. If Mario is standing near the
@@ -45,6 +49,16 @@ void bhv_purple_switch_loop(void) {
             if (o->oBehParams2ndByte != 0) {
                 if (o->oBehParams2ndByte == 1 && gMarioObject->platform != o) {
                     o->oAction++;
+                } else if(o->oBehParams2ndByte == 32) {
+                    o->oAction++;
+                    cringeObject = cur_obj_find_nearest_object_with_behavior(bhvIcyBlock, &dist);
+                    if(cringeObject != 0) {
+                        homeX = cringeObject->oHomeX;
+                        homeY = cringeObject->oHomeY;
+                        homeZ = cringeObject->oHomeZ;
+                        cringeObject->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+                        spawn_object_abs_with_rot(o, 0, MODEL_ICYBLOCK, bhvIcyBlock, homeX, homeY, homeZ, 0, 0, 0);
+                    }
                 } else {
                     if (o->oTimer < 360) {
                         play_sound(SOUND_GENERAL2_SWITCH_TICK_FAST, gGlobalSoundSource);

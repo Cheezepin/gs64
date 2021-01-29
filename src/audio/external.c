@@ -97,7 +97,7 @@ s32 sGameLoopTicked = 0;
 
 u8 sDialogSpeaker[] = {
     //       0      1      2      3      4      5      6      7      8      9
-    /* 0*/ _,     BOMB,  BOMB,  BOMB,  BOMB,  KOOPA, KOOPA, KOOPA, _,     KOOPA,
+    /* 0*/ _,     _,     _,     _,     BOMB,  KOOPA, KOOPA, KOOPA, _,     KOOPA,
     /* 1*/ _,     _,     _,     _,     _,     _,     _,     KBOMB, _,     _,
     /* 2*/ _,     BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1, BOWS1,
     /* 3*/ _,     _,     _,     _,     _,     _,     _,     DIFF,  _,     _,
@@ -312,8 +312,15 @@ u8 sBackgroundMusicDefaultVolume[] = {
     70,  // SEQ_EVENT_CUTSCENE_ENDING
     65,  // SEQ_MENU_FILE_SELECT
     0,   // SEQ_EVENT_CUTSCENE_LAKITU (not in JP)
-    30,
-    50,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
 };
 
 STATIC_ASSERT(ARRAY_COUNT(sBackgroundMusicDefaultVolume) == SEQ_COUNT,
@@ -395,7 +402,7 @@ struct SoundCharacteristics sSoundBanks[SOUND_BANK_COUNT][40];
 
 u8 sSoundMovingSpeed[SOUND_BANK_COUNT];
 u8 sBackgroundMusicTargetVolume;
-static u8 sLowerBackgroundMusicVolume;
+u8 sLowerBackgroundMusicVolume;
 struct SequenceQueueItem sBackgroundMusicQueue[MAX_BACKGROUND_MUSIC_QUEUE_SIZE];
 
 #if defined(VERSION_EU) || defined(VERSION_SH)
@@ -621,7 +628,7 @@ static void seq_player_fade_to_percentage_of_volume(s32 player, FadeT fadeDurati
 /**
  * Called from threads: thread3_main, thread4_sound, thread5_game_loop
  */
-static void seq_player_fade_to_normal_volume(s32 player, FadeT fadeDuration) {
+void seq_player_fade_to_normal_volume(s32 player, FadeT fadeDuration) {
     struct SequencePlayer *seqPlayer = &gSequencePlayers[player];
 
 #if defined(VERSION_EU) || defined(VERSION_SH)
@@ -2607,11 +2614,9 @@ void play_course_clear(void) {
  * Called from threads: thread5_game_loop
  */
 void play_peachs_jingle(void) {
-    seq_player_play_sequence(SEQ_PLAYER_ENV, SEQ_EVENT_PEACH_MESSAGE, 0);
+    //seq_player_play_sequence(SEQ_PLAYER_ENV, SEQ_EVENT_PEACH_MESSAGE, 0);
+    seq_player_play_sequence(SEQ_PLAYER_ENV, SEQ_ITEM_GET, 0);
     sBackgroundMusicMaxTargetVolume = TARGET_VOLUME_IS_PRESENT_FLAG | 0;
-#if defined(VERSION_EU) || defined(VERSION_SH)
-    D_EU_80300558 = 2;
-#endif
     begin_background_music_fade(50);
 }
 
@@ -2730,3 +2735,7 @@ void unused_80321460(UNUSED s32 arg0, UNUSED s32 arg1, UNUSED s32 arg2, UNUSED s
 void unused_80321474(UNUSED s32 arg0) {
 }
 #endif
+
+// s32 itsJustEasierThisWay(void) {
+//     return sBackgroundMusicDefaultVolume[sCurrentBackgroundMusicSeqId];
+// }

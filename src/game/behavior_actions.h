@@ -552,6 +552,20 @@ void bhv_dust_smoke_loop(void);
 void bhv_yoshi_loop(void);
 void bhv_volcano_trap_loop(void);
 void bhv_enemy_init(void);
+void bhv_enemy_update(void);
+void bhv_party_member_init(void);
+void bhv_party_member_update(void);
+void bhv_liftrock_update(void);
+void bhv_character_pickup_update(void);
+void bhv_tornado_init(void);
+void bhv_tornado_update(void);
+void bhv_leaf_update(void);
+void bhv_generic_psynergy_update(void);
+void bhv_boss_update(void);
+void bhv_chest_update(void);
+void bhv_summon_star_update(void);
+void bhv_icy_block_loop(void);
+void bhv_lighthouse_gate_update(void);
 
 Gfx *geo_move_mario_part_from_parent(s32 run, UNUSED struct GraphNode *node, Mat4 mtx);
 

@@ -17,6 +17,9 @@
 #include "surface_terrains.h"
 #include "rumble_init.h"
 #include "game_init.h"
+#include "object_list_processor.h"
+#include "battle_helpers.h"
+#include "object_helpers.h"
 
 s32 check_common_idle_cancels(struct MarioState *m) {
     mario_drop_held_object(m);
@@ -1082,7 +1085,106 @@ s32 act_first_person(struct MarioState *m) {
 }
 
 s32 act_battle(struct MarioState *m) {
+    m->forwardVel = 0;
+    return FALSE;
+}
+
+struct Object *find_nearest_object_to_mario_with_behavior(const BehaviorScript *behavior, f32 *dist) {
+    uintptr_t *behaviorAddr = segmented_to_virtual(behavior);
+    struct Object *closestObj = NULL;
+    struct Object *obj;
+    struct ObjectNode *listHead;
+    f32 minDist = 0x20000;
+
+    listHead = &gObjectLists[get_object_list_from_behavior(behaviorAddr)];
+    obj = (struct Object *) listHead->next;
+
+    while (obj != (struct Object *) listHead) {
+        if (obj->behavior == behaviorAddr) {
+            if (obj->activeFlags != ACTIVE_FLAG_DEACTIVATED && obj != gMarioObject) {
+                f32 objDist = dist_between_objects(gMarioObject, obj);
+                if (objDist < minDist) {
+                    closestObj = obj;
+                    minDist = objDist;
+                }
+            }
+        }
+        obj = (struct Object *) obj->header.next;
+    }
+
+    *dist = minDist;
+    return closestObj;
+}
+
+struct Object *halo;
+struct Object *affectedObj;
+struct Object *sparkle;
+f32 dist = 0.0f;
+s32 act_psynergy(struct MarioState *m) {
+    m->forwardVel = 0;
+    if(m->actionTimer == 0) {
+        halo = spawn_object(gMarioObject, MODEL_HALO, bhvPointer);
+    }
+    if(m->actionTimer == 15) {
+        switch(m->actionArg) {
+            case SPELL_LIFT:
+                affectedObj = find_nearest_object_to_mario_with_behavior(bhvLiftRock, &dist);
+                break;
+            case SPELL_GROWTH:
+                affectedObj = find_nearest_object_to_mario_with_behavior(bhvPlant, &dist);
+                break;
+            case SPELL_WHIRLWIND:
+                affectedObj = find_nearest_object_to_mario_with_behavior(bhvLeaf, &dist);
+                if(dist <= 1500.0f)
+                    spawn_object(affectedObj, MODEL_TORNADO, bhvTornado);
+                break;
+            case SPELL_FROST:
+                affectedObj = find_nearest_object_to_mario_with_behavior(bhvPuddle, &dist);
+                if(dist <= 1500.0f)
+                    affectedObj = spawn_object(affectedObj, MODEL_FROST_SPIRE, bhvFrostSpire);
+                break;
+        }
+        if(dist > 1500.0f || affectedObj->oBehParams2ndByte != 0) {
+            affectedObj = 0;
+        }
+        if(affectedObj == 0) {
+            if(halo != 0) {
+                halo->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+                halo = 0;
+            }
+            return set_mario_action(m, ACT_IDLE, 0);
+        } 
+    }
+    if(m->actionTimer > 15) {
+        switch(m->actionArg) {
+            case SPELL_LIFT:
+                affectedObj->oPosY += (f32)(affectedObj->oBehParams & 0xFF);
+                affectedObj->oBehParams2ndByte = 1;
+                break;
+            case SPELL_GROWTH:
+                affectedObj->oPosY += 40;
+                affectedObj->oBehParams2ndByte = 1;
+                break;
+            case SPELL_WHIRLWIND:
+                affectedObj->oBehParams2ndByte = 1;
+                break;
+            case SPELL_FROST:
+                affectedObj->oPosY += 20;
+                affectedObj->oBehParams2ndByte = 1;
+                break;
+        }
+    }
+
+    if(m->actionTimer == 60) {
+        if(halo != 0) {
+            halo->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+            halo = 0;
+        }
+        affectedObj = 0;
+        set_mario_action(m, ACT_IDLE, 0);
+    }
     
+    m->actionTimer++;
     return FALSE;
 }
 
@@ -1159,6 +1261,7 @@ s32 mario_execute_stationary_action(struct MarioState *m) {
         case ACT_BUTT_SLIDE_STOP:         cancel = act_butt_slide_stop(m);                  break;
         case ACT_HOLD_BUTT_SLIDE_STOP:    cancel = act_hold_butt_slide_stop(m);             break;
         case ACT_BATTLE:                  cancel = act_battle(m);                           break;
+        case ACT_PSYNERGYF:               cancel = act_psynergy(m);                         break;
     }
     /* clang-format on */
 

@@ -44,6 +44,13 @@ enum SeqId {
     SEQ_EVENT_CUTSCENE_LAKITU,        // 0x22 (not in JP)
     SEQ_BATTLE,                       // 0x23
     SEQ_VICTORY,                      // 0x24
+    SEQ_OVERWORLD,                    // 0x25
+    SEQ_LIGHTHOUSE,                   // 0x26
+    SEQ_BOSS_BATTLE,                  // 0x27
+    SEQ_SATUROS_MENARDI,              // 0x28
+    SEQ_ITEM_GET,                     // 0x29
+    SEQ_CREDITS,                      // 0x2A
+    SEQ_MENU,                         // 0x2B
     SEQ_COUNT
 };
 

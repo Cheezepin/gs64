@@ -168,6 +168,7 @@ extern struct CutsceneVariable sCutsceneVars[10];
 extern s32 gObjCutsceneDone;
 extern u32 gCutsceneObjSpawn;
 extern struct Camera *gCamera;
+extern u8 turnOrder[7];
 
 /**
  * Lakitu's position and focus.
@@ -6366,6 +6367,9 @@ struct CameraTrigger sCamBBH[] = {
 struct CameraTrigger sCamCastleGrounds[] = {
 	NULL_TRIGGER
 };
+struct CameraTrigger sCamWF[] = {
+	NULL_TRIGGER
+};
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
     NULL,
     #include "levels/level_defines.h"
@@ -6611,17 +6615,6 @@ s16 camera_course_processing(struct Camera *c) {
                 break;
 
             case AREA_BOB:
-                if (set_mode_if_not_set_by_surface(c, CAMERA_MODE_NONE) == 0) {
-                    if (sMarioGeometry.currFloorType == SURFACE_BOSS_FIGHT_CAMERA) {
-                        set_camera_mode_boss_fight(c);
-                    } else {
-                        if (c->mode == CAMERA_MODE_CLOSE) {
-                            transition_to_camera_mode(c, CAMERA_MODE_RADIAL, 60);
-                        } else {
-                            set_camera_mode_radial(c, 60);
-                        }
-                    }
-                }
                 break;
 
             case AREA_WDW_MAIN:
@@ -10365,15 +10358,73 @@ BAD_RETURN(s32) cutscene_battle_circle(struct Camera *c) {
     vec3f_set(c->focus, (camX*1500) + 814, -10875, (camZ*-1500) + 440);
 }
 
+f32 currCamX, currCamZ;
 BAD_RETURN(s32) cutscene_battle(struct Camera *c) {
+    struct Object *focusObj;
+    u8 turnUserID = turnOrder[gBattleInfo.turnUser];
+    f32 camX, camZ, targetCamX, targetCamZ;
     switch(gBattleInfo.camState) {
         case CAMERA_SIDE:
             vec3f_set(c->pos, -500, -10750, -875);
             vec3f_set(c->focus, 1875, -10875, 1500);
+            sFOVState.fov = 45.0f;
             break;
         case CAMERA_BACK:
             vec3f_set(c->pos, -500, -10625, 500);
             vec3f_set(c->focus, 625, -11000, -625);
+            sFOVState.fov = 45.0f;
+            currCamX = -500.0f;
+            currCamZ = 500.0f;
+            break;
+        case CAMERA_ACTION:
+            if(turnUserID < 7) {
+                if(gBattleInfo.camFocus == 0) {
+                    if(turnUserID < 4) {
+                        focusObj = gBattleInfo.player[turnUserID].obj;
+                    } else {
+                        focusObj = gBattleInfo.enemy[turnUserID - 4].obj;
+                    }
+                    targetCamX = focusObj->oPosX;
+                    targetCamZ = focusObj->oPosZ;
+                } else if(gBattleInfo.camFocus < 5) {
+                    focusObj = gBattleInfo.player[gBattleInfo.camFocus - 1].obj;
+                    targetCamX = focusObj->oPosX;
+                    targetCamZ = focusObj->oPosZ;
+                } else if(gBattleInfo.camFocus < 8) {
+                    focusObj = gBattleInfo.enemy[gBattleInfo.camFocus - 5].obj;
+                    targetCamX = focusObj->oPosX;
+                    targetCamZ = focusObj->oPosZ;
+                } else if(gBattleInfo.camFocus == 8) {
+                    targetCamX = 375.0f;
+                    targetCamZ = -375.0f;
+                } else if(gBattleInfo.camFocus == 9) {
+                    targetCamX = 0.0f;
+                    targetCamZ = 0.0f;
+                }
+                if(currCamX != targetCamX) {
+                    if(currCamX - targetCamX > 0) {
+                        currCamX -= 50.0f;
+                    } else {
+                        currCamX += 50.0f;
+                    }
+                    if(absf(currCamX - targetCamX) <= 50.0f) {
+                        currCamX = targetCamX;
+                    }
+                }
+                if(currCamZ != targetCamZ) {
+                    if(currCamZ - targetCamZ > 0) {
+                        currCamZ -= 50.0f;
+                    } else {
+                        currCamZ += 50.0f;
+                    }
+                    if(absf(currCamZ - targetCamZ) <= 50.0f) {
+                        currCamZ = targetCamZ;
+                    }
+                }
+                vec3f_set(c->focus, currCamX, -10875, currCamZ);
+                sFOVState.fov = 70.0f;
+                vec3f_set(c->pos, currCamX - 500.0f, -10750, currCamZ + 100.0f);
+            }
             break;
     }
 }
@@ -10834,7 +10885,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // Unused         | Unused
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // BBH            | CCM
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // CASTLE_INSIDE  | HMC
-	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // SSL            | BOB
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 1, 1), // SSL            | BOB
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // SL             | WDW
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 1, 0, 0), // JRB            | THI
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // TTC            | RR

@@ -349,7 +349,7 @@
 // group 3
 #define MODEL_WATER_BOMB                  0x54        // water_bomb_geo
 #define MODEL_WATER_BOMB_SHADOW           0x55        // water_bomb_shadow_geo
-#define MODEL_KING_BOBOMB                 0x56        // king_bobomb_geo
+#define MODEL_KING_BOBOMB                 0xF0        // king_bobomb_geo
 
 // group 4
 #define MODEL_MANTA_RAY                   0x54        // manta_seg5_geo_05008D14
@@ -564,6 +564,24 @@
 #define MODEL_WHITE_PUFF                  0xE0        // white_puff_geo
 #define MODEL_TRAJECTORY_MARKER_BALL      0xE1        // bowling_ball_track_geo - duplicate used in SSL Pyramid small sized and as a track ball
 #define MODEL_POINTER                     0xFF
+#define MODEL_VERIO                       0xFE
+#define MODEL_JURIO                       0xFD
+#define MODEL_MERIO                       0xFC
+#define MODEL_HALO                        0xFB
+#define MODEL_LIFTROCK                    0xFA
+#define MODEL_PLANT                       0xF9
+#define MODEL_TORNADO                     0xF8
+#define MODEL_LEAF                        0xF7
+#define MODEL_GROWTH                      0xF6
+#define MODEL_SPIRE                       0xF5
+#define MODEL_GLACIER                     0xF4
+#define MODEL_GROUND                      0xF3
+#define MODEL_PUDDLE                      0xF2
+#define MODEL_FROST_SPIRE                 0xF1
+#define MODEL_CHEST                       0xE9
+
+#define MODEL_LIGHTHOUSE_GATE             0xE1
+#define MODEL_ICYBLOCK                    0xE2
 
 // Menu Models (overwrites Level Geometry IDs)
 #define MODEL_MAIN_MENU_MARIO_SAVE_BUTTON         MODEL_LEVEL_GEOMETRY_03   // main_menu_geo_0001D0

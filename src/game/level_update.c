@@ -1,3 +1,4 @@
+#include "texscroll.h"
 #include <ultra64.h>
 
 #include "sm64.h"
@@ -21,6 +22,7 @@
 #include "save_file.h"
 #include "debug_course.h"
 #include "battle_helpers.h"
+#include "menu/file_select.h"
 #ifdef VERSION_EU
 #include "memory.h"
 #include "eu_translation.h"
@@ -898,11 +900,11 @@ void update_hud_values(void) {
     if (gCurrCreditsEntry == NULL) {
         s16 numHealthWedges = gMarioState->health > 0 ? gMarioState->health >> 8 : 0;
 
-        if (gCurrCourseNum >= COURSE_MIN) {
-            gHudDisplay.flags |= HUD_DISPLAY_FLAG_COIN_COUNT;
-        } else {
-            gHudDisplay.flags &= ~HUD_DISPLAY_FLAG_COIN_COUNT;
-        }
+        // if (gCurrCourseNum >= COURSE_MIN) {
+        //     gHudDisplay.flags |= HUD_DISPLAY_FLAG_COIN_COUNT;
+        // } else {
+        //     gHudDisplay.flags &= ~HUD_DISPLAY_FLAG_COIN_COUNT;
+        // }
 
         if (gHudDisplay.coins < gMarioState->numCoins) {
             if (gGlobalTimer & 0x00000001) {
@@ -1009,7 +1011,7 @@ s32 play_mode_normal(void) {
 #if ENABLE_RUMBLE
             cancel_rumble();
 #endif
-            gCameraMovementFlags |= CAM_MOVE_PAUSE_SCREEN;
+            //gCameraMovementFlags |= CAM_MOVE_PAUSE_SCREEN;
             set_play_mode(PLAY_MODE_PAUSED);
         }
     }
@@ -1139,7 +1141,7 @@ s32 update_level(void) {
 
     switch (sCurrPlayMode) {
         case PLAY_MODE_NORMAL:
-            changeLevel = play_mode_normal();
+            changeLevel = play_mode_normal(); scroll_textures();
             break;
         case PLAY_MODE_PAUSED:
             changeLevel = play_mode_paused();
@@ -1204,40 +1206,49 @@ s32 init_level(void) {
                             struct SaveFile *file = &gSaveBuffer.files[gCurrSaveFileNum - 1][0];
                             gSaveBuffer.files[gCurrSaveFileNum - 1][0].flags |= SAVE_FLAG_FILE_EXISTS;
                             file->charactersUnlocked = 0;
+                            file->level = 1;
+                            file->exp = 0;
                             for(i = 0; i < 4; i++) {
-                                file->player[i].HP = file->player[i].baseHP = 30;
-                                file->player[i].PP = file->player[i].basePP = 20;
-                                file->charactersUnlocked = gCurrSaveFileNum - 1;
+                                file->player[i].HP = file->player[i].baseHP = file->player[i].trueBaseHP = 20;
+                                file->player[i].PP = file->player[i].basePP = file->player[i].trueBasePP = 15;
                                 switch(i) {
                                     case 0:
-                                        file->player[i].attack = 7;
-                                        file->player[i].defense = 3;
-                                        file->player[i].agility = 5;
+                                        file->player[i].attack = 6;
+                                        file->player[i].defense = 4;
+                                        file->player[i].agility = 4;
                                         file->player[i].element = MARS;
                                         break;
                                     case 1:
                                         file->player[i].attack = 5;
-                                        file->player[i].defense = 7;
+                                        file->player[i].defense = 5;
                                         file->player[i].agility = 3;
                                         file->player[i].element = VENUS;
                                         break;
                                     case 2:
-                                        file->player[i].attack = 3;
-                                        file->player[i].defense = 5;
-                                        file->player[i].agility = 7;
+                                        file->player[i].attack = 5;
+                                        file->player[i].defense = 4;
+                                        file->player[i].agility = 5;
                                         file->player[i].element = JUPITER;
                                         break;
                                     case 3:
                                         file->player[i].attack = 5;
-                                        file->player[i].defense = 5;
-                                        file->player[i].agility = 5;
+                                        file->player[i].defense = 4;
+                                        file->player[i].agility = 4;
                                         file->player[i].element = MERCURY;
                                         break;
                                 }
                             }
+                            for(i = 0; i < 8; i++) {
+                                file->inventory[i].id = 0xFF;
+                                file->inventory[i].number = 0;
+                            }
                         } else {
                             set_mario_action(gMarioState, ACT_IDLE, 0);
                         }
+                    rngFrame = 0;
+                    while(rngFrame < 300) {
+                        rngFrame = random_u16() % 900;
+                    }
                 }
             }
         }
@@ -1284,30 +1295,27 @@ s32 lvl_init_or_update(s16 initOrUpdate, UNUSED s32 unused) {
 }
 
 s32 lvl_init_from_save_file(UNUSED s16 arg0, s32 levelNum) {
-#ifdef VERSION_EU
-    s16 var = eu_get_language();
-    switch (var) {
-        case LANGUAGE_ENGLISH:
-            load_segment_decompress(0x19, _translation_en_yay0SegmentRomStart,
-                                    _translation_en_yay0SegmentRomEnd);
-            break;
-        case LANGUAGE_FRENCH:
-            load_segment_decompress(0x19, _translation_fr_yay0SegmentRomStart,
-                                    _translation_fr_yay0SegmentRomEnd);
-            break;
-        case LANGUAGE_GERMAN:
-            load_segment_decompress(0x19, _translation_de_yay0SegmentRomStart,
-                                    _translation_de_yay0SegmentRomEnd);
-            break;
-    }
-#endif
     sWarpDest.type = WARP_TYPE_NOT_WARPING;
     sDelayedWarpOp = WARP_OP_NONE;
-    gNeverEnteredCastle = !save_file_exists(gCurrSaveFileNum - 1);
+    if(gEnteringPassword != 0) {
+        gCurrLevelNum = 2;
+        gCurrCourseNum = COURSE_WF;
+        gSavedCourseNum = COURSE_WF;
+    } else {
+        gNeverEnteredCastle = !save_file_exists(gCurrSaveFileNum - 1);
 
-    gCurrLevelNum = levelNum;
-    gCurrCourseNum = COURSE_NONE;
-    gSavedCourseNum = COURSE_NONE;
+        if(gSaveBuffer.files[gCurrSaveFileNum - 1][0].lastFloor == 0) {
+            gCurrLevelNum = 0;
+            gCurrCourseNum = COURSE_NONE;
+            gSavedCourseNum = COURSE_NONE;
+        } else {
+            gCurrLevelNum = 1;
+            gCurrCourseNum = COURSE_BOB;
+            gSavedCourseNum = COURSE_BOB;
+            gCurrAreaIndex = gSaveBuffer.files[gCurrSaveFileNum - 1][0].lastFloor;
+        }
+    }
+    //gCurrLevelNum = levelNum;
     gCurrCreditsEntry = NULL;
     gSpecialTripleJump = FALSE;
 
@@ -1326,6 +1334,7 @@ s32 lvl_set_current_level(UNUSED s16 arg0, s32 levelNum) {
     sWarpCheckpointActive = FALSE;
     gCurrLevelNum = levelNum;
     gCurrCourseNum = gLevelToCourseNumTable[levelNum - 1];
+	if (gCurrLevelNum == LEVEL_WF) return 0;
 	if (gCurrLevelNum == LEVEL_CASTLE_GROUNDS) return 0;
 	if (gCurrLevelNum == LEVEL_BOB) return 0;
 

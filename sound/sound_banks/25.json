@@ -182,13 +182,18 @@
         },
         "inst14": {
             "release_rate": 208,
-            "envelope": "envelope1",
+            "envelope": "envelope0",
             "sound": "37_square_synth"
         },
         "inst15": {
             "release_rate": 10,
             "envelope": "envelope0",
             "sound": "18_timpani"
+        },
+        "inst16": {
+            "release_rate": 10,
+            "envelope": "envelope0",
+            "sound": "22_boys_choir"
         },
         "percussion": [
             {"release_rate": 10, "pan": 62, "envelope": "envelope11", "sound": {"sample": "06_kick_drum_1", "tuning": 0.210224}},
@@ -274,7 +279,8 @@
         null,
         "inst13",
         "inst11",
-        "inst14",
-        "inst15"
+        "inst14", //16
+        "inst15", //17
+        "inst16"  //18
     ]
 }

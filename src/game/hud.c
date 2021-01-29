@@ -19,6 +19,7 @@
 #include "object_list_processor.h"
 #include "behavior_data.h"
 #include "camera.h"
+#include "actors/group0.h"
 
 #include "s2d_engine/init.h"
 #include "s2d_engine/s2d_draw.h"
@@ -71,6 +72,9 @@ s32 sPowerMeterVisibleTimer = 0;
 static struct UnusedHUDStruct sUnusedHUDValues = { 0x00, 0x0A, 0x00 };
 
 static struct CameraHUD sCameraHUD = { CAM_STATUS_NONE };
+
+u8 gItemGot = 0;
+u8 gPartyMemberGot = 0;
 
 /**
  * Renders a rgba16 16x16 glyph texture from a table list.
@@ -434,11 +438,11 @@ void render_hud_camera_status(void) {
  * excluding the cannon reticle which detects a camera preset for it.
  */
 
+u32 battleTimer = 0;
+u8 opacityCringe = 0;
 void render_hud(void) {
-    s16 hudDisplayFlags;
-#ifdef VERSION_EU
     Mtx *mtx;
-#endif
+    s16 hudDisplayFlags;
 
     hudDisplayFlags = gHudDisplay.flags;
 
@@ -447,21 +451,7 @@ void render_hud(void) {
         sPowerMeterStoredHealth = 8;
         sPowerMeterVisibleTimer = 0;
     } else {
-#ifdef VERSION_EU
-        // basically create_dl_ortho_matrix but guOrtho screen width is different
-
-        mtx = alloc_display_list(sizeof(*mtx));
-        if (mtx == NULL) {
-            return;
-        }
-        create_dl_identity_matrix();
-        guOrtho(mtx, -16.0f, SCREEN_WIDTH + 16, 0, SCREEN_HEIGHT, -10.0f, 10.0f, 1.0f);
-        gSPPerspNormalize(gDisplayListHead++, 0xFFFF);
-        gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(mtx),
-                G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
-#else
         create_dl_ortho_matrix();
-#endif
 
         if (gCurrentArea != NULL && gCurrentArea->camera->mode == CAMERA_MODE_INSIDE_CANNON) {
             render_hud_cannon_reticle();
@@ -493,10 +483,67 @@ void render_hud(void) {
         }
     }
     
-    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+    if (gMarioState->action == ACT_BATTLE) {
+        if(battleTimer == 45) {
             initialize_battle();
         }
+        if(battleTimer > 45) {
+            gHudDisplay.flags = HUD_DISPLAY_NONE;
+            render_battle();
+        }
+        if(battleTimer < 62) {
+            create_dl_ortho_matrix();
+            create_dl_translation_matrix(G_MTX_PUSH, 160.0f, 120.0f, 1.0f);
+            mtx = alloc_display_list(sizeof(Mtx));
+            guScale(mtx, battleTimer*0.25f, battleTimer*0.25f, 1.0f);
+            gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(mtx), G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+            if(battleTimer >= 45) {
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255 - ((battleTimer - 45)*15));
+            } else {
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
+            }
+            gSPDisplayList(gDisplayListHead++, &transition_obj_mesh);
+            gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+        }
+        battleTimer++;
+    } else {
+        battleTimer = 0;
+    }
 
-    if (gMarioState->action == ACT_BATTLE)
-        render_battle();
+    if(gBattleInfo.exitTimer != 0 || opacityCringe != 0) {
+        vec3f_copy(gCamera->pos, gBattleInfo.lastCamPos);
+        vec3f_copy(gLakituState.goalPos, gBattleInfo.lastCamPos);
+        if(gBattleInfo.exitTimer != 0) {
+            opacityCringe = gBattleInfo.exitTimer;
+            if(opacityCringe > 17) 
+                opacityCringe = 17;
+        } else {
+            opacityCringe--;
+        }
+        create_dl_ortho_matrix();
+        create_dl_translation_matrix(G_MTX_PUSH, 160.0f, 120.0f, 1.0f);
+        mtx = alloc_display_list(sizeof(Mtx));
+        guScale(mtx, 20.0f, 20.0f, 1.0f);
+        gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(mtx), G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+        gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, opacityCringe*15);
+        gSPDisplayList(gDisplayListHead++, &transition_obj_mesh);
+        gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+    }
+
+    if (gItemGot != 0)
+        render_item_got(gItemGot - 1);
+    else if(gPartyMemberGot != 0) {
+        render_party_member_got(gPartyMemberGot);
+    } else {
+        //seq_player_fade_to_normal_volume(SEQ_PLAYER_LEVEL, 25);
+    }
+
+    if(gMarioState->action == ACT_PSYNERGYF) {
+        print_field_psynergy(gMarioState->actionArg);
+    }
+
+    if(gCurrLevelNum == LEVEL_WF) {
+        gHudDisplay.flags = HUD_DISPLAY_NONE;
+        render_password_screen();
+    }
 }

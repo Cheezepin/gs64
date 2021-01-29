@@ -1545,7 +1545,7 @@ void handle_special_dialog_text(s16 dialogID) { // dialog ID tables, in order
     for (i = 0; i < (s16) ARRAY_COUNT(dialogBossStart); i++) {
         if (dialogBossStart[i] == dialogID) {
             seq_player_unlower_volume(SEQ_PLAYER_LEVEL, 60);
-            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_EVENT_BOSS), 0);
+            //play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_EVENT_BOSS), 0);
             return;
         }
     }
@@ -3049,10 +3049,12 @@ s16 render_menus_and_dialogs(void) {
     if (gMenuMode != -1) {
         switch (gMenuMode) {
             case 0:
-                mode = render_pause_courses_and_castle();
+                //mode = render_pause_courses_and_castle();
+                mode = render_gs_pause();
                 break;
             case 1:
-                mode = render_pause_courses_and_castle();
+                //mode = render_pause_courses_and_castle();
+                mode = render_gs_pause();
                 break;
             case 2:
                 mode = render_course_complete_screen();

@@ -40,6 +40,11 @@ s16 gMatStackIndex;
 Mat4 gMatStack[32];
 Mtx *gMatStackFixed[32];
 
+u32 gGetScreenCoords;
+Vec3f g3DtoScreenCoords;
+u32 gScreenX;
+u32 gScreenY;
+
 /**
  * Animation nodes have state in global variables, so this struct captures
  * the animation state so a 'context switch' can be made when rendering the
@@ -304,6 +309,25 @@ static void geo_process_switch(struct GraphNodeSwitchCase *node) {
     }
 }
 
+void vec3f_to_screen_coords(f32 x, f32 y, f32 z, s32 *screenX, s32 *screenY) {
+    Vec3f pos3f;
+    Vec3s pos3s;
+
+    pos3f[0] = x;
+    pos3f[1] = y;
+    pos3f[2] = z;
+
+    // Convert Mario's coordinates into vec3s so they can be used in mtxf_mul_vec3s
+    vec3f_to_vec3s(pos3s, pos3f);
+
+    // Transform Mario's coordinates into view frustrum
+    mtxf_mul_vec3s(gMatStack[gMatStackIndex], pos3s);
+
+    // Perspective divide
+    *screenX = 2 * (0.5f - pos3s[0] / (f32)pos3s[2]) * (gCurGraphNodeRoot->width);
+    *screenY = 2 * (0.5f - pos3s[1] / (f32)pos3s[2]) * (gCurGraphNodeRoot->height);
+}
+
 /**
  * Process a camera node.
  */
@@ -329,6 +353,10 @@ static void geo_process_camera(struct GraphNodeCamera *node) {
         node->matrixPtr = &gMatStack[gMatStackIndex];
         geo_process_node_and_siblings(node->fnNode.node.children);
         gCurGraphNodeCamera = NULL;
+    }
+
+    if(gGetScreenCoords != 0) {
+        vec3f_to_screen_coords(g3DtoScreenCoords[0], g3DtoScreenCoords[1], g3DtoScreenCoords[2], &gScreenX, &gScreenY);
     }
     gMatStackIndex--;
 }

@@ -55,7 +55,7 @@ void bowling_ball_set_hitbox(void) {
 void bowling_ball_set_waypoints(void) {
     switch (o->oBehParams2ndByte) {
         case BBALL_BP_STYPE_BOB_UPPER:
-            o->oPathedStartWaypoint = segmented_to_virtual(bob_seg7_metal_ball_path0);
+            //o->oPathedStartWaypoint = segmented_to_virtual(bob_seg7_metal_ball_path0);
             break;
 
         case BBALL_BP_STYPE_TTM:
@@ -63,7 +63,7 @@ void bowling_ball_set_waypoints(void) {
             break;
 
         case BBALL_BP_STYPE_BOB_LOWER:
-            o->oPathedStartWaypoint = segmented_to_virtual(bob_seg7_metal_ball_path1);
+            //o->oPathedStartWaypoint = segmented_to_virtual(bob_seg7_metal_ball_path1);
             break;
 
         case BBALL_BP_STYPE_THI_LARGE:

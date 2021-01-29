@@ -22,6 +22,13 @@
 #include "sm64.h"
 #include "text_strings.h"
 
+#include "s2d_engine/init.h"
+#include "s2d_engine/s2d_draw.h"
+#include "s2d_engine/s2d_print.h"
+#include <PR/gs2dex.h>
+
+#include "game/battle_helpers.h"
+
 #include "eu_translation.h"
 #ifdef VERSION_EU
 #undef LANGUAGE_FUNCTION
@@ -150,7 +157,7 @@ static unsigned char textEraseFileButton[][16] = { {TEXT_ERASE_FILE}, {TEXT_ERAS
 #endif
 
 #ifndef VERSION_EU
-static unsigned char textSoundModes[][8] = { { TEXT_STEREO }, { TEXT_MONO }, { TEXT_HEADSET } };
+static unsigned char textSoundModes[] = { TEXT_STEREO };
 #endif
 
 static unsigned char textMarioA[] = { TEXT_FILE_MARIO_A };
@@ -268,12 +275,6 @@ static unsigned char textLanguageSelect[][17] = {
     { TEXT_LANGUAGE_SELECT }, { TEXT_LANGUAGE_SELECT_FR }, { TEXT_LANGUAGE_SELECT_DE }
 };
 
-static unsigned char textSoundModes[][10] = {
-    { TEXT_STEREO }, { TEXT_MONO }, { TEXT_HEADSET },
-    { TEXT_STEREO_FR }, { TEXT_MONO_FR }, { TEXT_HEADSET_FR },
-    { TEXT_STEREO_DE }, { TEXT_MONO_DE }, { TEXT_HEADSET_DE }
-};
-
 static unsigned char textLanguage[][9] = {{ TEXT_ENGLISH }, { TEXT_FRENCH }, { TEXT_GERMAN }};
 
 static unsigned char textMario[] = { TEXT_MARIO };
@@ -284,6 +285,8 @@ static unsigned char textNew[][5] = {{ TEXT_NEW }, { TEXT_NEW_FR }, { TEXT_NEW_D
 static unsigned char starIcon[] = { GLYPH_STAR, GLYPH_SPACE };
 static unsigned char xIcon[] = { GLYPH_MULTIPLY, GLYPH_SPACE };
 #endif
+
+s32 gPasswordUnlocked;
 
 /**
  * Yellow Background Menu Initial Action
@@ -538,6 +541,14 @@ void bhv_menu_button_loop(void) {
             break;
     }
     cur_obj_scale(gCurrentObject->oMenuButtonScale);
+
+    if(gCurrentObject->oBehParams2ndByte == 0x69) {
+        gCurrentObject->oHomeY = -3500.0f;
+        if(gPasswordUnlocked != 0) {
+            gCurrentObject->oParentRelativePosY = -3500.0f;
+            barsRendered = 0;
+        }
+    }
 }
 
 /**
@@ -1358,7 +1369,7 @@ void bhv_menu_button_manager_init(void) {
     sMainMenuButtons[MENU_BUTTON_PLAY_FILE_D]->oMenuButtonScale = 1.0f;
     // Score menu button
     sMainMenuButtons[MENU_BUTTON_SCORE] = spawn_object_rel_with_rot(
-        gCurrentObject, MODEL_MAIN_MENU_GREEN_SCORE_BUTTON, bhvMenuButton, -6400, -3500, 0, 0, 0, 0);
+        gCurrentObject, MODEL_MAIN_MENU_GREEN_SCORE_BUTTON, bhvMenuButton, -6400, -13500, 0, 0, 0, 0);
     sMainMenuButtons[MENU_BUTTON_SCORE]->oMenuButtonScale = 1.0f;
     // Copy menu button
     sMainMenuButtons[MENU_BUTTON_COPY] = spawn_object_rel_with_rot(
@@ -1370,8 +1381,9 @@ void bhv_menu_button_manager_init(void) {
     sMainMenuButtons[MENU_BUTTON_ERASE]->oMenuButtonScale = 1.0f;
     // Sound mode menu button (Option Mode in EU)
     sMainMenuButtons[MENU_BUTTON_SOUND_MODE] = spawn_object_rel_with_rot(
-        gCurrentObject, MODEL_MAIN_MENU_PURPLE_SOUND_BUTTON, bhvMenuButton, 6400, -3500, 0, 0, 0, 0);
+        gCurrentObject, MODEL_MAIN_MENU_PURPLE_SOUND_BUTTON, bhvMenuButton, 6400, -13500, 0, 0, 0, 0);
     sMainMenuButtons[MENU_BUTTON_SOUND_MODE]->oMenuButtonScale = 1.0f;
+    sMainMenuButtons[MENU_BUTTON_SOUND_MODE]->oBehParams2ndByte = 0x69;
 
     sTextBaseAlpha = 0;
 }
@@ -1386,6 +1398,9 @@ void bhv_menu_button_manager_init(void) {
  * In the main menu, check if a button was clicked to play it's button growing state.
  * Also play a sound and/or render buttons depending of the button ID selected.
  */
+
+s32 gEnteringPassword;
+
 void check_main_menu_clicked_buttons(void) {
 #ifdef VERSION_EU
     if (sMainMenuTimer >= 5) {
@@ -1394,8 +1409,13 @@ void check_main_menu_clicked_buttons(void) {
         // is not grouped with the IDs of the other submenus.
         if (check_clicked_button(sMainMenuButtons[MENU_BUTTON_SOUND_MODE]->oPosX,
                                 sMainMenuButtons[MENU_BUTTON_SOUND_MODE]->oPosY, 200.0f) == TRUE) {
-            sMainMenuButtons[MENU_BUTTON_SOUND_MODE]->oMenuButtonState = MENU_BUTTON_STATE_GROWING;
-            sSelectedButtonID = MENU_BUTTON_SOUND_MODE;
+            //sMainMenuButtons[MENU_BUTTON_SOUND_MODE]->oMenuButtonState = MENU_BUTTON_STATE_GROWING;
+            //sSelectedButtonID = MENU_BUTTON_SOUND_MODE;
+
+        ///fff
+
+        gEnteringPassword = 1;
+
         } else {
             // Main Menu buttons
             s8 buttonID;
@@ -1836,13 +1856,15 @@ void print_main_menu_strings(void) {
     // Print menu names
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, sTextBaseAlpha);
-    print_generic_string(SCORE_X, 39, textScore);
+    //print_generic_string(SCORE_X, 39, textScore);
     print_generic_string(COPY_X, 39, textCopy);
     print_generic_string(ERASE_X, 39, textErase);
 #ifndef VERSION_JP
-    sSoundTextX = get_str_x_pos_from_center(254, textSoundModes[sSoundMode], 10.0f);
+    sSoundTextX = get_str_x_pos_from_center(254, textSoundModes, 10.0f);
 #endif
-    print_generic_string(SOUNDMODE_X1, 39, textSoundModes[sSoundMode]);
+    if(gPasswordUnlocked != 0) {
+        print_generic_string(SOUNDMODE_X1, 39, textSoundModes);
+    }
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 #endif
     // Print file names
@@ -2541,10 +2563,10 @@ void print_sound_mode_menu_strings(void) {
         }
         #ifndef VERSION_JP
             // Mode names are centered correctly on US and Shindou
-            textX = get_str_x_pos_from_center(mode * 74 + 87, textSoundModes[mode], 10.0f);
-            print_generic_string(textX, 87, textSoundModes[mode]);
+            textX = get_str_x_pos_from_center(mode * 74 + 87, textSoundModes, 10.0f);
+            print_generic_string(textX, 87, textSoundModes);
         #else
-            print_generic_string(mode * 74 + 67, 87, textSoundModes[mode]);
+            print_generic_string(mode * 74 + 67, 87, textSoundModes);
         #endif
     }
 #endif
@@ -2918,5 +2940,8 @@ s32 lvl_init_menu_values_and_cursor_pos(UNUSED s32 arg, UNUSED s32 unused) {
  */
 s32 lvl_update_obj_and_load_file_selected(UNUSED s32 arg, UNUSED s32 unused) {
     area_update_objects();
+    if(gEnteringPassword != 0) {
+        sSelectedFileNum = 1;
+    }
     return sSelectedFileNum;
 }

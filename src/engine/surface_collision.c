@@ -403,6 +403,7 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
     f32 oo;
     f32 height;
     struct Surface *floor = NULL;
+    f32 slopeFix = -99999.0f;
 
     // Iterate through the list of floors until there are no more floors.
     while (surfaceNode != NULL) {
@@ -454,13 +455,16 @@ static struct Surface *find_floor_from_list(struct SurfaceNode *surfaceNode, s32
         // Find the height of the floor at a given location.
         height = -(x * nx + nz * z + oo) / ny;
         // Checks for floor interaction with a 78 unit buffer.
+        if (height < slopeFix) {
+            continue;
+        }
         if (y - (height + -78.0f) < 0.0f) {
             continue;
         }
 
         *pheight = height;
         floor = surf;
-        break;
+        slopeFix = height;
     }
 
     //! (Surface Cucking) Since only the first floor is returned and not the highest,

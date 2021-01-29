@@ -3,7 +3,10 @@
 const GeoLayout castle_grounds_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE, castle_grounds_dl_battle_mesh),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -2068, 7250, -2276, castle_grounds_dl_kingbobomb_mesh),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, castle_grounds_dl_op_mesh),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE_DECAL, 0, 3000, 0, castle_grounds_dl_opdecal_mesh),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, castle_grounds_dl_trans_mesh),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
@@ -31,6 +34,7 @@ const GeoLayout castle_grounds_area_1[] = {
 			GEO_CLOSE_NODE(),
 		GEO_CLOSE_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, castle_grounds_dl_material_revert_render_settings),
+		GEO_DISPLAY_LIST(LAYER_OPAQUE_DECAL, castle_grounds_dl_material_revert_render_settings),
 		GEO_DISPLAY_LIST(LAYER_TRANSPARENT, castle_grounds_dl_material_revert_render_settings),
 	GEO_CLOSE_NODE(),
 	GEO_END(),

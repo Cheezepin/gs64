@@ -27,6 +27,9 @@
 #include "spawn_object.h"
 #include "spawn_sound.h"
 
+extern s16 gMatStackIndex;
+extern Mat4 gMatStack[32];
+
 s8 D_8032F0A0[] = { -8, 8, -4, 4 };
 s16 D_8032F0A4[] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 };
 static s8 sLevelsWithRooms[] = { LEVEL_BBH, LEVEL_CASTLE, LEVEL_HMC, -1 };
@@ -160,6 +163,33 @@ Gfx *geo_switch_anim_state(s32 callContext, struct GraphNode *node) {
 
         // assign the case number for execution.
         switchCase->selectedCase = obj->oAnimState;
+    }
+
+    return NULL;
+}
+Gfx *geo_switch_bparam2(s32 callContext, struct GraphNode *node) {
+    struct Object *obj;
+    struct GraphNodeSwitchCase *switchCase;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        obj = (struct Object *) gCurGraphNodeObject; // TODO: change global type to Object pointer
+
+        // move to a local var because GraphNodes are passed in all geo functions.
+        // cast the pointer.
+        switchCase = (struct GraphNodeSwitchCase *) node;
+
+        if (gCurGraphNodeHeldObject != NULL) {
+            obj = gCurGraphNodeHeldObject->objNode;
+        }
+
+        // if the case is greater than the number of cases, set to 0 to avoid overflowing
+        // the switch.
+        if (obj->oBehParams2ndByte >= switchCase->numCases) {
+            obj->oBehParams2ndByte = 0;
+        }
+
+        // assign the case number for execution.
+        switchCase->selectedCase = obj->oBehParams2ndByte;
     }
 
     return NULL;
@@ -1694,11 +1724,25 @@ s32 cur_obj_resolve_wall_collisions(void) {
     s32 numCollisions;
     struct Surface *wall;
     struct WallCollisionData collisionData;
+    struct Object *frostSpire;
+    f32 dist = 0;
 
     f32 offsetY = 10.0f;
     f32 radius = o->oWallHitboxRadius;
 
     if (radius > 0.1L) {
+        if(o->behavior == segmented_to_virtual(bhvIcyBlock)) {
+            frostSpire = cur_obj_find_nearest_object_with_behavior(bhvFrostSpire, &dist);
+            if(frostSpire != 0) {
+                dist = lateral_dist_between_objects(o, frostSpire);
+                if(dist < 260.0f) {
+                    if(obj_angle_to_object(o, frostSpire) - o->oMoveAngleYaw < 0x2000 && obj_angle_to_object(o, frostSpire) - o->oMoveAngleYaw > -0x2000) {
+                        return TRUE;
+                    }
+                }
+            }
+        }
+
         collisionData.offsetY = offsetY;
         collisionData.radius = radius;
         collisionData.x = (s16) o->oPosX;
@@ -1706,6 +1750,7 @@ s32 cur_obj_resolve_wall_collisions(void) {
         collisionData.z = (s16) o->oPosZ;
 
         numCollisions = find_wall_collisions(&collisionData);
+
         if (numCollisions != 0) {
             o->oPosX = collisionData.x;
             o->oPosY = collisionData.y;

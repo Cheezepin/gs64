@@ -33,6 +33,8 @@
 #include "sound_init.h"
 #include "rumble_init.h"
 
+extern struct SaveBuffer gSaveBuffer;
+
 u32 unused80339F10;
 s8 filler80339F1C[20];
 
@@ -1695,8 +1697,15 @@ void func_sh_8025574C(void) {
 /**
  * Main function for executing Mario's behavior.
  */
+u32 rngTimer;
+u32 rngFrame;
+u32 ppTimer = 0;
+u32 reducedEncounterFrames = 0;
 s32 execute_mario_action(UNUSED struct Object *o) {
     s32 inLoop = TRUE;
+    u16 randomVal = 0;
+
+    gMarioState->health = 0x0880;
 
     if (gMarioState->action) {
         gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
@@ -1744,6 +1753,40 @@ s32 execute_mario_action(UNUSED struct Object *o) {
                     inLoop = mario_execute_object_action(gMarioState);
                     break;
             }
+        }
+
+        // if(gPlayer1Controller->buttonPressed & L_TRIG) {
+        //     rngFrame = 0;
+        // } else {
+        //     rngFrame = 30000;
+        // }
+        randomVal = rngFrame;
+        if(gMarioState->forwardVel > 0.0f) {
+
+            rngTimer++;
+            ppTimer++;
+
+            if(ppTimer % 300 == 0) {
+                u8 j;
+                for(j = 0; j < 4; j++) {
+                    gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[j].PP++;
+                    if(gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[j].PP > gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[j].basePP) {
+                        gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[j].PP = gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[j].basePP;
+                    }
+                    if(gSaveBuffer.files[gCurrSaveFileNum - 1][0].djinn[j].turnsUntilActive > 0) {
+                        gSaveBuffer.files[gCurrSaveFileNum - 1][0].djinn[j].turnsUntilActive--;
+                    }
+                }
+            }
+            if(reducedEncounterFrames > 0) {
+                randomVal += 900;
+                reducedEncounterFrames--;
+            }
+        }
+        if(rngTimer >= randomVal && gMarioState->floorHeight == gMarioState->pos[1] && (gMarioState->action == ACT_IDLE || gMarioState->action == ACT_WALKING || gMarioState->action == ACT_DOUBLE_JUMP_LAND || gMarioState->action == ACT_FREEFALL_LAND || gMarioState->action == ACT_JUMP_LAND)) {
+            if(gCurrAreaIndex != 6)
+                set_mario_action(gMarioState, ACT_BATTLE, 0);
+            rngTimer = 0;
         }
 
         sink_mario_in_quicksand(gMarioState);

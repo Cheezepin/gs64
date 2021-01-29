@@ -13,6 +13,11 @@ extern struct GraphNodeObject *gCurGraphNodeObject;
 extern struct GraphNodeHeldObject *gCurGraphNodeHeldObject;
 extern u16 gAreaUpdateCounter;
 
+extern u32 gGetScreenCoords;
+extern Vec3f g3DtoScreenCoords;
+extern u32 gScreenX;
+extern u32 gScreenY;
+
 // after processing an object, the type is reset to this
 #define ANIM_TYPE_NONE                  0
 

@@ -13,14 +13,28 @@
 
 struct Player
 {
+    u16 trueBaseHP;
     u16 baseHP;
     s16 HP;
+    u16 trueBasePP;
     u16 basePP;
     s16 PP;
     s16 attack;
     s16 defense;
     s16 agility;
     u8 element;
+};
+
+struct InventoryItem
+{
+    u8 id;
+    u8 number;
+};
+
+struct Djinn
+{
+    u8 activeState;
+    u8 turnsUntilActive;
 };
 
 struct SaveBlockSignature
@@ -47,12 +61,16 @@ struct SaveFile
 
     u8 courseCoinScores[COURSE_STAGES_COUNT];
 
-    struct SaveBlockSignature signature;
-
     u8 charactersUnlocked;
     u8 level;
+    u8 lastFloor;
     u32 exp;
     struct Player player[4];
+    struct InventoryItem inventory[8];
+    struct Djinn djinn[4];
+    u32 chestIndex;
+
+    struct SaveBlockSignature signature;
 };
 
 enum SaveFileIndex {
@@ -78,6 +96,7 @@ struct MainMenuSaveData
 #endif
 
     // Pad to match the EEPROM size of 0x200 (10 bytes on JP/US, 8 bytes on EU)
+    //u8 expYieldSettings;
     u8 filler[EEPROM_SIZE / 2 - SUBTRAHEND - NUM_SAVE_FILES * (4 + sizeof(struct SaveFile))];
 
     struct SaveBlockSignature signature;

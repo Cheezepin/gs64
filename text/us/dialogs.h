@@ -17,79 +17,102 @@
 #endif
 
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
-Wow! You're smack in the\n\
-middle of the battlefield.\n\
-You'll find the Power\n\
-Stars that Bowser stole\n\
-inside the painting\n\
-worlds.\n\
-First, talk to the\n\
-Bob-omb Buddy. (Press [B]\n\
-to talk.) He'll certainly\n\
-help you out, and so will\n\
-his " COMRADES " in other\n\
-areas.\n\
-To read signs, stop, face\n\
-them and press [B]. Press [A]\n\
-or [B] to scroll ahead. You\n\
-can talk to some other\n\
-characters by facing them\n\
-and pressing [B]."))
+-GOLDEN SUN 64-\n\
+\n\
+\n\
+\n\
+\n\
+\n\
+Oh no! King Bob-\n\
+omb has stolen\n\
+all the ele-\n\
+mental orbs!\n\
+\n\
+\n\
+You need to find\n\
+the three other\n\
+Adepts and storm\n\
+his lighthouse\n\
+ASAP!\n\
+\n\
+If you don't,\n\
+the world may be\n\
+doomed forever..."))
 
 DEFINE_DIALOG(DIALOG_001, 1, 4, 95, 200, _("\
-Watch out! If you wander\n\
-around here, you're liable\n\
-to be " PLASTERED " by a\n\
-water bomb!\n\
-Those enemy Bob-ombs love\n\
-to fight, and they're\n\
-always finding ways to\n\
-attack.\n\
-This meadow has become\n\
-a battlefield ever since\n\
-the Big Bob-omb got his\n\
-paws on the Power Star.\n\
-Can you recover the Star\n\
-for us? Cross the bridge\n\
-and go left up the path\n\
-to find the Big Bob-omb.\n\
-Please come back to see\n\
-me after you've retrieved\n\
-the Power Star!"))
+Eh... who are you? Mario?\n\
+Oh! You must be a Mars\n\
+Adept. No wonder you\n\
+lifted up this boulder.\n\
+I was trying to head up\n\
+to the King's lighthouse\n\
+a while back when this\n\
+boulder fell from the sky!\n\
+It landed on me and\n\
+crushed me. I couldn't\n\
+even use my Psynergy to\n\
+shake it off.\n\
+Thanks for saving me, pal.\n\
+You heading up to the\n\
+lighthouse too? Let me tag\n\
+along.\n\
+We might actually have a\n\
+chance to beat that\n\
+uptight airhead if we\n\
+combine our powers."))
 
-DEFINE_DIALOG(DIALOG_002, 1, 4, 95, 200, _("\
-Hey, you! It's dangerous\n\
-ahead, so listen up! Take\n\
-my advice.\n\
+DEFINE_DIALOG(DIALOG_002, 1, 5, 95, 200, _("\
+What are you doing? Go\n\
+away, loser. I'm just\n\
+trying to enjoy my\n\
+well-earned vacation on\n\
+this deserted island.\n\
+Lighthouse? Elements?\n\
+Never heard of them. The\n\
+only thing I know is that\n\
+I'm stuck on this crummy\n\
+beach.\n\
+Hey, I know... what if\n\
+you could get me out of\n\
+here? Are you going up \n\
+to that annoying tower?\n\
 \n\
-Cross the two\n\
-bridges ahead, then\n\
-watch for falling\n\
-water bombs.\n\
-The Big Bob-omb at the\n\
-top of the mountain is\n\
-very powerful--don't let\n\
-him grab you!\n\
-We're Bob-omb Buddies,\n\
-and we're on your side.\n\
-You can talk to us\n\
-whenever you'd like to!"))
+If you're sure you can\n\
+find an exit, I'll tag\n\
+along with you... for\n\
+now.\n\
+\n\
+I'm sure out of the two\n\
+of you knuckleheads,\n\
+I'm the only one who\n\
+can blow open all the\n\
+hidden doors anyway."))
 
-DEFINE_DIALOG(DIALOG_003, 1, 5, 95, 200, _("\
-Thank you, Mario! The Big\n\
-Bob-omb is nothing but a\n\
-big dud now! But the\n\
-battle for the castle has\n\
-just begun.\n\
-Other enemies are holding\n\
-the other Power Stars. If\n\
-you recover more Stars,\n\
-you can open new doors\n\
-that lead to new worlds!\n\
-My Bob-omb Buddies are\n\
-waiting for you. Be sure\n\
-to talk to them--they'll\n\
-set up cannons for you."))
+DEFINE_DIALOG(DIALOG_003, 1, 4, 95, 200, _("\
+zzz... zz... z...\n\
+\n\
+\n\
+\n\
+Oh... so you have awoken\n\
+me from my slumber? I\n\
+was hoping to stay in\n\
+rest for just a bit longer.\n\
+Must you remind me of my\n\
+impossible situation, lest\n\
+the laws of reality catch\n\
+up to me?\n\
+I must escape this island,\n\
+and you travelers seem to\n\
+possess the abilities to\n\
+assist me in this quest.\n\
+You must be arriving at \n\
+the Lighthouse of the King\n\
+soon. You will need my\n\
+powers to reach the top.\n\
+Thus, I request that you\n\
+lead me along with the\n\
+others. May our journey\n\
+be prosperous."))
 
 DEFINE_DIALOG(DIALOG_004, 1, 3, 95, 200, _("\
 We're peace-loving\n\
@@ -215,10 +238,6 @@ Do you want to Save?\n\
 //Yes////No"))
 
 DEFINE_DIALOG(DIALOG_014, 1, 4, 30, 200, _("\
-Wow! Another Power Star!\n\
-Mario gains more courage\n\
-from the power of the\n\
-castle.\n\
 Do you want to Save?\n\
 \n\
 //You Bet//Not Now"))
@@ -238,31 +257,15 @@ Hop on the shiny shell and\n\
 ride wherever you want to\n\
 go! Shred those enemies!"))
 
-DEFINE_DIALOG(DIALOG_017, 1, 4, 30, 200, _("\
-I'm the Big Bob-omb, lord\n\
-of all blasting matter,\n\
-king of ka-booms the\n\
-world over!\n\
-How dare you scale my\n\
-mountain? By what right\n\
-do you set foot on my\n\
-imperial mountaintop?\n\
-You may have eluded my\n\
-guards, but you'll never\n\
-escape my grasp...\n\
-\n\
-...and you'll never take\n\
-away my Power Star. I\n\
-hereby challenge you,\n\
-Mario!\n\
-If you want the Star I\n\
-hold, you must prove\n\
-yourself in battle.\n\
-\n\
-Can you pick me up from\n\
-the back and hurl me to\n\
-this royal turf? I think\n\
-that you cannot!"))
+DEFINE_DIALOG(DIALOG_017, 1, 3, 30, 200, _("\
+So, you all are here to\n\
+retrieve the elemental,\n\
+orbs?\n\
+Ha! You make me laugh.\n\
+You think you can compare\n\
+to my strength?\n\
+Try your hardest, boys.\n\
+I'll crush you like bugs!"))
 
 DEFINE_DIALOG(DIALOG_018, 1, 4, 30, 200, _("\
 I'm sleeping because...\n\

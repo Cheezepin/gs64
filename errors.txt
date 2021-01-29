@@ -1,0 +1,1360 @@
+==== Build Options ====
+Version:        us
+Microcode:      f3dzex
+Target:         gs64.us
+Compare ROM:    no
+Build Matching: no
+=======================
+Building tools...
+Building ROM...
+[0;32mCompiling: [0;33msrc/game/battle_helpers.c[0;32m -> [0;34mbuild/us/src/game/battle_helpers.o[0m
+In file included from src/game/battle_helpers.c:33:0:
+./src/s2d_engine/icons/icons.c:43:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/icons.c:43:1: note: (near initialization for 'icons_tex[0]')
+./src/s2d_engine/icons/icons.c:53:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/icons.c:53:1: note: (near initialization for 'icons_tex[1]')
+./src/s2d_engine/icons/icons.c:63:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/icons.c:63:1: note: (near initialization for 'icons_tex[2]')
+./src/s2d_engine/icons/icons.c:73:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/icons.c:73:1: note: (near initialization for 'icons_tex[3]')
+./src/s2d_engine/icons/icons.c:83:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/icons.c:83:1: note: (near initialization for 'icons_tex[4]')
+./src/s2d_engine/icons/icons.c:93:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/icons.c:93:1: note: (near initialization for 'icons_tex[5]')
+./src/s2d_engine/icons/icons.c:103:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/icons.c:103:1: note: (near initialization for 'icons_tex[6]')
+./src/s2d_engine/icons/icons.c:113:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/icons.c:113:1: note: (near initialization for 'icons_tex[7]')
+./src/s2d_engine/icons/icons.c:123:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/icons.c:123:1: note: (near initialization for 'icons_tex[8]')
+./src/s2d_engine/icons/icons.c:42:24: warning: missing braces around initializer [-Wmissing-braces]
+ uObjTxtr icons_tex[] = {
+                        ^
+./src/s2d_engine/icons/icons.c:42:24: note: (near initialization for 'icons_tex')
+./src/s2d_engine/icons/icons.c:134:21: warning: missing braces around initializer [-Wmissing-braces]
+ uObjMtx icons_mtx = {
+                     ^
+./src/s2d_engine/icons/icons.c:134:21: note: (near initialization for 'icons_mtx')
+./src/s2d_engine/icons/icons.c:140:24: warning: missing braces around initializer [-Wmissing-braces]
+ uObjSprite icons_obj = {
+                        ^
+./src/s2d_engine/icons/icons.c:140:24: note: (near initialization for 'icons_obj')
+In file included from src/game/battle_helpers.c:37:0:
+./src/s2d_engine/icons/elements.c:16:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/elements.c:16:1: note: (near initialization for 'element_tex[0]')
+./src/s2d_engine/icons/elements.c:26:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/elements.c:26:1: note: (near initialization for 'element_tex[1]')
+./src/s2d_engine/icons/elements.c:36:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/elements.c:36:1: note: (near initialization for 'element_tex[2]')
+./src/s2d_engine/icons/elements.c:46:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/elements.c:46:1: note: (near initialization for 'element_tex[3]')
+./src/s2d_engine/icons/elements.c:15:26: warning: missing braces around initializer [-Wmissing-braces]
+ uObjTxtr element_tex[] = {
+                          ^
+./src/s2d_engine/icons/elements.c:15:26: note: (near initialization for 'element_tex')
+./src/s2d_engine/icons/elements.c:57:23: warning: missing braces around initializer [-Wmissing-braces]
+ uObjMtx element_mtx = {
+                       ^
+./src/s2d_engine/icons/elements.c:57:23: note: (near initialization for 'element_mtx')
+./src/s2d_engine/icons/elements.c:63:26: warning: missing braces around initializer [-Wmissing-braces]
+ uObjSprite element_obj = {
+                          ^
+./src/s2d_engine/icons/elements.c:63:26: note: (near initialization for 'element_obj')
+In file included from src/game/battle_helpers.c:39:0:
+./src/s2d_engine/icons/psynergy.c:76:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:76:1: note: (near initialization for 'spell_tex[0]')
+./src/s2d_engine/icons/psynergy.c:86:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:86:1: note: (near initialization for 'spell_tex[1]')
+./src/s2d_engine/icons/psynergy.c:96:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:96:1: note: (near initialization for 'spell_tex[2]')
+./src/s2d_engine/icons/psynergy.c:106:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:106:1: note: (near initialization for 'spell_tex[3]')
+./src/s2d_engine/icons/psynergy.c:116:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:116:1: note: (near initialization for 'spell_tex[4]')
+./src/s2d_engine/icons/psynergy.c:126:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:126:1: note: (near initialization for 'spell_tex[5]')
+./src/s2d_engine/icons/psynergy.c:136:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:136:1: note: (near initialization for 'spell_tex[6]')
+./src/s2d_engine/icons/psynergy.c:146:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:146:1: note: (near initialization for 'spell_tex[7]')
+./src/s2d_engine/icons/psynergy.c:156:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:156:1: note: (near initialization for 'spell_tex[8]')
+./src/s2d_engine/icons/psynergy.c:166:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:166:1: note: (near initialization for 'spell_tex[9]')
+./src/s2d_engine/icons/psynergy.c:176:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:176:1: note: (near initialization for 'spell_tex[10]')
+./src/s2d_engine/icons/psynergy.c:186:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:186:1: note: (near initialization for 'spell_tex[11]')
+./src/s2d_engine/icons/psynergy.c:196:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:196:1: note: (near initialization for 'spell_tex[12]')
+./src/s2d_engine/icons/psynergy.c:206:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:206:1: note: (near initialization for 'spell_tex[13]')
+./src/s2d_engine/icons/psynergy.c:216:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:216:1: note: (near initialization for 'spell_tex[14]')
+./src/s2d_engine/icons/psynergy.c:226:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:226:1: note: (near initialization for 'spell_tex[15]')
+./src/s2d_engine/icons/psynergy.c:236:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:236:1: note: (near initialization for 'spell_tex[16]')
+./src/s2d_engine/icons/psynergy.c:246:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:246:1: note: (near initialization for 'spell_tex[17]')
+./src/s2d_engine/icons/psynergy.c:256:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:256:1: note: (near initialization for 'spell_tex[18]')
+./src/s2d_engine/icons/psynergy.c:266:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:266:1: note: (near initialization for 'spell_tex[19]')
+./src/s2d_engine/icons/psynergy.c:276:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:276:1: note: (near initialization for 'spell_tex[20]')
+./src/s2d_engine/icons/psynergy.c:286:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:286:1: note: (near initialization for 'spell_tex[21]')
+./src/s2d_engine/icons/psynergy.c:296:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:296:1: note: (near initialization for 'spell_tex[22]')
+./src/s2d_engine/icons/psynergy.c:306:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/psynergy.c:306:1: note: (near initialization for 'spell_tex[23]')
+./src/s2d_engine/icons/psynergy.c:75:24: warning: missing braces around initializer [-Wmissing-braces]
+ uObjTxtr spell_tex[] = {
+                        ^
+./src/s2d_engine/icons/psynergy.c:75:24: note: (near initialization for 'spell_tex')
+./src/s2d_engine/icons/psynergy.c:317:21: warning: missing braces around initializer [-Wmissing-braces]
+ uObjMtx spell_mtx = {
+                     ^
+./src/s2d_engine/icons/psynergy.c:317:21: note: (near initialization for 'spell_mtx')
+./src/s2d_engine/icons/psynergy.c:323:24: warning: missing braces around initializer [-Wmissing-braces]
+ uObjSprite spell_obj = {
+                        ^
+./src/s2d_engine/icons/psynergy.c:323:24: note: (near initialization for 'spell_obj')
+In file included from src/game/battle_helpers.c:41:0:
+./src/s2d_engine/icons/portraits.c:21:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/portraits.c:21:1: note: (near initialization for 'portrait_tex[0]')
+./src/s2d_engine/icons/portraits.c:31:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/portraits.c:31:1: note: (near initialization for 'portrait_tex[1]')
+./src/s2d_engine/icons/portraits.c:41:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/portraits.c:41:1: note: (near initialization for 'portrait_tex[2]')
+./src/s2d_engine/icons/portraits.c:51:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/portraits.c:51:1: note: (near initialization for 'portrait_tex[3]')
+./src/s2d_engine/icons/portraits.c:20:27: warning: missing braces around initializer [-Wmissing-braces]
+ uObjTxtr portrait_tex[] = {
+                           ^
+./src/s2d_engine/icons/portraits.c:20:27: note: (near initialization for 'portrait_tex')
+./src/s2d_engine/icons/portraits.c:106:24: warning: missing braces around initializer [-Wmissing-braces]
+ uObjMtx portrait_mtx = {
+                        ^
+./src/s2d_engine/icons/portraits.c:106:24: note: (near initialization for 'portrait_mtx')
+./src/s2d_engine/icons/portraits.c:112:27: warning: missing braces around initializer [-Wmissing-braces]
+ uObjSprite portrait_obj = {
+                           ^
+./src/s2d_engine/icons/portraits.c:112:27: note: (near initialization for 'portrait_obj')
+In file included from src/game/battle_helpers.c:43:0:
+./src/s2d_engine/icons/players.c:21:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/players.c:21:1: note: (near initialization for 'player_icon_tex[0]')
+./src/s2d_engine/icons/players.c:31:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/players.c:31:1: note: (near initialization for 'player_icon_tex[1]')
+./src/s2d_engine/icons/players.c:41:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/players.c:41:1: note: (near initialization for 'player_icon_tex[2]')
+./src/s2d_engine/icons/players.c:51:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/players.c:51:1: note: (near initialization for 'player_icon_tex[3]')
+./src/s2d_engine/icons/players.c:20:30: warning: missing braces around initializer [-Wmissing-braces]
+ uObjTxtr player_icon_tex[] = {
+                              ^
+./src/s2d_engine/icons/players.c:20:30: note: (near initialization for 'player_icon_tex')
+./src/s2d_engine/icons/players.c:106:27: warning: missing braces around initializer [-Wmissing-braces]
+ uObjMtx player_icon_mtx = {
+                           ^
+./src/s2d_engine/icons/players.c:106:27: note: (near initialization for 'player_icon_mtx')
+./src/s2d_engine/icons/players.c:112:30: warning: missing braces around initializer [-Wmissing-braces]
+ uObjSprite player_icon_obj = {
+                              ^
+./src/s2d_engine/icons/players.c:112:30: note: (near initialization for 'player_icon_obj')
+In file included from src/game/battle_helpers.c:45:0:
+./src/s2d_engine/icons/items.c:29:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/items.c:29:1: note: (near initialization for 'item_tex[0]')
+./src/s2d_engine/icons/items.c:39:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/items.c:39:1: note: (near initialization for 'item_tex[1]')
+./src/s2d_engine/icons/items.c:49:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/items.c:49:1: note: (near initialization for 'item_tex[2]')
+./src/s2d_engine/icons/items.c:59:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/items.c:59:1: note: (near initialization for 'item_tex[3]')
+./src/s2d_engine/icons/items.c:69:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/items.c:69:1: note: (near initialization for 'item_tex[4]')
+./src/s2d_engine/icons/items.c:79:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/items.c:79:1: note: (near initialization for 'item_tex[5]')
+./src/s2d_engine/icons/items.c:28:23: warning: missing braces around initializer [-Wmissing-braces]
+ uObjTxtr item_tex[] = {
+                       ^
+./src/s2d_engine/icons/items.c:28:23: note: (near initialization for 'item_tex')
+./src/s2d_engine/icons/items.c:154:20: warning: missing braces around initializer [-Wmissing-braces]
+ uObjMtx item_mtx = {
+                    ^
+./src/s2d_engine/icons/items.c:154:20: note: (near initialization for 'item_mtx')
+./src/s2d_engine/icons/items.c:160:23: warning: missing braces around initializer [-Wmissing-braces]
+ uObjSprite item_obj = {
+                       ^
+./src/s2d_engine/icons/items.c:160:23: note: (near initialization for 'item_obj')
+In file included from src/game/battle_helpers.c:47:0:
+./src/s2d_engine/icons/djinn.c:21:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/djinn.c:21:1: note: (near initialization for 'djinn_tex[0]')
+./src/s2d_engine/icons/djinn.c:31:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/djinn.c:31:1: note: (near initialization for 'djinn_tex[1]')
+./src/s2d_engine/icons/djinn.c:41:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/djinn.c:41:1: note: (near initialization for 'djinn_tex[2]')
+./src/s2d_engine/icons/djinn.c:51:1: warning: missing braces around initializer [-Wmissing-braces]
+ {
+ ^
+./src/s2d_engine/icons/djinn.c:51:1: note: (near initialization for 'djinn_tex[3]')
+./src/s2d_engine/icons/djinn.c:20:24: warning: missing braces around initializer [-Wmissing-braces]
+ uObjTxtr djinn_tex[] = {
+                        ^
+./src/s2d_engine/icons/djinn.c:20:24: note: (near initialization for 'djinn_tex')
+./src/s2d_engine/icons/djinn.c:106:21: warning: missing braces around initializer [-Wmissing-braces]
+ uObjMtx djinn_mtx = {
+                     ^
+./src/s2d_engine/icons/djinn.c:106:21: note: (near initialization for 'djinn_mtx')
+./src/s2d_engine/icons/djinn.c:112:24: warning: missing braces around initializer [-Wmissing-braces]
+ uObjSprite djinn_obj = {
+                        ^
+./src/s2d_engine/icons/djinn.c:112:24: note: (near initialization for 'djinn_obj')
+src/game/battle_helpers.c:342:5: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+     &MarsPool,
+     ^
+src/game/battle_helpers.c:342:5: note: (near initialization for 'SpellPool[0]')
+src/game/battle_helpers.c:343:5: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+     &VenusPool,
+     ^
+src/game/battle_helpers.c:343:5: note: (near initialization for 'SpellPool[1]')
+src/game/battle_helpers.c:344:5: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+     &JupiterPool,
+     ^
+src/game/battle_helpers.c:344:5: note: (near initialization for 'SpellPool[2]')
+src/game/battle_helpers.c:345:5: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+     &MercuryPool,
+     ^
+src/game/battle_helpers.c:345:5: note: (near initialization for 'SpellPool[3]')
+src/game/battle_helpers.c:395:5: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+     &MarsFieldPool,
+     ^
+src/game/battle_helpers.c:395:5: note: (near initialization for 'FieldSpellPool[0]')
+src/game/battle_helpers.c:396:5: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+     &VenusFieldPool,
+     ^
+src/game/battle_helpers.c:396:5: note: (near initialization for 'FieldSpellPool[1]')
+src/game/battle_helpers.c:397:5: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+     &JupiterFieldPool,
+     ^
+src/game/battle_helpers.c:397:5: note: (near initialization for 'FieldSpellPool[2]')
+src/game/battle_helpers.c:398:5: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+     &MercuryFieldPool,
+     ^
+src/game/battle_helpers.c:398:5: note: (near initialization for 'FieldSpellPool[3]')
+src/game/battle_helpers.c:440:28: warning: missing braces around initializer [-Wmissing-braces]
+ struct Summon MarsSummon = {
+                            ^
+src/game/battle_helpers.c:440:28: note: (near initialization for 'MarsSummon')
+src/game/battle_helpers.c:450:29: warning: missing braces around initializer [-Wmissing-braces]
+ struct Summon VenusSummon = {
+                             ^
+src/game/battle_helpers.c:450:29: note: (near initialization for 'VenusSummon')
+src/game/battle_helpers.c:460:31: warning: missing braces around initializer [-Wmissing-braces]
+ struct Summon JupiterSummon = {
+                               ^
+src/game/battle_helpers.c:460:31: note: (near initialization for 'JupiterSummon')
+src/game/battle_helpers.c:470:31: warning: missing braces around initializer [-Wmissing-braces]
+ struct Summon MercurySummon = {
+                               ^
+src/game/battle_helpers.c:470:31: note: (near initialization for 'MercurySummon')
+src/game/battle_helpers.c:488:40: warning: missing braces around initializer [-Wmissing-braces]
+ u8 GrassEnemyPool[GRASS_POOL_MAX][3] = {
+                                        ^
+src/game/battle_helpers.c:488:40: note: (near initialization for 'GrassEnemyPool')
+src/game/battle_helpers.c:501:41: warning: missing braces around initializer [-Wmissing-braces]
+ u8 Area1EnemyPool[AREA_1_POOL_MAX][3] = {
+                                         ^
+src/game/battle_helpers.c:501:41: note: (near initialization for 'Area1EnemyPool')
+src/game/battle_helpers.c:513:41: warning: missing braces around initializer [-Wmissing-braces]
+ u8 Area2EnemyPool[AREA_2_POOL_MAX][3] = {
+                                         ^
+src/game/battle_helpers.c:513:41: note: (near initialization for 'Area2EnemyPool')
+src/game/battle_helpers.c:524:41: warning: missing braces around initializer [-Wmissing-braces]
+ u8 Area3EnemyPool[AREA_3_POOL_MAX][3] = {
+                                         ^
+src/game/battle_helpers.c:524:41: note: (near initialization for 'Area3EnemyPool')
+src/game/battle_helpers.c:531:41: warning: missing braces around initializer [-Wmissing-braces]
+ u8 Area4EnemyPool[AREA_4_POOL_MAX][3] = {
+                                         ^
+src/game/battle_helpers.c:531:41: note: (near initialization for 'Area4EnemyPool')
+src/game/battle_helpers.c:538:41: warning: missing braces around initializer [-Wmissing-braces]
+ u8 Area5EnemyPool[AREA_5_POOL_MAX][3] = {
+                                         ^
+src/game/battle_helpers.c:538:41: note: (near initialization for 'Area5EnemyPool')
+src/game/battle_helpers.c:545:41: warning: missing braces around initializer [-Wmissing-braces]
+ u8 Area6EnemyPool[AREA_6_POOL_MAX][3] = {
+                                         ^
+src/game/battle_helpers.c:545:41: note: (near initialization for 'Area6EnemyPool')
+src/game/battle_helpers.c: In function 'render_battle_fill_rect':
+src/game/battle_helpers.c:572:6: warning: type of 'ulx' defaults to 'int' [-Wimplicit-int]
+ void render_battle_fill_rect(ulx, uly, lrx, lry, r, g, b) {
+      ^~~~~~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c:572:6: warning: type of 'uly' defaults to 'int' [-Wimplicit-int]
+src/game/battle_helpers.c:572:6: warning: type of 'lrx' defaults to 'int' [-Wimplicit-int]
+src/game/battle_helpers.c:572:6: warning: type of 'lry' defaults to 'int' [-Wimplicit-int]
+src/game/battle_helpers.c:572:6: warning: type of 'r' defaults to 'int' [-Wimplicit-int]
+src/game/battle_helpers.c:572:6: warning: type of 'g' defaults to 'int' [-Wimplicit-int]
+src/game/battle_helpers.c:572:6: warning: type of 'b' defaults to 'int' [-Wimplicit-int]
+src/game/battle_helpers.c: In function 'exit_battle':
+src/game/battle_helpers.c:921:38: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+             gBattleInfo.enemy[i].obj = gBattleInfo.enemy[i].baseHP = gBattleInfo.enemy[i].HP = 0;
+                                      ^
+src/game/battle_helpers.c:927:24: warning: implicit declaration of function 'random_u16' [-Wimplicit-function-declaration]
+             rngFrame = random_u16() % 900;
+                        ^~~~~~~~~~
+src/game/battle_helpers.c: In function 'determine_menu_switch':
+src/game/battle_helpers.c:1039:20: warning: unused variable 'i' [-Wunused-variable]
+                 u8 i = 0;
+                    ^
+src/game/battle_helpers.c:1056:20: warning: unused variable 'i' [-Wunused-variable]
+                 u8 i = 0;
+                    ^
+src/game/battle_helpers.c:1072:20: warning: unused variable 'i' [-Wunused-variable]
+                 u8 i = 0;
+                    ^
+src/game/battle_helpers.c:1137:9: warning: implicit declaration of function 'deactivate_pointers' [-Wimplicit-function-declaration]
+         deactivate_pointers();
+         ^~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c: In function 'gs_print':
+src/game/battle_helpers.c:1168:53: warning: implicit declaration of function 's2d_strlen' [-Wimplicit-function-declaration]
+         sbuf = alloc_display_list(sizeof(uObjMtx) * s2d_strlen(str));
+                                                     ^~~~~~~~~~
+src/game/battle_helpers.c: In function 'print_pointer':
+src/game/battle_helpers.c:1236:68: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+             gBattleInfo.player[gBattleInfo.selectingUser].target[1], gBattleInfo.player[gBattleInfo.selectingUser].target[2] = 0xFF;
+                                                                    ^
+src/game/battle_helpers.c: At top level:
+src/game/battle_helpers.c:1258:6: warning: conflicting types for 'deactivate_pointers'
+ void deactivate_pointers(void) {
+      ^~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c:1137:9: note: previous implicit declaration of 'deactivate_pointers' was here
+         deactivate_pointers();
+         ^~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c: In function 'render_battle_icons':
+src/game/battle_helpers.c:1270:14: warning: unused variable 'sbuf' [-Wunused-variable]
+     uObjMtx *sbuf;
+              ^~~~
+src/game/battle_helpers.c: In function 'render_psynergy_menu':
+src/game/battle_helpers.c:1386:17: warning: implicit declaration of function 'call_element_sprite_dl' [-Wimplicit-function-declaration]
+                 call_element_sprite_dl(gBattleInfo.selectingUser, 280, 100 + j*24, &hebuf2[j]);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c: In function 'render_djinn_menu':
+src/game/battle_helpers.c:1407:8: warning: unused variable 'i' [-Wunused-variable]
+     u8 i, j, color = 0;
+        ^
+src/game/battle_helpers.c: In function 'render_summon_menu':
+src/game/battle_helpers.c:1444:20: warning: variable 'movePool' set but not used [-Wunused-but-set-variable]
+     struct Spell **movePool;
+                    ^~~~~~~~
+src/game/battle_helpers.c: In function 'render_select_menu':
+src/game/battle_helpers.c:1555:9: warning: implicit declaration of function 'call_item_sprite_dl' [-Wimplicit-function-declaration]
+         call_item_sprite_dl(gSaveBuffer.files[gCurrSaveFileNum - 1][0].inventory[selectedItem].id, 120, 216, &ebuf[0], 1.0f);
+         ^~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c: At top level:
+src/game/battle_helpers.c:1588:6: warning: conflicting types for 'call_item_sprite_dl'
+ void call_item_sprite_dl(int idx, int x, int y, uObjMtx *buffer, f32 scale) {
+      ^~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c:1555:9: note: previous implicit declaration of 'call_item_sprite_dl' was here
+         call_item_sprite_dl(gSaveBuffer.files[gCurrSaveFileNum - 1][0].inventory[selectedItem].id, 120, 216, &ebuf[0], 1.0f);
+         ^~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c: In function 'render_item_menu':
+src/game/battle_helpers.c:1603:39: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+     struct InventoryItem *inventory = &gSaveBuffer.files[gCurrSaveFileNum - 1][0].inventory;
+                                       ^
+src/game/battle_helpers.c:1604:11: warning: variable 'j' set but not used [-Wunused-but-set-variable]
+     u8 i, j = 0;
+           ^
+src/game/battle_helpers.c: In function 'render_battle_init_text':
+src/game/battle_helpers.c:1666:14: warning: unused variable 'sbuf' [-Wunused-variable]
+     uObjMtx *sbuf;
+              ^~~~
+src/game/battle_helpers.c: In function 'enemy_death':
+src/game/battle_helpers.c:1729:11: warning: unused variable 'j' [-Wunused-variable]
+     u8 i, j;
+           ^
+src/game/battle_helpers.c:1729:8: warning: unused variable 'i' [-Wunused-variable]
+     u8 i, j;
+        ^
+src/game/battle_helpers.c: In function 'psynergy_anim':
+src/game/battle_helpers.c:2239:24: warning: unused variable 'tempVal' [-Wunused-variable]
+                     u8 tempVal = 0;
+                        ^~~~~~~
+src/game/battle_helpers.c:2023:20: warning: unused variable 'playerObj' [-Wunused-variable]
+     struct Object *playerObj = gBattleInfo.player[turnUserID].obj;
+                    ^~~~~~~~~
+src/game/battle_helpers.c: In function 'item_anim':
+src/game/battle_helpers.c:2306:8: warning: unused variable 'i' [-Wunused-variable]
+     u8 i;
+        ^
+src/game/battle_helpers.c:2305:20: warning: unused variable 'playerObj' [-Wunused-variable]
+     struct Object *playerObj = gBattleInfo.player[turnUserID].obj;
+                    ^~~~~~~~~
+src/game/battle_helpers.c: In function 'djinn_anim':
+src/game/battle_helpers.c:2355:8: warning: unused variable 'i' [-Wunused-variable]
+     u8 i;
+        ^
+src/game/battle_helpers.c:2354:20: warning: unused variable 'playerObj' [-Wunused-variable]
+     struct Object *playerObj = gBattleInfo.player[turnUserID].obj;
+                    ^~~~~~~~~
+src/game/battle_helpers.c: In function 'summon_anim':
+src/game/battle_helpers.c:2432:16: warning: unused variable 'tempVal' [-Wunused-variable]
+             u8 tempVal = 0;
+                ^~~~~~~
+src/game/battle_helpers.c:2411:8: warning: unused variable 'i' [-Wunused-variable]
+     u8 i;
+        ^
+src/game/battle_helpers.c: At top level:
+src/game/battle_helpers.c:2445:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ get_party_member_string(u8 switchBy) {
+ ^~~~~~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c: In function 'search_for_next_enemy':
+src/game/battle_helpers.c:2465:8: warning: unused variable 'trueTarget' [-Wunused-variable]
+     u8 trueTarget;
+        ^~~~~~~~~~
+src/game/battle_helpers.c: At top level:
+src/game/battle_helpers.c:2525:29: warning: missing braces around initializer [-Wmissing-braces]
+ u8 queued_messages[16][4] = {
+                             ^
+src/game/battle_helpers.c:2525:29: note: (near initialization for 'queued_messages')
+src/game/battle_helpers.c: In function 'add_queued_message':
+src/game/battle_helpers.c:2545:11: warning: unused variable 'j' [-Wunused-variable]
+     u8 i, j, queuePlacement = 0;
+           ^
+src/game/battle_helpers.c: In function 'render_battle_attack_text':
+src/game/battle_helpers.c:2951:16: warning: unused variable 'tempTargetNo' [-Wunused-variable]
+         u16 i, tempTargetNo;
+                ^~~~~~~~~~~~
+src/game/battle_helpers.c:2598:11: warning: unused variable 'l' [-Wunused-variable]
+     u8 k, l, i, j;
+           ^
+src/game/battle_helpers.c: In function 'calculate_level':
+src/game/battle_helpers.c:3109:40: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+         if((tempLevel*5)*(tempLevel*3) >= gSaveBuffer.files[gCurrSaveFileNum - 1][0].exp) {
+                                        ^~
+src/game/battle_helpers.c: At top level:
+src/game/battle_helpers.c:3173:6: warning: conflicting types for 'call_element_sprite_dl'
+ void call_element_sprite_dl(int idx, int x, int y, uObjMtx *buffer) {
+      ^~~~~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c:1386:17: note: previous implicit declaration of 'call_element_sprite_dl' was here
+                 call_element_sprite_dl(gBattleInfo.selectingUser, 280, 100 + j*24, &hebuf2[j]);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c: In function 'initialize_battle':
+src/game/battle_helpers.c:3365:5: warning: implicit declaration of function 'copy_mario_state_to_object' [-Wimplicit-function-declaration]
+     copy_mario_state_to_object();
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c: In function 'render_battle':
+src/game/battle_helpers.c:3453:17: warning: implicit declaration of function 'render_status_menu' [-Wimplicit-function-declaration]
+                 render_status_menu();
+                 ^~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c: At top level:
+src/game/battle_helpers.c:3600:1: warning: data definition has no type or storage class
+ epicbuf[64];
+ ^~~~~~~
+src/game/battle_helpers.c:3600:1: warning: type defaults to 'int' in declaration of 'epicbuf' [-Wimplicit-int]
+src/game/battle_helpers.c: In function 'render_field_psynergy_menu':
+src/game/battle_helpers.c:3622:13: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+     sprintf(epicbuf, "%s", atkrString);
+             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3623:22: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+     gs_print(72, 92, epicbuf, SHADOW, WHITE);
+                      ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3624:13: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+     sprintf(epicbuf, "Lv    %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].level);
+             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3625:23: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+     gs_print(72, 108, epicbuf, SHADOW, WHITE);
+                       ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3626:13: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+     sprintf(epicbuf, "HP     %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].HP);
+             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3627:22: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+     gs_print(8, 158, epicbuf, SHADOW, WHITE);
+                      ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3628:13: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+     sprintf(epicbuf, "/%d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].baseHP);
+             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3629:23: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+     gs_print(84, 158, epicbuf, SHADOW, WHITE);
+                       ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3630:13: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+     sprintf(epicbuf, "PP     %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].PP);
+             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3631:22: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+     gs_print(8, 174, epicbuf, SHADOW, WHITE);
+                      ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3632:13: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+     sprintf(epicbuf, "/%d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].basePP);
+             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3633:23: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+     gs_print(84, 174, epicbuf, SHADOW, WHITE);
+                       ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3634:13: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+     sprintf(epicbuf, "Exp         %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].exp);
+             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3635:22: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+     gs_print(8, 190, epicbuf, SHADOW, WHITE);
+                      ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3649:21: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+             sprintf(epicbuf, "Whose psynergy?");
+                     ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3650:31: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+             gs_print(148, 40, epicbuf, SHADOW, WHITE);
+                               ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3664:21: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+             sprintf(epicbuf, "Which psynergy?");
+                     ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3665:31: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+             gs_print(148, 40, epicbuf, SHADOW, WHITE);
+                               ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3697:21: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+             sprintf(epicbuf, "To who?");
+                     ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3698:31: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+             gs_print(148, 40, epicbuf, SHADOW, WHITE);
+                               ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3748:33: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+                         sprintf(epicbuf, "%s recovered 50 HP!", atkrString);
+                                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3751:33: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+                         sprintf(epicbuf, "%s recovered 150 HP!", atkrString);
+                                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3754:33: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+                         sprintf(epicbuf, "Party recovered 50 HP!");
+                                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3757:33: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+                         sprintf(epicbuf, "%s is revived!", atkrString);
+                                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3761:25: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+                 sprintf(epicbuf, "Not enough PP!", atkrString);
+                         ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3764:31: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+             gs_print(148, 40, epicbuf, SHADOW, WHITE);
+                               ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3604:11: warning: unused variable 'j' [-Wunused-variable]
+     u8 i, j;
+           ^
+src/game/battle_helpers.c: In function 'render_field_item_menu':
+src/game/battle_helpers.c:3777:39: warning: initialization from incompatible pointer type [-Wincompatible-pointer-types]
+     struct InventoryItem *inventory = &gSaveBuffer.files[gCurrSaveFileNum - 1][0].inventory;
+                                       ^
+src/game/battle_helpers.c:3831:21: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+             sprintf(epicbuf, "Which item?");
+                     ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3832:31: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+             gs_print(148, 40, epicbuf, SHADOW, WHITE);
+                               ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3855:21: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+             sprintf(epicbuf, "For who?");
+                     ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3856:31: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+             gs_print(148, 40, epicbuf, SHADOW, WHITE);
+                               ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3897:29: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+                     sprintf(epicbuf, "%s recovered 150 HP!", atkrString);
+                             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3900:29: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+                     sprintf(epicbuf, "%s recovered 50 HP!", atkrString);
+                             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3903:29: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+                     sprintf(epicbuf, "%s recovered 25 HP!", atkrString);
+                             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3906:29: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+                     sprintf(epicbuf, "%s recovered all PP!", atkrString);
+                             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3909:29: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+                     sprintf(epicbuf, "Encounter rate is down!");
+                             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3912:29: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+                     sprintf(epicbuf, "%s is revived!", atkrString);
+                             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3915:31: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+             gs_print(148, 40, epicbuf, SHADOW, WHITE);
+                               ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3927:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "%s", atkrString);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3928:26: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(72, 92, epicbuf, SHADOW, WHITE);
+                          ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3929:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "Lv    %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].level);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3930:27: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(72, 108, epicbuf, SHADOW, WHITE);
+                           ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3931:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "HP     %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].HP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3932:26: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(8, 158, epicbuf, SHADOW, WHITE);
+                          ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3933:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "/%d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].baseHP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3934:27: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(84, 158, epicbuf, SHADOW, WHITE);
+                           ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3935:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "PP     %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].PP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3936:26: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(8, 174, epicbuf, SHADOW, WHITE);
+                          ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3937:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "/%d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].basePP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3938:27: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(84, 174, epicbuf, SHADOW, WHITE);
+                           ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3939:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "Exp         %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].exp);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3940:26: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(8, 190, epicbuf, SHADOW, WHITE);
+                          ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3778:11: warning: variable 'j' set but not used [-Wunused-but-set-variable]
+     u8 i, j = 0;
+           ^
+src/game/battle_helpers.c: At top level:
+src/game/battle_helpers.c:3950:6: warning: conflicting types for 'render_status_menu'
+ void render_status_menu(void) {
+      ^~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c:3453:17: note: previous implicit declaration of 'render_status_menu' was here
+                 render_status_menu();
+                 ^~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c: In function 'render_status_menu':
+src/game/battle_helpers.c:3969:13: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+     sprintf(epicbuf, "%s    Lv %d", atkrString, gSaveBuffer.files[gCurrSaveFileNum - 1][0].level);
+             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3970:22: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+     gs_print(80, 92, epicbuf, SHADOW, WHITE);
+                      ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3971:13: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+     sprintf(epicbuf, "Exp         %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].exp);
+             ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3972:23: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+     gs_print(80, 108, epicbuf, SHADOW, WHITE);
+                       ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3974:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "HP     %d", gBattleInfo.player[overIcon].HP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3975:27: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(80, 124, epicbuf, SHADOW, WHITE);
+                           ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3976:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "/%d", gBattleInfo.player[overIcon].baseHP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3977:28: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(156, 124, epicbuf, SHADOW, WHITE);
+                            ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3978:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "PP     %d", gBattleInfo.player[overIcon].PP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3979:27: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(80, 140, epicbuf, SHADOW, WHITE);
+                           ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3980:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "/%d", gBattleInfo.player[overIcon].basePP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3981:28: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(156, 140, epicbuf, SHADOW, WHITE);
+                            ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3983:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "Attack      %d", gBattleInfo.player[overIcon].attack);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3984:27: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(196, 92, epicbuf, SHADOW, WHITE);
+                           ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3985:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "Defense     %d", gBattleInfo.player[overIcon].defense);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3986:28: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(196, 108, epicbuf, SHADOW, WHITE);
+                            ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3987:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "Agility     %d", gBattleInfo.player[overIcon].agility);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3988:28: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(196, 124, epicbuf, SHADOW, WHITE);
+                            ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3990:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "HP     %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].HP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3991:27: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(80, 124, epicbuf, SHADOW, WHITE);
+                           ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3992:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "/%d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].baseHP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3993:28: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(156, 124, epicbuf, SHADOW, WHITE);
+                            ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3994:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "PP     %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].PP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3995:27: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(80, 140, epicbuf, SHADOW, WHITE);
+                           ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3996:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "/%d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].basePP);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:3997:28: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(156, 140, epicbuf, SHADOW, WHITE);
+                            ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:3999:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "Attack      %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].attack);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:4000:27: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(196, 92, epicbuf, SHADOW, WHITE);
+                           ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:4001:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "Defense     %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].defense);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:4002:28: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(196, 108, epicbuf, SHADOW, WHITE);
+                            ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c:4003:17: warning: passing argument 1 of 'sprintf' from incompatible pointer type [-Wincompatible-pointer-types]
+         sprintf(epicbuf, "Agility     %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].agility);
+                 ^~~~~~~
+In file included from include/PR/os.h:59:0,
+                 from include/ultra64.h:27,
+                 from include/types.h:7,
+                 from include/sm64.h:6,
+                 from src/game/battle_helpers.c:4:
+include/PR/os_libc.h:90:13: note: expected 'char *' but argument is of type 'int *'
+ extern int  sprintf(char *s, const char *fmt, ...);
+             ^~~~~~~
+src/game/battle_helpers.c:4004:28: warning: passing argument 3 of 'gs_print' from incompatible pointer type [-Wincompatible-pointer-types]
+         gs_print(196, 124, epicbuf, SHADOW, WHITE);
+                            ^~~~~~~
+src/game/battle_helpers.c:1165:6: note: expected 'const char *' but argument is of type 'int *'
+ void gs_print(int x, int y, const char *str, int shadow, int color) {
+      ^~~~~~~~
+src/game/battle_helpers.c: In function 'render_gs_pause':
+src/game/battle_helpers.c:4027:5: warning: implicit declaration of function 'shade_screen' [-Wimplicit-function-declaration]
+     shade_screen();
+     ^~~~~~~~~~~~
+src/game/battle_helpers.c: At top level:
+src/game/battle_helpers.c:4088:1: warning: return type defaults to 'int' [-Wimplicit-int]
+ render_party_member_got(u8 partyMemberGot) {
+ ^~~~~~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c:4088:1: warning: conflicting types for 'render_party_member_got'
+In file included from src/game/battle_helpers.c:18:0:
+src/game/battle_helpers.h:257:6: note: previous declaration of 'render_party_member_got' was here
+ void render_party_member_got(u8 partyMemberGot);
+      ^~~~~~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c: In function 'get_party_member_string':
+src/game/battle_helpers.c:2460:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+src/game/battle_helpers.c: In function 'render_battle_icons':
+src/game/battle_helpers.c:1271:59: warning: 'initSprite' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     u8 i, frontLayerIcon, frontLayerXval, globalTimerMod, initSprite, maxSprite;
+                                                           ^~~~~~~~~~
+src/game/battle_helpers.c:1323:69: warning: 'frontLayerXval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+         call_icons_sprite_dl(frontLayerIcon, (s32)((frontLayerXval) - (iconScale*16.0f)), 224 - (s32)(iconScale*16.0f), &buf[frontLayerIcon - initSprite], 0, iconScale);
+                                                   ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c:1323:9: warning: 'frontLayerIcon' may be used uninitialized in this function [-Wmaybe-uninitialized]
+         call_icons_sprite_dl(frontLayerIcon, (s32)((frontLayerXval) - (iconScale*16.0f)), 224 - (s32)(iconScale*16.0f), &buf[frontLayerIcon - initSprite], 0, iconScale);
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/game/battle_helpers.c:1320:18: warning: 'xval' may be used uninitialized in this function [-Wmaybe-uninitialized]
+             xval += 32;
+             ~~~~~^~~~~
+src/game/battle_helpers.c:1308:43: warning: 'maxSprite' may be used uninitialized in this function [-Wmaybe-uninitialized]
+         for(i = initSprite; i < maxSprite + 1; i++){
+                                 ~~~~~~~~~~^~~
+src/game/battle_helpers.c: In function 'render_battle_attack_text':
+src/game/battle_helpers.c:2598:14: warning: 'i' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     u8 k, l, i, j;
+              ^
+src/game/battle_helpers.c: In function 'initialize_battle':
+src/game/battle_helpers.c:3302:36: warning: 'maxEnemyTypes' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     u8 i, enemiesSelected, areaIn, maxEnemyTypes;
+                                    ^~~~~~~~~~~~~
+src/game/battle_helpers.c:3347:49: warning: 'enemyPool' may be used uninitialized in this function [-Wmaybe-uninitialized]
+         if(i <= gCharactersUnlocked && enemyPool[enemiesSelected][i] != ENEMY_NONE) {
+                                                 ^
+src/game/battle_helpers.c: In function 'render_pause_icon_menu':
+src/game/battle_helpers.c:3537:36: warning: 'frontLayerIcon' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     call_icons_sprite_dl(pauseIcons[frontLayerIcon], 112 + frontLayerIcon*32 - (s32)(iconScale*16.0f), 224 - (s32)(iconScale*16.0f), &buf[i], 0, iconScale);
+                          ~~~~~~~~~~^~~~~~~~~~~~~~~~
+[0;32mLinking ELF file:  [0;34mbuild/us/gs64.us.f3dzex.elf [0m
+[0;32mBuilding ROM: [0;33mbuild/us/gs64.us.f3dzex.elf[0;32m -> [0;34mbuild/us/gs64.us.f3dzex.z64[0m

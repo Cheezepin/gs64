@@ -545,5 +545,19 @@ extern const BehaviorScript bhvUnusedFakeStar[];
 
 extern const BehaviorScript bhvPointer[];
 extern const BehaviorScript bhvEnemy[];
+extern const BehaviorScript bhvPartyMember[];
+extern const BehaviorScript bhvLiftRock[];
+extern const BehaviorScript bhvPlant[];
+extern const BehaviorScript bhvCharacterPickup[];
+extern const BehaviorScript bhvTornado[];
+extern const BehaviorScript bhvLeaf[];
+extern const BehaviorScript bhvPsynergy[];
+extern const BehaviorScript bhvPuddle[];
+extern const BehaviorScript bhvFrostSpire[];
+extern const BehaviorScript bhvBoss[];
+extern const BehaviorScript bhvChest[];
+extern const BehaviorScript bhvSummonStar[];
+extern const BehaviorScript bhvIcyBlock[];
+extern const BehaviorScript bhvLighthouseGate[];
 
 #endif // BEHAVIOR_DATA_H

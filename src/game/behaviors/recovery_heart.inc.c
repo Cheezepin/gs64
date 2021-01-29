@@ -1,4 +1,9 @@
 
+#include "src/game/battle_helpers.h"
+#include "src/game/save_file.h"
+
+extern struct SaveBuffer gSaveBuffer;
+
 struct ObjectHitbox sRecoveryHeartHitbox = {
     /* interactType:      */ 0,
     /* downOffset:        */ 0,
@@ -30,8 +35,15 @@ void bhv_recovery_heart_loop(void) {
     }
 
     if ((o->oSpinningHeartTotalSpin += o->oAngleVelYaw) >= 0x10000) {
+        u8 j = 0;
+        struct Player *player;
         gMarioStates[0].healCounter += 4;
         o->oSpinningHeartTotalSpin -= 0x10000;
+        for(j = 0; j < 4; j++) {
+            player = &gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[j];
+            player->HP = player->baseHP;
+            player->PP = player->basePP;
+        }
     }
 
     o->oFaceAngleYaw += o->oAngleVelYaw;

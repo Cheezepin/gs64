@@ -13,6 +13,7 @@
 #include "engine/surface_collision.h"
 #include "game_init.h"
 #include "gfx_dimensions.h"
+#include "hud.h"
 #include "ingame_menu.h"
 #include "interaction.h"
 #include "level_table.h"
@@ -243,7 +244,8 @@ s32 get_star_collection_dialog(struct MarioState *m) {
     }
 
     m->prevNumStarsForDialog = m->numStars;
-    return dialogID;
+    //return dialogID;
+    return 0;
 }
 
 // save menu handler
@@ -381,6 +383,8 @@ s32 act_reading_npc_dialog(struct MarioState *m) {
     s32 headTurnAmount = 0;
     s16 angleToNPC;
 
+    m->forwardVel = 0;
+
     if (m->actionArg == 2) {
         headTurnAmount = -1024;
     }
@@ -421,6 +425,7 @@ s32 act_reading_npc_dialog(struct MarioState *m) {
 
 // puts Mario in a state where he's waiting for (npc) dialog; doesn't do much
 s32 act_waiting_for_dialog(struct MarioState *m) {
+    m->forwardVel = 0;
     set_mario_animation(m, m->heldObj == NULL ? MARIO_ANIM_FIRST_PERSON
                                               : MARIO_ANIM_IDLE_WITH_LIGHT_OBJ);
     vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
@@ -591,10 +596,12 @@ s32 act_debug_free_move(struct MarioState *m) {
 
 void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
     s32 dialogID;
+    struct Object *celebrationObj;
     if (m->actionState == 0) {
         switch (++m->actionTimer) {
             case 1:
-                spawn_object(m->marioObj, MODEL_STAR, bhvCelebrationStar);
+                celebrationObj = spawn_object(m->marioObj, MODEL_STAR, bhvCelebrationStar);
+                celebrationObj->oBehParams2ndByte = m->interactObj->oBehParams2ndByte;
                 disable_background_sound();
                 if (m->actionArg & 1) {
                     play_course_clear();
@@ -854,6 +861,23 @@ s32 act_unlocking_star_door(struct MarioState *m) {
     update_mario_pos_for_anim(m);
     stop_and_set_height_to_floor(m);
 
+    return FALSE;
+}
+
+s32 act_unlocking_chest(struct MarioState *m) {
+    gMarioState->forwardVel = 0;
+    gMarioState->faceAngle[1] = gMarioState->usedObj->oFaceAngleYaw + 0x8000;
+    set_mario_animation(m, MARIO_ANIM_SUMMON_STAR);
+    if(m->actionTimer == 50) {
+        play_peachs_jingle();
+        gItemGot = m->actionArg;
+    }
+    if(m->actionTimer > 90 && m->input & INPUT_A_PRESSED) {
+        gItemGot = 0;
+        m->input &= ~INPUT_A_PRESSED;
+        return set_mario_action(m, ACT_IDLE, 0);
+    }
+    m->actionTimer++;
     return FALSE;
 }
 
@@ -2745,6 +2769,7 @@ s32 mario_execute_cutscene_action(struct MarioState *m) {
         case ACT_BUTT_STUCK_IN_GROUND:       cancel = act_butt_stuck_in_ground(m);       break;
         case ACT_FEET_STUCK_IN_GROUND:       cancel = act_feet_stuck_in_ground(m);       break;
         case ACT_PUTTING_ON_CAP:             cancel = act_putting_on_cap(m);             break;
+        case ACT_UNLOCKING_CHEST:            cancel = act_unlocking_chest(m);            break;
     }
     /* clang-format on */
 
