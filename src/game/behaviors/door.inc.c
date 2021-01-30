@@ -1,5 +1,9 @@
 // door.c.inc
 
+#include "game/save_file.h"
+
+extern struct SaveBuffer gSaveBuffer;
+
 struct DoorAction
 {
     u32 flag;
@@ -106,6 +110,12 @@ void bhv_door_init(void) {
     if (o->oDoorUnkF8 > 0 && o->oDoorUnkF8 < 60) {
         gDoorAdjacentRooms[o->oDoorUnkF8][0] = o->oDoorUnkFC;
         gDoorAdjacentRooms[o->oDoorUnkF8][1] = o->oDoorUnk100;
+    }
+}
+
+void bhv_secret_door_init(void) {
+    if(gSaveBuffer.menuData[0].secretBossUnlocked == 0) {
+        o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
     }
 }
 

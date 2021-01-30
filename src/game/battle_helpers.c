@@ -25,6 +25,7 @@
 #include "actors/group0.h"
 #include "src/engine/math_util.h"
 #include "mario.h"
+#include "menu/file_select.h"
 
 #include "s2d_engine/init.h"
 #include "s2d_engine/s2d_draw.h"
@@ -354,19 +355,47 @@ struct Spell *BobombPool[4] = {
     &None,
 };
 
-struct Spell **EnemySpellPool[12] = {
+struct Spell *ThwompPool[4] = {
+    &Frost,
+    &None,
+    &None,
+    &None,
+};
+
+struct Spell *ChuckyaPool[4] = {
+    &Growth,
+    &None,
+    &None,
+    &None,
+};
+
+struct Spell *PiranhaPool[4] = {
+    &Whirlwind,
+    &None,
+    &None,
+    &None,
+};
+
+struct Spell *KingBobombPool[4] = {
+    &Flare,
+    &FlareWall,
+    &Volcano,
+    &None,
+};
+
+struct Spell **EnemySpellPool[13] = {
     0,
     0,              //goomba
     &BobombPool,    //bobomb
     0,
+    &ThwompPool,
+    &ChuckyaPool,
     0,
     0,
     0,
+    &PiranhaPool,
     0,
-    0,
-    0,
-    0,
-    0,
+    &KingBobombPool,
 };
 
 struct Spell Lift = {
@@ -584,6 +613,11 @@ u8 Area6EnemyPool[AREA_6_POOL_MAX][3] = {
     ENEMY_KING_BOBOMB, ENEMY_NONE, ENEMY_NONE,
 };
 
+#define AREA_7_POOL_MAX 1
+u8 Area7EnemyPool[AREA_7_POOL_MAX][3] = {
+    ENEMY_PORKY, ENEMY_NONE, ENEMY_NONE,
+};
+
 void setup_mtx(uObjMtx *buf, int x, int y, float scale) {
 	buf->m.A = FTOFIX32(scale);
 	buf->m.D = FTOFIX32(scale);
@@ -750,6 +784,7 @@ s8 pointerSelectedTarget = 0;
 u8 fieldPsynergyMenuState = 0;
 s8 selectedItem = 0;
 s8 trueSelectedItem = 0;
+s8 selectedRow, selectedColumn;
 
 void determine_joystick_increment(s8 initSprite, u8 maxSprite, u8 range) {
     u8 oldOverIcon;
@@ -881,6 +916,38 @@ void determine_joystick_increment(s8 initSprite, u8 maxSprite, u8 range) {
                 play_sound(SOUND_MENU_CHANGE_SELECT, gGlobalSoundSource);
             }
             break;
+        case MENU_PASSWORD:
+            if(gPlayer1Controller->stickY > 20.0f && fU == 0) {
+                fU = 5;
+                selectedRow -= 1;
+                if(selectedRow < 0) {
+                    selectedRow = range;
+                }
+                play_sound(SOUND_MENU_CHANGE_SELECT, gGlobalSoundSource);
+            } else if(gPlayer1Controller->stickY < -20.0f && fD == 0) {
+                fD = 5;
+                selectedRow += 1;
+                if(selectedRow > range) {
+                    selectedRow = 0;
+                }
+                play_sound(SOUND_MENU_CHANGE_SELECT, gGlobalSoundSource);
+            }
+            if(gPlayer1Controller->stickX > 20.0f && fR == 0) {
+                selectedColumn++;
+                if(selectedColumn > maxSprite) {
+                    selectedColumn = 0;
+                }
+                play_sound(SOUND_MENU_CHANGE_SELECT, gGlobalSoundSource);
+                fR = 4;
+            } else if(gPlayer1Controller->stickX < -20.0f && fL == 0) {
+                selectedColumn--;
+                if(selectedColumn < 0) {
+                    selectedColumn = maxSprite;
+                }
+                play_sound(SOUND_MENU_CHANGE_SELECT, gGlobalSoundSource);
+                fL = 4;
+            }
+            break;
     }
 
     if(menuState != MENU_START && menuState != MENU_FIGHT) {
@@ -975,6 +1042,7 @@ void exit_battle(void) {
             gBattleInfo.enemy[i].target[0] = gBattleInfo.enemy[i].target[1] = gBattleInfo.enemy[i].target[2] = gBattleInfo.enemy[i].target[3] = 0xFF;
         }
         gHudDisplay.flags = HUD_DISPLAY_DEFAULT;
+        gCutsceneTimer = 0;
         rngFrame = 0;
         while(rngFrame < 300) {
             rngFrame = random_u16() % 900;
@@ -1041,7 +1109,7 @@ void determine_menu_switch(void) {
                 overIcon = OVER_ATTACK;
                 play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
             } else if(overIcon == OVER_FLEE && gPlayer1Controller->buttonPressed & A_BUTTON) {
-                if(gCurrAreaIndex != 6) {
+                if(gCurrAreaIndex < 6) {
                     menuState = MENU_FLEE;
                     play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
                 }
@@ -1246,7 +1314,7 @@ void gs_print(int x, int y, const char *str, int shadow, int color) {
     if(shadow == SHADOW) {
         sbuf = alloc_display_list(sizeof(uObjMtx) * s2d_strlen(str));
         sprintf(tbuf, COLOR"0 0 0 255%s", str);
-        s2d_print(x, y + 1, tbuf, sbuf);
+        s2d_print(x + 4, y + 1, tbuf, sbuf);
     }
     sbuf = alloc_display_list(sizeof(uObjMtx) * (s2d_strlen(str) + 0x14));
     switch(color) {
@@ -1260,7 +1328,7 @@ void gs_print(int x, int y, const char *str, int shadow, int color) {
             sprintf(tbuf, COLOR"175 0 0 255" "%s", str);
             break;
     }
-    s2d_print(x, y, tbuf, sbuf);
+    s2d_print(x + 4, y, tbuf, sbuf);
 }
 
 struct Object *pointer[4];
@@ -1382,7 +1450,7 @@ void render_battle_icons(void) {
 
         render_bar_wh(256, 212, 64, 24);
         sprintf(cbuf, "%s", overString);
-        gs_print(254, 220, cbuf, SHADOW, WHITE);
+        gs_print(258, 220, cbuf, SHADOW, WHITE);
 
         for(i = initSprite; i < maxSprite + 1; i++){
             if(overIcon == i) {
@@ -1652,7 +1720,7 @@ void render_select_menu(void) {
         call_icons_sprite_dl(OVER_ITEM, 80, 208, &buf[0], 0, 1.0f);
         call_item_sprite_dl(gSaveBuffer.files[gCurrSaveFileNum - 1][0].inventory[trueSelectedItem].id, 120, 216, &ebuf[0], 1.0f);
         sprintf(cbuf, "  %d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].inventory[trueSelectedItem].number);
-        gs_print(108, 224, cbuf, SHADOW, WHITE);
+        gs_print(110, 224, cbuf, SHADOW, WHITE);
         sprintf(cbuf, "%s", items[gSaveBuffer.files[gCurrSaveFileNum - 1][0].inventory[trueSelectedItem].id]);
         gs_print(132, 220, cbuf, SHADOW, WHITE);
     } else if(gBattleInfo.prevMenu == MENU_DJINN) {
@@ -1715,7 +1783,7 @@ void render_item_menu(void) {
     while(i < itemMax) {
         call_item_sprite_dl(/*inventory[i].id*/ fauxInventory[i][0], 152, 96 + i*24, &ebuf[i], 1.0f);
         sprintf(cbuf, "  %d", /*inventory[i].number*/ fauxInventory[i][1]);
-        gs_print(140, 104 + i*24, cbuf, SHADOW, WHITE);
+        gs_print(142, 104 + i*24, cbuf, SHADOW, WHITE);
         sprintf(cbuf, "%s", items[/*inventory[i].id*/fauxInventory[i][0]]);
         gs_print(168, 100 + i*24, cbuf, SHADOW, WHITE);
         i++;
@@ -3578,6 +3646,11 @@ void initialize_battle(void) {
         case 6:
             enemyPool = Area6EnemyPool;
             maxEnemyTypes = AREA_6_POOL_MAX;
+            break;
+        case 7:
+            enemyPool = Area7EnemyPool;
+            maxEnemyTypes = AREA_7_POOL_MAX;
+            break;
     }
     enemiesSelected = random_u16() % maxEnemyTypes;
     for(i = 0; i < 3; i++) {
@@ -3596,6 +3669,8 @@ void initialize_battle(void) {
     gBattleInfo.lastSeq = sBackgroundMusicQueue[0].seqId;
     stop_background_music(sBackgroundMusicQueue[0].seqId);
     if(gCurrAreaIndex == 6) {
+        play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(0, SEQ_SATUROS_MENARDI), 0);
+    } else if(gCurrAreaIndex == 7) {
         play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(0, SEQ_SATUROS_MENARDI), 0);
     } else {
         play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(0, SEQ_BATTLE), 0);
@@ -3732,6 +3807,7 @@ void clear_queue(void) {
 
 u8 pauseMenuState;
 void render_battle(void) {
+    u8 k = 0;
     u8 j = 0;
     u8 i = 0;
     barsRendered = 0;
@@ -3752,6 +3828,19 @@ void render_battle(void) {
                 menuState = MENU_START;
             if(j > gCharactersUnlocked) {
                 menuState = MENU_LOSE;
+            }
+        }
+
+        for(i = 0; i < 4; i++) {
+            if(!(menuState == MENU_TURN && turnOrder[gBattleInfo.turnUser] == i)) {
+                for(j = 0; j < 3; j++) {
+                    if(gBattleInfo.player[i].target[j] != 0xFF && gBattleInfo.enemy[gBattleInfo.player[i].target[j] - 4].HP <= 0) {
+                        for(k = j; k < 2; k++) {
+                            gBattleInfo.player[i].target[k] = gBattleInfo.player[i].target[k + 1];
+                        }
+                        gBattleInfo.player[i].target[2] = 0xFF;
+                    }
+                }
             }
         }
 
@@ -3988,11 +4077,13 @@ void render_field_psynergy_menu(void) {
     switch(fieldPsynergyMenuState) {
         case 0:
             menuState = MENU_PAUSE;
+            j = 0;
             for(i = 0; i < 0xF0; i++) {
                 if(movePool[i]->sprite == SPELL_NONE) {
                     i = 0xF0;
-                } else {
-                    call_spell_sprite_dl(movePool[i]->sprite, 152 + (i*20), 64, &ebuf[i]);
+                } else if (!(movePool[i]->baseLevel > gSaveBuffer.files[gCurrSaveFileNum - 1][0].level)) {
+                    call_spell_sprite_dl(movePool[i]->sprite, 152 + (j*20), 64, &ebuf[i]);
+                    j++;
                 }
             }
 
@@ -4236,7 +4327,7 @@ void render_field_item_menu(void) {
     while(i < itemMax) {
         call_item_sprite_dl(inventory[i].id, 152, 64 + i*24, &ebuf[i], 1.0f);
         sprintf(cbuf, "  %d", inventory[i].number);
-        gs_print(140, 72 + i*24, cbuf, SHADOW, WHITE);
+        gs_print(142, 72 + i*24, cbuf, SHADOW, WHITE);
         sprintf(cbuf, "%s", items[inventory[i].id]);
         gs_print(168, 68 + i*24, cbuf, SHADOW, WHITE);
         i++;
@@ -4534,7 +4625,7 @@ void render_item_got(u8 itemGot) {
     render_bar_wh(40, 40, 240, 24);
     conjugate_item(itemGot);
     sprintf(cbuf, "You got %s%s.", conjugation, items[itemGot]);
-    gs_print(40, 48, cbuf, SHADOW, WHITE);
+    gs_print(42, 48, cbuf, SHADOW, WHITE);
     s2d_stop();
 
     gScreenX = 0xFFFF0000;
@@ -4582,22 +4673,119 @@ print_field_psynergy(u8 spell) {
     gSPSetOtherMode(gDisplayListHead++, G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0x3000);
 }
 
+char pbuf[4][25];
+char password[4][25] = {
+    "dpbqyhts05ok96lwjoehv46zl",
+    "zmnvvtbanus7nkuojel9enfmj",
+    "5opl41qymae513oni6uvxrnn3",
+    "eesoi920xx8i1jibhck7ft391"
+};
+
+char displaypbuf[26];
+
+void display_pbuf(char *buffer) {
+    u8 i;
+    for(i = 0; i < 25; i++) {
+        displaypbuf[i] = buffer[i];
+    }
+    displaypbuf[25] = 0;
+}
+
 void render_password_screen(void) {
     u8 i, j;
     set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
     barsRendered = 0;
+    menuState = MENU_PASSWORD;
     gSPSetOtherMode(gDisplayListHead++, G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0);
-    s2d_init();
-    
-    render_bar_wh(60, 20, 200, 30);
-    gs_print(104, 30, "Password Entry", SHADOW, WHITE);
-    render_bar_wh(60, 50, 200, 80);
-    render_bar_wh(20, 130, 280, 60);
-    gs_print(24, 140, " 0 1 2 3 4 5 6 7 8 9 a b c d e f g h", SHADOW, WHITE);
-    gs_print(32, 160, "i j k l m n o p q r s t u v w x y z", SHADOW, WHITE);
-    render_bar_wh(20, 190, 280, 30);
-    gs_print(28, 200, "[A]: Enter [B]: Delete START: Submit", SHADOW, WHITE);
 
-    s2d_stop();
+    if(gEnteringPassword == 1) {
+        determine_joystick_increment(0, 17, 1);
+        s2d_init();
+        
+        render_bar_wh(60, 20, 200, 30);
+        gs_print(104, 30, "Password Entry", SHADOW, WHITE);
+        render_bar_wh(60, 50, 200, 80);
+        display_pbuf(pbuf[0]);
+        gs_print(70, 58, displaypbuf, SHADOW, WHITE);
+        display_pbuf(pbuf[1]);
+        gs_print(70, 76, displaypbuf, SHADOW, WHITE);
+        display_pbuf(pbuf[2]);
+        gs_print(70, 94, displaypbuf, SHADOW, WHITE);
+        display_pbuf(pbuf[3]);
+        gs_print(70, 112, displaypbuf, SHADOW, WHITE);
+        render_bar_wh(20, 130, 280, 60);
+        render_battle_fill_rect(32 + selectedColumn*14, 136 + selectedRow*20, 44 + selectedColumn*14, 152 + selectedRow*20, 0x00, 0x97, 0xE2);
+        gs_print(24, 140, " 0 1 2 3 4 5 6 7 8 9 a b c d e f g h", SHADOW, WHITE);
+        gs_print(32, 160, "i j k l m n o p q r s t u v w x y z", SHADOW, WHITE);
+        render_bar_wh(20, 190, 280, 30);
+        gs_print(28, 200, "[A]: Enter [B]: Delete START: Submit", SHADOW, WHITE);
+
+        s2d_stop();
+
+        if(gPlayer1Controller->buttonPressed & A_BUTTON) {
+            for(j = 0; j < 4; j++) {
+                for(i = 0; i < 25; i++) {
+                    if(pbuf[j][i] == 0) {
+                        if(selectedRow == 0 && selectedColumn < 10) {
+                            pbuf[j][i] = 0x30 + selectedColumn;
+                        } else {
+                            pbuf[j][i] = 0x57 + selectedColumn + (selectedRow*18);
+                        }
+                        i = 25;
+                        j = 4;
+                        play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                    }
+                }
+            }
+        }
+        if(gPlayer1Controller->buttonPressed & B_BUTTON) {
+            for(j = 0; j < 4; j++) {
+                for(i = 0; i < 26; i++) {
+                    if(j > 0 && i == 0) {
+                        if(pbuf[j][i] == 0) {
+                            pbuf[j - 1][24] = 0;
+                            i = 25;
+                            j = 4;
+                            play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                        }
+                    } else if((pbuf[j][i] == 0 || (j == 3 && i == 25)) && !(j == 0 && i == 0)) {
+                        pbuf[j][i - 1] = 0;
+                        i = 25;
+                        j = 4;
+                        play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                    }
+                }
+            }
+        }
+        if(gPlayer1Controller->buttonPressed & START_BUTTON) {
+            for(j = 0; j < 4; j++) {
+                for(i = 0; i < 25; i++) {
+                    if(pbuf[j][i] != password[j][i]) {
+                        j = 99;
+                        i = 99;
+                    }
+                }
+            }
+        }
+        if(i != 100 && j != 100) {
+
+        } else {
+            gEnteringPassword = 2;
+        }
+    } else {
+        s2d_init();
+        render_bar_wh(60, 105, 200, 30);
+        gs_print(84, 115, "Secret boss unlocked!", SHADOW, WHITE);
+        s2d_stop();
+        gEnteringPassword++;
+        if(gEnteringPassword == 5) {
+            gSaveBuffer.menuData[0].secretBossUnlocked = 1;
+            gMainMenuDataModified = TRUE;
+            save_main_menu_data();
+        }
+        if(gEnteringPassword == 92) {
+            fade_into_special_warp(3, 0);
+        }
+    }
     gSPSetOtherMode(gDisplayListHead++, G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0x3000);
 }

@@ -86,7 +86,8 @@ struct MainMenuSaveData
     // the older the high score is. This is used for tie-breaking when displaying
     // on the high score screen.
     u32 coinScoreAges[NUM_SAVE_FILES];
-    u16 soundMode;
+    //u16 soundMode;
+    u16 secretBossUnlocked;
 
 #ifdef VERSION_EU
     u16 language;
@@ -97,6 +98,7 @@ struct MainMenuSaveData
 
     // Pad to match the EEPROM size of 0x200 (10 bytes on JP/US, 8 bytes on EU)
     //u8 expYieldSettings;
+    
     u8 filler[EEPROM_SIZE / 2 - SUBTRAHEND - NUM_SAVE_FILES * (4 + sizeof(struct SaveFile))];
 
     struct SaveBlockSignature signature;
@@ -188,6 +190,7 @@ s32 save_file_get_cap_pos(Vec3s capPos);
 void save_file_set_sound_mode(u16 mode);
 u16 save_file_get_sound_mode(void);
 void save_file_move_cap_to_default_location(void);
+void save_main_menu_data(void);
 
 void disable_warp_checkpoint(void);
 void check_if_should_set_warp_checkpoint(struct WarpNode *warpNode);

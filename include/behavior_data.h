@@ -559,5 +559,7 @@ extern const BehaviorScript bhvChest[];
 extern const BehaviorScript bhvSummonStar[];
 extern const BehaviorScript bhvIcyBlock[];
 extern const BehaviorScript bhvLighthouseGate[];
+extern const BehaviorScript bhvSecretDoor[];
+extern const BehaviorScript bhvPorkyBoss[];
 
 #endif // BEHAVIOR_DATA_H

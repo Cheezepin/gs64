@@ -49,6 +49,7 @@ void bhv_character_pickup_update(void) {
         }
         if(o->oTimer > 90 && gPlayer1Controller->buttonPressed & A_BUTTON) {
             gCharactersUnlocked = gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked = o->oBehParams2ndByte;
+            gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[o->oBehParams2ndByte].HP = gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[o->oBehParams2ndByte].baseHP;
             gPartyMemberGot = 0;
             fanfarePlayed = 0;
             spawn_object(gCurrentObject, 0, bhvSparkleSpawn);
@@ -208,7 +209,7 @@ void bhv_boss_update(void) {
         gBattleInfo.lastPos[0] = gBattleInfo.lastPos[2] = 0;
     }
     if(o->oDistanceToMario < 500.0f) {
-        o->oOpacity = cur_obj_update_dialog(2, 2, 17, 0);
+        o->oOpacity = cur_obj_update_dialog(2, 2, 17 + o->oBehParams2ndByte, 0);
         o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x400);
     }
 }

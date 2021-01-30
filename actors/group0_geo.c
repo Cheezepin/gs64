@@ -35,3 +35,4 @@
 #include "chest/geo.inc.c"
 #include "bully/geo.inc.c"
 #include "scuttlebug/geo.inc.c"
+#include "porky/geo.inc.c"

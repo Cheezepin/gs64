@@ -566,6 +566,7 @@ void bhv_chest_update(void);
 void bhv_summon_star_update(void);
 void bhv_icy_block_loop(void);
 void bhv_lighthouse_gate_update(void);
+void bhv_secret_door_init(void);
 
 Gfx *geo_move_mario_part_from_parent(s32 run, UNUSED struct GraphNode *node, Mat4 mtx);
 

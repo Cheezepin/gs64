@@ -29,6 +29,7 @@
 #define MENU_SUMMON         15
 #define MENU_MESSAGES       16
 #define MENU_FLEE           17
+#define MENU_PASSWORD       18
 
 #define PMENU_ICONS    0
 #define PMENU_PSYNERGY 1
@@ -52,6 +53,7 @@
 #define ENEMY_PIRANHA      9
 #define ENEMY_SCUTTLEBUG  10
 #define ENEMY_KING_BOBOMB 11
+#define ENEMY_PORKY       12
 
 #define CAMERA_SIDE   0
 #define CAMERA_BACK   1

@@ -429,4 +429,8 @@ extern const Gfx scuttlebug_seg6_dl_06014338[];
 extern const Gfx scuttlebug_seg6_dl_06014378[];
 extern const struct Animation *const scuttlebug_seg6_anims_06015064[];
 
+#include "porky/geo_header.h"
+
+
+#include "porky/anim_header.h"
 #endif

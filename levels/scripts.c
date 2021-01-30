@@ -128,6 +128,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_PUDDLE,                  puddle_geo),
     LOAD_MODEL_FROM_GEO(MODEL_FROST_SPIRE,             frost_spire_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CHEST,                   chest_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_PORKY,                   porky_geo),
     FREE_LEVEL_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),
     LOOP_BEGIN(),

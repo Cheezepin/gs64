@@ -67,3 +67,6 @@
 #include "scuttlebug/model.inc.c"
 #include "scuttlebug/anims/data.inc.c"
 #include "scuttlebug/anims/table.inc.c"
+#include "porky/model.inc.c"
+#include "porky/anims/data.inc.c"
+#include "porky/anims/table.inc.c"

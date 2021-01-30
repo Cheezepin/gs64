@@ -579,6 +579,7 @@
 #define MODEL_PUDDLE                      0xF2
 #define MODEL_FROST_SPIRE                 0xF1
 #define MODEL_CHEST                       0xE9
+#define MODEL_PORKY                       0xE8
 
 #define MODEL_LIGHTHOUSE_GATE             0xE1
 #define MODEL_ICYBLOCK                    0xE2

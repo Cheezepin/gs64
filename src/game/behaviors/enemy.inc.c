@@ -46,7 +46,7 @@ void bhv_enemy_init(void) {
             o->hitboxRadius = 72.0f;
             o->hitboxHeight = 50.0f;
             enemy->expYield = 10;
-            enemy->psynergyChance = 4;
+            enemy->psynergyChance = 6;
             break;
         case ENEMY_CHUCKYA:
             enemy->HP = enemy->baseHP = 16 + (random_u16() % 4);
@@ -170,10 +170,10 @@ void bhv_enemy_init(void) {
             o->hitboxRadius = 72.0f;
             o->hitboxHeight = 125.0f;
             enemy->expYield = 60;
-            enemy->psynergyChance = 3;
+            enemy->psynergyChance = 5;
             break;
         case ENEMY_KING_BOBOMB:
-            enemy->HP = enemy->baseHP = 40;
+            enemy->HP = enemy->baseHP = 120;
             enemy->agility = 100;
             enemy->attack = 17;
             enemy->defense = 10;
@@ -188,19 +188,37 @@ void bhv_enemy_init(void) {
             enemy->expYield = 1000;
             enemy->psynergyChance = 3;
             break;
+        case ENEMY_PORKY:
+            enemy->HP = enemy->baseHP = 250;
+            enemy->agility = 20;
+            enemy->attack = 25;
+            enemy->defense = 12;
+            enemy->element = VENUS;
+            sprintf(enemy->name, "Porky");
+            cur_obj_set_model(MODEL_PORKY);
+            o->oAnimations = porky_anims;
+            cur_obj_init_animation(0);
+            cur_obj_scale(0.25f);
+            o->hitboxRadius = 72.0f;
+            o->hitboxHeight = 250.0f;
+            o->oInitialAnim = 0;
+            enemy->expYield = 5000;
+            enemy->psynergyChance = 3;
+            break;
     }
     if(o->header.gfx.animInfo.curAnim != 0) {
         o->header.gfx.animInfo.animFrame = random_u16() % (o->header.gfx.animInfo.curAnim->loopEnd - 1);
     }
 
     //level scaling
-    enemy->HP += (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level) + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked*3);
-    enemy->attack += ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].level)) + gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked;
-    enemy->defense += ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].level)) + gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked;
+    enemy->HP += (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level) + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked*2);
+    enemy->attack += ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].level*1)/2) + gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked;
+    enemy->defense += ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].level*1)/2) + gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked;
     enemy->agility += (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level);
 }
 
 void bhv_enemy_update(void) {
+    u8 i;
     if(o->activeFlags != ACTIVE_FLAG_DEACTIVATED) {
         f32 dist = 0;
         struct Enemy *enemy = &gBattleInfo.enemy[o->oBehParams2ndByte];
@@ -229,10 +247,13 @@ void bhv_enemy_update(void) {
                     enemy->target[0] = enemy_select_target(enemy->element);
                 }
             } else {
-                enemy->target[0] = 0;
-                enemy->target[1] = 1;
-                enemy->target[2] = 2;
-                enemy->target[3] = 3;
+                for(i = 0; i < 4; i++) {
+                    if(gBattleInfo.player[i].HP > 0 && i <= gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked) {
+                        enemy->target[i] = i;
+                    } else {
+                        enemy->target[i] = 0xFF;
+                    }
+                }
             }
         }
 
