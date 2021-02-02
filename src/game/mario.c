@@ -1766,7 +1766,7 @@ s32 execute_mario_action(UNUSED struct Object *o) {
             rngTimer++;
             ppTimer++;
 
-            if(ppTimer % 300 == 0) {
+            if(ppTimer % (240 - (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level*8)) == 0) {
                 u8 j;
                 for(j = 0; j < 4; j++) {
                     gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[j].PP++;
@@ -1784,7 +1784,7 @@ s32 execute_mario_action(UNUSED struct Object *o) {
             }
         }
         if(rngTimer >= randomVal && gMarioState->floorHeight == gMarioState->pos[1] && (gMarioState->action == ACT_IDLE || gMarioState->action == ACT_WALKING || gMarioState->action == ACT_DOUBLE_JUMP_LAND || gMarioState->action == ACT_FREEFALL_LAND || gMarioState->action == ACT_JUMP_LAND)) {
-            if(gCurrAreaIndex != 6)
+            if(gCurrAreaIndex < 6)
                 set_mario_action(gMarioState, ACT_BATTLE, 0);
             rngTimer = 0;
         }

@@ -343,7 +343,7 @@
 
 // group 2
 #define MODEL_BLARGG                      0x54        // blargg_geo
-#define MODEL_BULLY                       0x56        // bully_geo
+#define MODEL_BULLY                       0xE3        // bully_geo
 #define MODEL_BULLY_BOSS                  0x57        // bully_boss_geo
 
 // group 3

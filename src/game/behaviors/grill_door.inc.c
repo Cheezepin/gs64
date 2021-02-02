@@ -43,7 +43,7 @@ void bhv_openable_grill_loop(void) {
             break;
         case 2:
             grillObj = o->oOpenableGrillUnkF4;
-            if (grillObj->oAction == 2) {
+            if (grillObj->oAction == 2 || gMarioState->pos[2] < -2500.0f) {
                 o->oOpenableGrillUnk88 = 2;
                 cur_obj_play_sound_2(SOUND_GENERAL_CAGE_OPEN);
                 o->oAction++;

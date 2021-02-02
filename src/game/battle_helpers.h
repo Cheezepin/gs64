@@ -155,6 +155,9 @@
 #define MSG_DEF_REVERT 3
 #define MSG_AGI_REVERT 4
 
+#define BOSS_KING_BOBOMB 0x1
+#define BOSS_PORKY       0x2
+
 #ifndef BATTLE_HELPERS_H
 #define BATTLE_HELPERS_H
 
@@ -268,3 +271,4 @@ void render_item_got(u8 itemGot);
 void render_party_member_got(u8 partyMemberGot);
 void print_field_psynergy(u8 spell);
 void render_password_screen(void);
+void render_credits(void);

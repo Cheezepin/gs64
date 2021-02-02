@@ -102,7 +102,7 @@ void bhv_enemy_init(void) {
             enemy->HP = enemy->baseHP = 23 + (random_u16() % 5);
             enemy->agility = 2;
             enemy->attack = 16;
-            enemy->defense = 8;
+            enemy->defense = 7;
             enemy->element = MERCURY;
             sprintf(enemy->name, "Thwomp");
             cur_obj_set_model(MODEL_THWOMP);
@@ -116,7 +116,7 @@ void bhv_enemy_init(void) {
             enemy->HP = enemy->baseHP = 25 + (random_u16() % 5);
             enemy->agility = 9;
             enemy->attack = 13;
-            enemy->defense = 7;
+            enemy->defense = 6;
             enemy->element = VENUS;
             sprintf(enemy->name, "Bully");
             cur_obj_set_model(MODEL_BULLY);
@@ -130,8 +130,8 @@ void bhv_enemy_init(void) {
         case ENEMY_KOOPA:
             enemy->HP = enemy->baseHP = 30 + (random_u16() % 5);
             enemy->agility = 11;
-            enemy->attack = 11;
-            enemy->defense = 6;
+            enemy->attack = 9;
+            enemy->defense = 5;
             enemy->element = MERCURY;
             sprintf(enemy->name, "Koopa");
             cur_obj_set_model(MODEL_KOOPA_WITH_SHELL);
@@ -139,6 +139,7 @@ void bhv_enemy_init(void) {
             cur_obj_init_animation(9);
             o->hitboxRadius = 72.0f;
             o->hitboxHeight = 175.0f;
+            o->oInitialAnim = 9;
             enemy->expYield = 38;
             enemy->psynergyChance = 5;
             break;
@@ -175,7 +176,7 @@ void bhv_enemy_init(void) {
         case ENEMY_KING_BOBOMB:
             enemy->HP = enemy->baseHP = 120;
             enemy->agility = 100;
-            enemy->attack = 17;
+            enemy->attack = 22;
             enemy->defense = 10;
             enemy->element = MARS;
             sprintf(enemy->name, "King Bob-Omb");
@@ -189,10 +190,10 @@ void bhv_enemy_init(void) {
             enemy->psynergyChance = 3;
             break;
         case ENEMY_PORKY:
-            enemy->HP = enemy->baseHP = 250;
+            enemy->HP = enemy->baseHP = 200;
             enemy->agility = 20;
-            enemy->attack = 25;
-            enemy->defense = 12;
+            enemy->attack = 24;
+            enemy->defense = 14;
             enemy->element = VENUS;
             sprintf(enemy->name, "Porky");
             cur_obj_set_model(MODEL_PORKY);
@@ -200,10 +201,10 @@ void bhv_enemy_init(void) {
             cur_obj_init_animation(0);
             cur_obj_scale(0.25f);
             o->hitboxRadius = 72.0f;
-            o->hitboxHeight = 250.0f;
+            o->hitboxHeight = 150.0f;
             o->oInitialAnim = 0;
             enemy->expYield = 5000;
-            enemy->psynergyChance = 3;
+            enemy->psynergyChance = 5;
             break;
     }
     if(o->header.gfx.animInfo.curAnim != 0) {
@@ -212,8 +213,8 @@ void bhv_enemy_init(void) {
 
     //level scaling
     enemy->HP += (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level) + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked*2);
-    enemy->attack += ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].level*1)/2) + gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked;
-    enemy->defense += ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].level*1)/2) + gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked;
+    enemy->attack += ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].level*1)/2) + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked/2);
+    enemy->defense += ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].level*1)/2) + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked/2);
     enemy->agility += (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level);
 }
 

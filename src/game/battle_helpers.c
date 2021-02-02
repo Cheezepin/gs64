@@ -383,6 +383,13 @@ struct Spell *KingBobombPool[4] = {
     &None,
 };
 
+struct Spell *PorkyPool[4] = {
+    &FlareStorm,
+    &QuakeSphere,
+    &Whirlwind,
+    &Glacier,
+};
+
 struct Spell **EnemySpellPool[13] = {
     0,
     0,              //goomba
@@ -396,6 +403,7 @@ struct Spell **EnemySpellPool[13] = {
     &PiranhaPool,
     0,
     &KingBobombPool,
+    &PorkyPool,
 };
 
 struct Spell Lift = {
@@ -1027,7 +1035,11 @@ void exit_battle(void) {
             level_trigger_warp(gMarioState, WARP_OP_DEATH);
         }
         if(menuState == MENU_WIN && gCurrAreaIndex == 6) {
-            level_trigger_warp(gMarioState, WARP_OP_CREDITS_END);
+            sDelayedWarpTimer = 0x3C;
+            sSourceWarpNodeId = 0x5;
+            sDelayedWarpOp = WARP_OP_TELEPORT;
+            play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 0x3C, 0x00, 0x00, 0x00);
+            fadeout_music((3 * sDelayedWarpTimer / 2) * 8 - 2);
         }
         menuState = MENU_NONE;
         overIcon = OVER_FIGHT;
@@ -1042,7 +1054,7 @@ void exit_battle(void) {
             gBattleInfo.enemy[i].target[0] = gBattleInfo.enemy[i].target[1] = gBattleInfo.enemy[i].target[2] = gBattleInfo.enemy[i].target[3] = 0xFF;
         }
         gHudDisplay.flags = HUD_DISPLAY_DEFAULT;
-        gCutsceneTimer = 0;
+        gCutsceneTimer = CUTSCENE_STOP;
         rngFrame = 0;
         while(rngFrame < 300) {
             rngFrame = random_u16() % 900;
@@ -1053,10 +1065,11 @@ void exit_battle(void) {
         gBattleInfo.exitTimer++;
         if(gBattleInfo.exitTimer == 18) {
             gCamera->cutscene = 0;
+            sCutsceneShot = 0;
             vec3f_copy(gMarioState->pos, gBattleInfo.lastPos);
             vec3f_copy(gMarioObject->header.gfx.pos, gMarioState->pos);
             vec3f_copy(gCamera->pos, gBattleInfo.lastCamPos);
-            gCutsceneTimer = 0;
+            gCutsceneTimer = CUTSCENE_STOP;
             //reset_camera(gCamera);
             if(menuState == MENU_LOSE) {
                 gBattleInfo.player[0].HP = 1;
@@ -1073,6 +1086,12 @@ void exit_battle(void) {
                 gSaveBuffer.files[gCurrSaveFileNum - 1][0].lastFloor = 0;
             else
                 gSaveBuffer.files[gCurrSaveFileNum - 1][0].lastFloor = gCurrAreaIndex;
+            if(menuState == MENU_WIN && gCurrAreaIndex == 6) {
+                gSaveBuffer.files[gCurrSaveFileNum - 1][0].bossFlags |= BOSS_KING_BOBOMB;
+            }
+            if(menuState == MENU_WIN && gCurrAreaIndex == 7) {
+                gSaveBuffer.files[gCurrSaveFileNum - 1][0].bossFlags |= BOSS_PORKY;
+            }
             save_file_do_save(gCurrSaveFileNum - 1);
         }
     }
@@ -1813,15 +1832,36 @@ void print_battle_text(void) {
     }
 }
 
+u8 initTextProgress;
 void render_battle_init_text(void) {
     uObjMtx *sbuf;
-    enemyString = gBattleInfo.enemy[0].name;
+    u8 i, j, initEnemy;
+    j = 0;
+    for(i = 0; i < initTextProgress; i++) {
+        if(gBattleInfo.enemy[i].id == gBattleInfo.enemy[initTextProgress].id) {
+            if(j == 0) {
+                initEnemy = i;
+                j = 1;
+            }
+            j++;
+        }
+    }
+    if(j > 0) {
+        sprintf(gBattleInfo.enemy[initTextProgress].name, "%s%d", gBattleInfo.enemy[initEnemy].name, j);
+    }
+    enemyString = gBattleInfo.enemy[initTextProgress].name;
     s2d_init();
     sprintf(cbuf, "%s attacks!", enemyString);
-    gs_print(0, 212, cbuf, NO_SHADOW, WHITE);
+    print_battle_text();
     s2d_stop();
-    if(gPlayer1Controller->buttonPressed & A_BUTTON)
-        menuState = MENU_START;
+    if(gPlayer1Controller->buttonPressed & A_BUTTON) {
+        if(initTextProgress >= gBattleInfo.totalEnemies)
+            menuState = MENU_START;
+        else {
+            initTextProgress++;
+            render_previous_text();
+        }
+    }
 }
 
 u8 enemy_select_target(u8 element) {
@@ -2026,6 +2066,9 @@ u8 enemy_attack_anim(u8 target, u8 turnUserID, u8 attackAnimType) {
                     case ENEMY_AMP:
                     case ENEMY_PIRANHA:
                     case ENEMY_KING_BOBOMB:
+                    case ENEMY_BULLY:
+                    case ENEMY_SCUTTLEBUG:
+                    case ENEMY_KOOPA:
                         switch(gBattleInfo.enemy[turnUserID - 4].id) {
                             case ENEMY_CHUCKYA:
                                 play_sound(SOUND_AIR_CHUCKYA_MOVE, gGlobalSoundSource);
@@ -2127,6 +2170,27 @@ u8 enemy_attack_anim(u8 target, u8 turnUserID, u8 attackAnimType) {
                             reset_enemy(turnUserID);
                         }
                         break;
+                    case ENEMY_PORKY:
+                        if(attackAnimTimer == 0) {
+                            reset_enemy(turnUserID);
+                            playerObj->oMoveAngleYaw = obj_angle_to_object(playerObj, targetObj);
+                            geo_obj_init_animation(&playerObj->header.gfx, &playerObj->oAnimations[2]);
+                        }
+                        if(attackAnimTimer == 15) {
+                            struct Object *bombObj = spawn_object(playerObj, MODEL_BLACK_BOBOMB, bhvPorkyBomb);
+                            bombObj->oPosY += 50.0f;
+                            bombObj->oOpacity = targetObj;
+                        }
+                        if(attackAnimTimer > 20) {
+                            gBattleInfo.camFocus = target + 1;
+                        }
+                        attackAnimPlaying = 1;
+                        if(attackAnimTimer == 60) {
+                            attackAnimDone = 1;
+                            attackAnimPlaying = 0;
+                            reset_enemy(turnUserID);
+                        }
+                        break;
                 }
                 break;
         }
@@ -2187,10 +2251,19 @@ u8 psynergy_anim(u8 target, u8 turnUserID, u8 psynergyAnimType) {
         }
         playerObj = gBattleInfo.player[turnUserID].obj;
     } else {
+        for(i = 0; i < 4; i++) {
+            if(gBattleInfo.enemy[turnUserID - 4].target[i] != 0xFF) {
+                target = gBattleInfo.enemy[turnUserID - 4].target[i];
+            }
+        }
         targetObj = gBattleInfo.player[target].obj;
         playerObj = gBattleInfo.enemy[turnUserID - 4].obj;
     }
     if(attackAnimDone == 0 && turnUserUsingAnim != turnUserID) {
+        if(gBattleInfo.enemy[0].id == ENEMY_PORKY && attackAnimTimer == 0) {
+            struct Object *tempObject = gBattleInfo.enemy[0].obj;
+            geo_obj_init_animation(&tempObject->header.gfx, &tempObject->oAnimations[1]);
+        }
         f32 tempFloat = 0.0f;
         attackAnimPlaying = 1;
         switch(psynergyAnimType) {
@@ -2235,7 +2308,11 @@ u8 psynergy_anim(u8 target, u8 turnUserID, u8 psynergyAnimType) {
                     attackAnimPlaying = 0;
                     turnUserUsingAnim = turnUserID;
                 }
-                gBattleInfo.camFocus = target + 5;
+                if(turnUserID < 4) {
+                    gBattleInfo.camFocus = target + 5;
+                } else {
+                    gBattleInfo.camFocus = target + 1;
+                }
                 break;
             case SPELL_SPIRE:
                 if(attackAnimTimer == 0) {
@@ -2292,7 +2369,11 @@ u8 psynergy_anim(u8 target, u8 turnUserID, u8 psynergyAnimType) {
                     attackAnimPlaying = 0;
                     turnUserUsingAnim = turnUserID;
                 }
-                gBattleInfo.camFocus = 8;
+                if(turnUserID < 4) {
+                    gBattleInfo.camFocus = 8;
+                } else {
+                    gBattleInfo.camFocus = 9;
+                }
                 break;
             case SPELL_VOLCANO:
                 if(attackAnimTimer < 15) {
@@ -2310,7 +2391,11 @@ u8 psynergy_anim(u8 target, u8 turnUserID, u8 psynergyAnimType) {
                     attackAnimPlaying = 0;
                     turnUserUsingAnim = turnUserID;
                 }
-                gBattleInfo.camFocus = target + 5;
+                if(turnUserID < 4) {
+                    gBattleInfo.camFocus = target + 5;
+                } else {
+                    gBattleInfo.camFocus = target + 1;
+                }
                 break;
             case SPELL_FROST:
             case SPELL_TUNDRA:
@@ -2322,7 +2407,11 @@ u8 psynergy_anim(u8 target, u8 turnUserID, u8 psynergyAnimType) {
                         psynergyObj->oPosY -= 375.0f;
                         psynergyObj->oOpacity = target;
                         psynergyObj->oBehParams2ndByte = SPELL_FROST;
-                        gBattleInfo.camFocus = target + 5;
+                        if(turnUserID < 4) {
+                            gBattleInfo.camFocus = target + 5;
+                        } else {
+                            gBattleInfo.camFocus = target + 1;
+                        }
                     } else if(psynergyAnimType == SPELL_TUNDRA) {
                         psynergyObj->header.gfx.scale[0] = 1.0f;
                         psynergyObj->header.gfx.scale[1] = 0.375f;
@@ -2466,6 +2555,11 @@ u8 psynergy_anim(u8 target, u8 turnUserID, u8 psynergyAnimType) {
                 break;
         }
     } else {
+        if(gBattleInfo.enemy[0].id == ENEMY_PORKY) {
+            struct Object *tempObject = gBattleInfo.enemy[0].obj;
+            if(tempObject->header.gfx.animInfo.animFrame < 102)
+                tempObject->header.gfx.animInfo.animFrame = 102;
+        }
         attackAnimPlaying = 0;
     }
     attackAnimTimer++;
@@ -2814,7 +2908,8 @@ void render_battle_attack_text(void) {
                 case ACT_ATTACK:
                     switch(gBattleInfo.turnActionProgress) {
                         case 0:
-                            if(gBattleInfo.enemy[target].obj == 0) {
+                            targetingParty = 0;
+                            if((gBattleInfo.enemy[target].obj == 0 || gBattleInfo.enemy[target].HP <= 0) && targetingParty == 0) {
                                 search_for_next_enemy(0);
                             }
                             else {
@@ -2829,7 +2924,7 @@ void render_battle_attack_text(void) {
                                     render_previous_text();
                                 }
                                 animAboutToPlay = 0;
-                                damage = calculate_damage(gBattleInfo.player[turnUserID].attack + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level), gBattleInfo.enemy[target].defense, 0, 1);
+                                damage = calculate_damage(gBattleInfo.player[turnUserID].attack + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level / 3), gBattleInfo.enemy[target].defense, 0, 1);
                                 sprintf(cbuf, "%s takes %d damage!", gBattleInfo.enemy[target].name, damage);
                             }
                             break;
@@ -2856,7 +2951,7 @@ void render_battle_attack_text(void) {
                                     targetingParty = 1;
                                 else
                                     targetingParty = 0;
-                                if(gBattleInfo.enemy[target].obj == 0 && targetingParty == 0) {
+                                if((gBattleInfo.enemy[target].obj == 0 || gBattleInfo.enemy[target].HP <= 0) && targetingParty == 0) {
                                     search_for_next_enemy(movePool[spellUsed]->range);
                                 }
                                 else {
@@ -2873,7 +2968,7 @@ void render_battle_attack_text(void) {
                                     }
                                     animAboutToPlay = 0;
                                     if(targetingParty == 0) {
-                                        damage = calculate_damage(gBattleInfo.player[turnUserID].attack + movePool[spellUsed]->damage, gBattleInfo.enemy[target].defense, gBattleInfo.player[turnUserID].element, gBattleInfo.enemy[target].element);
+                                        damage = calculate_damage(gBattleInfo.player[turnUserID].attack + movePool[spellUsed]->damage + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level / 4), gBattleInfo.enemy[target].defense, gBattleInfo.player[turnUserID].element, gBattleInfo.enemy[target].element);
                                         sprintf(cbuf, "%s takes %d damage!", gBattleInfo.enemy[target].name, damage);
                                     } else {
                                         get_party_member_string(target);
@@ -2998,6 +3093,7 @@ void render_battle_attack_text(void) {
                                 }
                             break;
                         case 2:
+                            reset_attack_anim();
                             isAttackDone = 1;
                             break;
                         case 3:
@@ -3362,10 +3458,11 @@ void render_battle_attack_text(void) {
 u16 stat_calc(u8 modValue, u8 player, u8 boostCase1, u8 boostCase2) {
     u16 tempStat = (random_u16() % modValue);
     if(player == boostCase1 || player == boostCase2) {
-        if(tempStat > modValue - 1)
-        tempStat = modValue - 1;
+        //if(tempStat > modValue - 1)
+            //tempStat = modValue - 1;
+        tempStat++;
     } else {
-        tempStat = random_u16() % (modValue - 1);
+        //tempStat = random_u16() % (modValue - 1);
     }
     return tempStat;
 }
@@ -3390,11 +3487,11 @@ void calculate_new_stats(u8 newLevel, u8 oldLevel) {
             bPlayer->basePP = player->basePP = player->trueBasePP += (tempStat + 1);
             player->PP = bPlayer->PP += (tempStat + 1);
             tempStat = stat_calc(3, j, 0, 0);
-            player->attack += (tempStat + 1);
+            player->attack += (tempStat);
             tempStat = stat_calc(3, j, 1, 1);
-            player->defense += (tempStat + 1);
+            player->defense += (tempStat);
             tempStat = stat_calc(3, j, 2, 2);
-            player->agility += (tempStat + 1);
+            player->agility += (tempStat);
 
         }
     }
@@ -3408,7 +3505,7 @@ u8 calculate_level(u32 expEarned) {
     testValue = 0;
     tempLevel = 0;
     while(testValue == 0 && tempLevel < 99) {
-        if((tempLevel*6)*(tempLevel*3) >= gSaveBuffer.files[gCurrSaveFileNum - 1][0].exp) {
+        if(((tempLevel)*6)*((tempLevel)*3) >= gSaveBuffer.files[gCurrSaveFileNum - 1][0].exp) {
             testValue = 1;
         } else {
             tempLevel++;
@@ -3565,6 +3662,9 @@ void initialize_player(u8 player) {
     partyStats->target[0] = 4;
     partyStats->target[1] = 0xFF;
     partyStats->target[2] = 0xFF;
+    partyStats->ttAttackR = partyStats->attackOffset = 0;
+    partyStats->ttDefenseR = partyStats->defenseOffset = 0;
+    partyStats->ttAgilityR = partyStats->agilityOffset = 0;
     partyStats->HP = file->HP;
     partyStats->PP = file->PP;
     partyStats->baseHP = partyStats->trueBaseHP = file->baseHP;
@@ -3610,6 +3710,7 @@ void initialize_battle(void) {
     gCharactersUnlocked = gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked;
     gBattleInfo.selectingUser = 0;
     gBattleInfo.totalEnemies = 0;
+    menuState = MENU_NONE;
     for(i = 0; i < 7; i++) {
         turnOrder[i] = 0;
     }
@@ -3663,19 +3764,23 @@ void initialize_battle(void) {
     }
     targetDead = 0;
     targetNo = 0;
+    initTextProgress = 0;
     vec3f_copy(gBattleInfo.lastPos, gMarioState->pos);
     vec3f_copy(gBattleInfo.lastCamPos, gCamera->pos);
     start_cutscene(gCamera, CUTSCENE_BATTLE);
+    gCutsceneTimer = CUTSCENE_STOP;
+    gBattleInfo.camState = CAMERA_SIDE;
+    gBattleInfo.camFocus = 0;
     gBattleInfo.lastSeq = sBackgroundMusicQueue[0].seqId;
     stop_background_music(sBackgroundMusicQueue[0].seqId);
+    cbuf_prev[0] = 0;
     if(gCurrAreaIndex == 6) {
         play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(0, SEQ_SATUROS_MENARDI), 0);
     } else if(gCurrAreaIndex == 7) {
-        play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(0, SEQ_SATUROS_MENARDI), 0);
+        play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(0, SEQ_PORKY_FIGHT), 0);
     } else {
         play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(0, SEQ_BATTLE), 0);
     }
-    copy_mario_state_to_object();
     for(i = 0; i <= gCharactersUnlocked; i++) {
         initialize_player(i);
     }
@@ -3746,7 +3851,7 @@ void update_actual_stats(void) {
     u8 i, djinnOffset;
     for(i = 0; i < 4; i++) {
         if(gSaveBuffer.files[gCurrSaveFileNum - 1][0].djinn[i].turnsUntilActive == 0 && gSaveBuffer.files[gCurrSaveFileNum - 1][0].djinn[i].activeState == DJINN_ACTIVE && (gSaveBuffer.files[gCurrSaveFileNum - 1][0].courseStars[0] & (1 << i)) != 0) {
-            djinnOffset = (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level / 2) + 1;
+            djinnOffset = (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level / 3) + 1;
         } else {
             djinnOffset = 0;
         }
@@ -3834,7 +3939,7 @@ void render_battle(void) {
         for(i = 0; i < 4; i++) {
             if(!(menuState == MENU_TURN && turnOrder[gBattleInfo.turnUser] == i)) {
                 for(j = 0; j < 3; j++) {
-                    if(gBattleInfo.player[i].target[j] != 0xFF && gBattleInfo.enemy[gBattleInfo.player[i].target[j] - 4].HP <= 0) {
+                    if(gBattleInfo.player[i].target[j] != 0xFF && gBattleInfo.player[i].target[j] > 3 && gBattleInfo.enemy[gBattleInfo.player[i].target[j] - 4].HP <= 0) {
                         for(k = j; k < 2; k++) {
                             gBattleInfo.player[i].target[k] = gBattleInfo.player[i].target[k + 1];
                         }
@@ -4526,8 +4631,8 @@ void render_status_menu(void) {
         sprintf(epicbuf, "/%d", gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].basePP);
         gs_print(156, 140, epicbuf, SHADOW, WHITE);
 
-        if(gSaveBuffer.files[gCurrSaveFileNum - 1][0].djinn[i].turnsUntilActive == 0 && gSaveBuffer.files[gCurrSaveFileNum - 1][0].djinn[i].activeState == DJINN_ACTIVE && (gSaveBuffer.files[gCurrSaveFileNum - 1][0].courseStars[0] & (1 << overIcon)) != 0) {
-            djinnOffset = (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level / 2) + 1;
+        if((gSaveBuffer.files[gCurrSaveFileNum - 1][0].djinn[overIcon].turnsUntilActive == 0) && (gSaveBuffer.files[gCurrSaveFileNum - 1][0].djinn[overIcon].activeState == DJINN_ACTIVE) && (gSaveBuffer.files[gCurrSaveFileNum - 1][0].courseStars[0] & (1 << overIcon)) != 0) {
+            djinnOffset = (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level / 3) + 1;
         } else {
             djinnOffset = 0;
         }
@@ -4780,6 +4885,7 @@ void render_password_screen(void) {
         gEnteringPassword++;
         if(gEnteringPassword == 5) {
             gSaveBuffer.menuData[0].secretBossUnlocked = 1;
+            gSaveBuffer.files[gCurrSaveFileNum - 1][0].bossFlags |= BOSS_PORKY;
             gMainMenuDataModified = TRUE;
             save_main_menu_data();
         }
@@ -4787,5 +4893,186 @@ void render_password_screen(void) {
             fade_into_special_warp(3, 0);
         }
     }
+    gSPSetOtherMode(gDisplayListHead++, G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0x3000);
+}
+
+#define CREDITS_MAX 43
+const char *credits[CREDITS_MAX] = {
+    "CREDITS",
+    "",
+    "Director:",
+    "Cheezepin",
+    "",
+    "Programming:",
+    "Cheezepin",
+    "",
+    "Scenario / World Design:",
+    "Cheezepin",
+    "",
+    "Models:",
+    "Cheezepin",
+    "Frozenevan (The Pixeleur) on Sketchfab",
+    "",
+    "Music:",
+    "All tracks ported by Cheezepin",
+    "",
+    "",
+    "File Select",
+    "Menu Theme",
+    "Golden Sun / Golden Sun: The Lost Age",
+    "",
+    "Overworld Theme:",
+    "Overworld Theme I",
+    "Golden Sun",
+    "",
+    "Battle Theme",
+    "Isaac's Battle Theme:",
+    "Golden Sun",
+    "",
+    "King Bob-Omb's Lighthouse:",
+    "Venus Lighthouse",
+    "Golden Sun",
+    "",
+    "King Bob-Omb Battle:",
+    "Saturos and Menardi Battle",
+    "Golden Sun",
+    "",
+    "Credits Theme:",
+    "The Golden Sun Rises",
+    "Golden Sun: The Lost Age",
+    "",
+};
+
+#define CREDITS2_MAX 8
+const char *credits2[CREDITS2_MAX] = {
+    "Password Screen:",
+    "Main Theme (Arranged)",
+    "Golden Sun: The Lost Age",
+    "",
+    "Porky Battle:",
+    "Porky Means Business",
+    "Earthbound",
+    "",
+};
+
+#define CREDITS3_MAX 39
+const char *credits3[CREDITS3_MAX] = {
+    "",
+    "Box Art:",
+    "Cheezepin",
+    "Inspiration taken from Nintendo",
+    "",
+    "Logo",
+    "Cheezepin",
+    "Based off logo by Camelot",
+    "",
+    "Battle Icons:",
+    "Camelot",
+    "",
+    "Manual Artwork:",
+    "SPK",
+    "",
+    "Boot Error Screen Artwork:",
+    "SPK",
+    "",
+    "Character Portraits:",
+    "SPK",
+    "",
+    "S2DEX Setup and S2D Text Engine:",
+    "someone2639",
+    "",
+    "Font:",
+    "Camelot",
+    "",
+    "",
+    "Special Thanks:",
+    "someone2639",
+    "CrashOveride",
+    "falcobuster",
+    "Wiseguy",
+    "MrComit",
+    "SPK",
+    "S_NDBB/Gravis",
+    "You!",
+    "",
+    "Thank you for playing!",
+};
+
+#define CREDITS4_MAX 23
+const char *credits4[CREDITS4_MAX] = {
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Well... not really. Not yet, anyway.",
+    "I know you didn't beat the secret boss.",
+    "Did you know there's a secret boss in this?",
+    "I hope you did.",
+    "You definitely didn't beat him, though.",
+    "I guess you technically beat the game?",
+    "You're definitely gonna feel bad now.",
+    "Consult the manual if you want to find him.",
+    "It'll be really fun, trust me :)",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Also, I would like to make my position 100% clear:",
+    "All the Pokemon would beat one billion lions in",
+    "a fight. I'm not debating this. Fuck off.",
+};
+
+u32 gCreditsTimer = 0;
+const char *tempString = "this is a temp string. hopefully it will be overwritten that would be kinda epic";
+
+void render_credits(void) {
+    u8 i, j;
+    s32 x, y;
+    set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
+    barsRendered = 0;
+    gSPSetOtherMode(gDisplayListHead++, G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0);
+    s2d_init();
+    if((gSaveBuffer.files[gCurrSaveFileNum - 1][0].bossFlags & BOSS_PORKY) != 0) {
+        for(i = 0; i < (CREDITS_MAX + CREDITS2_MAX + CREDITS3_MAX); i++) {
+            y = 240 - (gCreditsTimer/2) + (i*12);
+            if(i >= CREDITS_MAX + CREDITS2_MAX) {
+                tempString = credits3[i - CREDITS_MAX - CREDITS2_MAX];
+            } else if (i >= CREDITS_MAX) {
+                tempString = credits2[i - CREDITS_MAX];
+            } else {
+                tempString = credits[i];
+            }
+            if(y < 240 && y > -16 && tempString[0] != "") {
+                x = 160 - (s2d_strlen(tempString)*3.33);
+                gs_print(x, y, tempString, NO_SHADOW, WHITE);
+            }
+            if(gCreditsTimer == 0xA00) {
+                level_trigger_warp(gMarioState, WARP_OP_CREDITS_END);
+            }
+        }
+    } else {
+        for(i = 0; i < (CREDITS_MAX + CREDITS3_MAX + CREDITS4_MAX); i++) {
+            y = 240 - (gCreditsTimer/2) + (i*12);
+            if(i >= CREDITS_MAX + CREDITS3_MAX) {
+                tempString = credits4[i - CREDITS_MAX - CREDITS3_MAX];
+            } else if (i >= CREDITS_MAX) {
+                tempString = credits3[i - CREDITS_MAX];
+            } else {
+                tempString = credits[i];
+            }
+            if(y < 240 && y > -16 && tempString[0] != "") {
+                x = 160 - (s2d_strlen(tempString)*3.33);
+                gs_print(x, y, tempString, NO_SHADOW, WHITE);
+            }
+            if(gCreditsTimer == 0xB40) {
+                level_trigger_warp(gMarioState, WARP_OP_CREDITS_END);
+            }
+        }
+    }
+    gCreditsTimer++;
+    s2d_stop();
     gSPSetOtherMode(gDisplayListHead++, G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0x3000);
 }

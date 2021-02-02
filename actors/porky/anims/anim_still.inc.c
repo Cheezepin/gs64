@@ -87,7 +87,7 @@ static const u16 porky_anim_still_indices[] = {
 };
 
 static const struct Animation porky_anim_still = {
-	1,
+	0,
 	0,
 	0,
 	0,

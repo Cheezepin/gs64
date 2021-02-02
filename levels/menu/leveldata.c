@@ -1471,6 +1471,10 @@ ALIGNED8 static const Texture texture_menu_font_char_star_filled[] = {
 #include "levels/menu/main_menu_seg7_us.0B5C0.ia8.inc.c"
 };
 
+ALIGNED8 static const Texture texture_menu_font_char_star_hollow[] = {
+#include "levels/menu/main_menu_seg7_us.0B5C0hollow.ia8.inc.c"
+};
+
 // 0x0700B600
 ALIGNED8 static const Texture texture_menu_font_char_dash[] = {
 #include "levels/menu/main_menu_seg7_us.0B600.ia8.inc.c"
@@ -1686,7 +1690,7 @@ const Texture *const menu_font_lut[] = {
           0x0,       0x0, texture_menu_font_char_exclamation,       0x0,
     texture_menu_font_char_question,       0x0,       0x0,       0x0,
           0x0, texture_menu_font_char_coin, texture_menu_font_char_star_filled, texture_menu_font_char_multiply,
-          0x0,       0x0,       0x0,       0x0,
+          0x0,       texture_menu_font_char_star_hollow,       0x0,       0x0,
 #endif
 };
 

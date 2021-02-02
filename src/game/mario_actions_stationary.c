@@ -1144,8 +1144,10 @@ s32 act_psynergy(struct MarioState *m) {
                     affectedObj = spawn_object(affectedObj, MODEL_FROST_SPIRE, bhvFrostSpire);
                 break;
         }
-        if(dist > 1500.0f || affectedObj->oBehParams2ndByte != 0) {
-            affectedObj = 0;
+        if(affectedObj != 0) {
+            if(dist > 1500.0f || affectedObj->oBehParams2ndByte != 0 || (m->actionArg == SPELL_LIFT && dist < 375.0f && m->pos[1] > affectedObj->oPosY)) {
+                affectedObj = 0;
+            }
         }
         if(affectedObj == 0) {
             if(halo != 0) {

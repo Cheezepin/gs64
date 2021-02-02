@@ -12,7 +12,6 @@
 #include "segments.h"
 #include "main.h"
 #include "rumble_init.h"
-#include "mem_error_screen.h"
 #include "usb/usb.h"
 #include "usb/debug.h"
 
@@ -22,7 +21,6 @@
 #define MESG_VI_VBLANK 102
 #define MESG_START_GFX_SPTASK 103
 #define MESG_NMI_REQUEST 104
-#define SEG_POOL_END_4MB 0x80400000
 
 OSThread D_80339210; // unused?
 OSThread gIdleThread;
@@ -108,10 +106,6 @@ void setup_mesg_queues(void) {
 void alloc_pool(void) {
     void *start = (void *) SEG_POOL_START;
     void *end = (void *) (SEG_POOL_START + POOL_SIZE);
-
-    // Detect memory size
-    if (does_pool_end_lie_out_of_bounds(end))
-        end = (void *)SEG_POOL_END_4MB;
 
     main_pool_init(start, end);
     gEffectsMemoryPool = mem_pool_init(0x4000, MEMORY_POOL_LEFT);
@@ -312,7 +306,6 @@ void handle_dp_complete(void) {
 }
 extern void crash_screen_init(void);
 
-s8 gEepromValue, gCounterFactor;
 void thread3_main(UNUSED void *arg) {
     setup_mesg_queues();
     alloc_pool();
@@ -322,12 +315,7 @@ void thread3_main(UNUSED void *arg) {
     create_thread(&gSoundThread, 4, thread4_sound, NULL, gThread4Stack + 0x2000, 20);
     osStartThread(&gSoundThread);
 
-    gEepromValue = osEepromProbe(&gSIEventMesgQueue);
-    gCounterFactor = get_count_factor();
-    if (!gNotEnoughMemory && gEepromValue == 2 && gCounterFactor == 1)
-        create_thread(&gGameLoopThread, 5, thread5_game_loop, NULL, gThread5Stack + 0x2000, 10);
-    else
-        create_thread(&gGameLoopThread, 5, thread5_mem_error_message_loop, NULL, gThread5Stack + 0x2000, 10);
+    create_thread(&gGameLoopThread, 5, thread5_game_loop, NULL, gThread5Stack + 0x2000, 10);
     osStartThread(&gGameLoopThread);
 
 

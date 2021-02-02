@@ -457,9 +457,9 @@ void render_hud(void) {
             render_hud_cannon_reticle();
         }
 
-        if (hudDisplayFlags & HUD_DISPLAY_FLAG_LIVES) {
-            render_hud_mario_lives();
-        }
+        // if (hudDisplayFlags & HUD_DISPLAY_FLAG_LIVES) {
+        //     render_hud_mario_lives();
+        // }
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_COIN_COUNT) {
             render_hud_coins();
@@ -482,7 +482,7 @@ void render_hud(void) {
             render_hud_timer();
         }
     }
-    
+
     if (gMarioState->action == ACT_BATTLE) {
         if(battleTimer == 45) {
             initialize_battle();
@@ -545,5 +545,10 @@ void render_hud(void) {
     if(gCurrLevelNum == LEVEL_WF) {
         gHudDisplay.flags = HUD_DISPLAY_NONE;
         render_password_screen();
+    }
+
+    if(gCurrLevelNum == LEVEL_JRB) {
+        gHudDisplay.flags = HUD_DISPLAY_NONE;
+        render_credits();
     }
 }

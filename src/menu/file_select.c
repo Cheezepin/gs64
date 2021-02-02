@@ -35,6 +35,8 @@
 #define LANGUAGE_FUNCTION sLanguageMode
 #endif
 
+extern struct SaveBuffer gSaveBuffer;
+
 /**
  * @file file_select.c
  * This file implements how the file select and it's menus render and function.
@@ -1835,6 +1837,10 @@ void print_save_file_star_count(s8 fileIndex, s16 x, s16 y) {
  * print_main_lang_strings is first called to render the strings for the 4 buttons.
  * Same rule applies for score, copy and erase strings.
  */
+
+unsigned char textStar[] = { TEXT_STAR };
+unsigned char textUnfilledStar[] = { TEXT_UNFILLED_STAR };
+
 void print_main_menu_strings(void) {
 #ifdef VERSION_SH
     // The current sound mode is automatically centered on US and Shindou.
@@ -1871,9 +1877,32 @@ void print_main_menu_strings(void) {
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, sTextBaseAlpha);
     print_menu_generic_string(MARIOTEXT_X1, 65, textMarioA);
+    if((gSaveBuffer.files[0][0].bossFlags & BOSS_PORKY) != 0) {
+        print_menu_generic_string(MARIOTEXT_X1 + 45, 65, textStar);
+    } else if((gSaveBuffer.files[0][0].bossFlags & BOSS_KING_BOBOMB) != 0) {
+        print_menu_generic_string(MARIOTEXT_X1 + 45, 65, textUnfilledStar);
+    }
     print_menu_generic_string(MARIOTEXT_X2, 65, textMarioB);
+    if((gSaveBuffer.files[1][0].bossFlags & BOSS_PORKY) != 0) {
+        print_menu_generic_string(MARIOTEXT_X2 + 45, 65, textStar);
+    } else if((gSaveBuffer.files[1][0].bossFlags & BOSS_KING_BOBOMB) != 0) {
+        print_menu_generic_string(MARIOTEXT_X2 + 45, 65, textUnfilledStar);
+    }
     print_menu_generic_string(MARIOTEXT_X1, 105, textMarioC);
+    if((gSaveBuffer.files[2][0].bossFlags & BOSS_PORKY) != 0) {
+        print_menu_generic_string(MARIOTEXT_X1 + 45, 105, textStar);
+    } else if((gSaveBuffer.files[2][0].bossFlags & BOSS_KING_BOBOMB) != 0) {
+        print_menu_generic_string(MARIOTEXT_X1 + 45, 65, textUnfilledStar);
+    }
     print_menu_generic_string(MARIOTEXT_X2, 105, textMarioD);
+    if((gSaveBuffer.files[3][0].bossFlags & BOSS_PORKY) != 0) {
+        print_menu_generic_string(MARIOTEXT_X2 + 45, 105, textStar);
+    } else if((gSaveBuffer.files[3][0].bossFlags & BOSS_KING_BOBOMB) != 0) {
+        print_menu_generic_string(MARIOTEXT_X2 + 45, 65, textUnfilledStar);
+    }
+    if(gSaveBuffer.menuData[0].secretBossUnlocked != 0) {
+        print_menu_generic_string(281, 189, textStar);
+    }
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_end);
 }
 
@@ -2611,11 +2640,11 @@ void print_score_file_castle_secret_stars(s8 fileIndex, s16 x, s16 y) {
 /**
  * Prints course coins collected in a score menu save file.
  */
+
 void print_score_file_course_coin_score(s8 fileIndex, s16 courseIndex, s16 x, s16 y) {
     unsigned char coinScoreText[20];
     u8 stars = save_file_get_star_flags(fileIndex, courseIndex);
     unsigned char textCoinX[] = { TEXT_COIN_X };
-    unsigned char textStar[] = { TEXT_STAR };
 #if defined(VERSION_JP) || defined(VERSION_SH)
     #define LENGTH 5
 #else
@@ -2940,7 +2969,7 @@ s32 lvl_init_menu_values_and_cursor_pos(UNUSED s32 arg, UNUSED s32 unused) {
  */
 s32 lvl_update_obj_and_load_file_selected(UNUSED s32 arg, UNUSED s32 unused) {
     area_update_objects();
-    if(gPlayer1Controller->buttonDown & A_BUTTON && gPlayer1Controller->buttonDown & R_TRIG && (gPlayer1Controller->buttonDown & R_JPAD || gPlayer1Controller->stickX > 20.0f)) {
+    if(gPlayer1Controller->buttonDown & START_BUTTON && gPlayer1Controller->buttonDown & R_TRIG && (gPlayer1Controller->buttonDown & L_JPAD || gPlayer1Controller->stickX < -20.0f)) {
         gPasswordUnlocked = 1;
     }
     if(gEnteringPassword != 0) {

@@ -76,8 +76,8 @@ void bhv_icy_block_loop(void) {
     }
 
     i = 0;
-    for(xOffset = -110.0f; xOffset <= 110; xOffset += 220) {
-        for(zOffset = -110.0f; zOffset <= 110; zOffset += 220) {
+    for(xOffset = -80.0f; xOffset <= 80.0f; xOffset += 160.0f) {
+        for(zOffset = -80.0f; zOffset <= 80.0f; zOffset += 160.0f) {
             if(find_floor_height(o->oPosX + xOffset, o->oPosY, o->oPosZ + zOffset) >= o->oPosY) {
                 i = 1;
             }

@@ -25,6 +25,17 @@
 #define TEXT_PAUSE _("PAUSE") // Pause text, Castle Courses
 #define TEXT_HUD_CONGRATULATIONS _("CONGRATULATIONS") // Course Complete Text, Bowser Courses
 
+// Memory Expansion Error Screen
+#define TEXT_CONSOLE_8MB _("If you're using an N64 console, then you will need to buy an\nExpansion Pak to play this ROM hack.")
+#define TEXT_PJ64 _("If you are using PJ64 1.6, go to:\nOptions > Settings > Rom Settings Tab > Memory Size\nthen select 8 MB from the drop-down box.")
+#define TEXT_PJ64_2 _("If you are using PJ64 2.X, go to:\nOptions > Settings > Config: > Memory Size, select 8 MB")
+#define TEXT_ERROR1 _("- Memory is not set to 8MB")
+#define TEXT_ERROR2 _("- Counter factor is not set to 1")
+#define TEXT_ERROR3 _("- Save type is not set to 16-kbit EEPROM")
+#define TEXT_MEMSCREEN1 _("The following options are not set:")
+#define TEXT_MEMSCREEN2 _("Refer to the instruction manual for how to make these\nchanges, then reload the rom after they are applied.")
+#define TEXT_MEMSCREEN3 _("Also, make sure to use a proper graphics plugin!\nRecommended plugin: Jabo's Direct3D8 1.7.0.57-ver5")
+#define TEXT_CONSOLE _("You appear to be playing this ROM on a real Nintendo 64.\nUnfortunately, this ROM is not console compatible.\nPlease play this game on an emulator instead.\n\nIf you are playing on an emulator and seeing\nthis screen, please contact Cheezepin so he can\nfix this bug.")
 #if defined(VERSION_JP) || defined(VERSION_SH)
 
 /**

@@ -561,5 +561,6 @@ extern const BehaviorScript bhvIcyBlock[];
 extern const BehaviorScript bhvLighthouseGate[];
 extern const BehaviorScript bhvSecretDoor[];
 extern const BehaviorScript bhvPorkyBoss[];
+extern const BehaviorScript bhvPorkyBomb[];
 
 #endif // BEHAVIOR_DATA_H

@@ -212,6 +212,29 @@ void bhv_boss_update(void) {
         o->oOpacity = cur_obj_update_dialog(2, 2, 17 + o->oBehParams2ndByte, 0);
         o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x400);
     }
+    if(menuState == MENU_WIN) {
+        o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+    }
+}
+
+void bhv_porky_bomb_update(void) {
+    struct Object *cringeObj = o->oOpacity;
+    if(o->oTimer == 0) {
+        o->oForwardVel = lateral_dist_between_objects(o, cringeObj) / 25.0f;
+        o->oVelY = 18.0f;
+    }
+    cur_obj_play_sound_1(SOUND_AIR_BOBOMB_LIT_FUSE);
+    if(o->oTimer < 20) {
+        o->oVelY -= 2.0f;
+        o->oPosY += o->oVelY;
+        cur_obj_move_xz_using_fvel_and_yaw();
+    } else {
+        cur_obj_scale(1.0 + (f32) (o->oTimer - 20) / 8.0);
+    }
+    if(o->oTimer == 28) {
+        explode(0);
+        cringeObj->oOpacity = 1;
+    }
 }
 
 void bhv_chest_update(void) {

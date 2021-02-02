@@ -64,6 +64,7 @@ struct SaveFile
     u8 charactersUnlocked;
     u8 level;
     u8 lastFloor;
+    u8 bossFlags;
     u32 exp;
     struct Player player[4];
     struct InventoryItem inventory[8];

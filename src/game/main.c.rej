@@ -1,11 +1,10 @@
 --- src/game/main.c
 +++ src/game/main.c
-@@ -125,7 +125,7 @@ void setup_mesg_queues(void) {
+@@ -11,6 +11,7 @@
+ #include "segments.h"
+ #include "main.h"
+ #include "rumble_init.h"
++#include "mem_error_screen.h"
  
- void alloc_pool(void) {
-     void *start = (void *) SEG_POOL_START;
--    void *end = (void *) SEG_POOL_END;
-+    void *end = (void *) (SEG_POOL_START + POOL_SIZE);
- 
-     main_pool_init(start, end);
-     gEffectsMemoryPool = mem_pool_init(0x4000, MEMORY_POOL_LEFT);
+ // Message IDs
+ #define MESG_SP_COMPLETE 100

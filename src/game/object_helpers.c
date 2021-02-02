@@ -2934,3 +2934,16 @@ void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 o
     o->oPosY = objectPosY;
 }
 #endif
+
+void explode(struct Object *object) {
+    struct Object *explodingObject, *explosion;
+    if(object != 0) {
+        explodingObject = object;
+    } else {
+        explodingObject = gCurrentObject;
+    }
+
+    explosion = spawn_object(explodingObject, MODEL_EXPLOSION, bhvExplosion);
+    explosion->oGraphYOffset += 100.0f;
+    explodingObject->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+}

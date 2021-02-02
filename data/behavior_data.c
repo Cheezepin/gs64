@@ -6271,6 +6271,19 @@ const BehaviorScript bhvPorkyBoss[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvPorkyBomb[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_DIST_TO_MARIO)),
+    SET_FLOAT(oDrawingDistance, 10000),
+    LOAD_ANIMATIONS(oAnimations, bobomb_seg8_anims_0802396C),
+    ANIMATE(0),
+    SET_INT(oIntangibleTimer, 0),
+    SET_HOME(),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_porky_bomb_update),
+    END_LOOP(),
+};
+
 const BehaviorScript bhvChest[] = {
     BEGIN(OBJ_LIST_DEFAULT),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE | OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO),

@@ -268,10 +268,37 @@ Try your hardest, boys.\n\
 I'll crush you like bugs!"))
 
 DEFINE_DIALOG(DIALOG_018, 1, 4, 30, 200, _("\
-I'm sleeping because...\n\
-...I'm sleepy. I don't\n\
-like being disturbed.\n\
-Please walk quietly."))
+Would you, eh... happen to\n\
+know of a green dinosaur\n\
+anywhere 'round these\n\
+parts?\n\
+Pardon my French here,\n\
+but eh...\n\
+\n\
+\n\
+HE FUCKED ME OVER.\n\
+\n\
+\n\
+\n\
+MANY TIMES.\n\
+\n\
+\n\
+\n\
+ACROSS MULTIPLE\n\
+DIMENSIONS.\n\
+\n\
+\n\
+Wait, I know you... you're\n\
+that Mario fella, aren't\n\
+ya? And who are these\n\
+friends ya got here?\n\
+Don't play coy with me,\n\
+buddy. I'd know about the\n\
+plumber and his dinosaur\n\
+pal any day of the week.\n\
+You ain't gettin' away\n\
+from this without a fight,\n\
+y'hear me?"))
 
 DEFINE_DIALOG(DIALOG_019, 1, 2, 30, 200, _("\
 Shhh! Please walk\n\

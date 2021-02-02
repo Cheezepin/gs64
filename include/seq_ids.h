@@ -51,6 +51,7 @@ enum SeqId {
     SEQ_ITEM_GET,                     // 0x29
     SEQ_CREDITS,                      // 0x2A
     SEQ_MENU,                         // 0x2B
+    SEQ_PORKY_FIGHT,                  // 0x2C
     SEQ_COUNT
 };
 

@@ -643,12 +643,13 @@ static void level_cmd_unload_area(void) {
     sCurrentCmd = CMD_NEXT;
 }
 
-f32 startArray[6][3] = {
+f32 startArray[7][3] = {
     0.0f, 1000.0f, 19750.0f,
     0.0f, 250.0f, 5857.25f,
     0.0f, 250.0f, 22894.65f,
     0.0f, 250.0f, 1145.735f,
     0.0f, 250.0f, 19192.4f,
+    198.644f, -5000.0f, 1818.455f,
     198.644f, -5000.0f, 1818.455f
 };
 
