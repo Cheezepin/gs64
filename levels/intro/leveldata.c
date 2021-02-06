@@ -3319,10 +3319,10 @@ const Gfx intro_seg7_dl_0700B3A0[] = {
 
 // 0x0700B420 - 0x0700B460
 static const Vtx intro_seg7_vertex_0700B420[] = {
-    {{{    96,     42,     -1}, 0, {     0,    512}, {0xff, 0xff, 0xff, 0xff}}},
-    {{{   224,     42,     -1}, 0, {  4096,    512}, {0xff, 0xff, 0xff, 0xff}}},
-    {{{   224,     58,     -1}, 0, {  4096,      0}, {0xff, 0xff, 0xff, 0xff}}},
-    {{{    96,     58,     -1}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{    32,     16,     -1}, 0, {     0,    512}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{   288,     16,     -1}, 0, {  4096,    512}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{   288,     48,     -1}, 0, {  4096,      0}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{    32,     48,     -1}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
 };
 
 // 0x0700B460 - 0x0700B4A0
@@ -3346,6 +3346,10 @@ ALIGNED8 static const Texture intro_seg7_texture_0700B4A0[] = {
 };
 #endif
 
+ALIGNED8 const Texture copyright[] = {
+#include "levels/intro/copyright.i4.inc.c"
+};
+
 #if defined(VERSION_EU)
 // 0x0700C4A0 - 0x0700D4A0
 ALIGNED8 static const u8 intro_seg7_texture_0700C4A0[] = {
@@ -3368,13 +3372,17 @@ const Gfx intro_seg7_dl_0700C6A0[] = {
     gsDPSetCombineMode(G_CC_DECALFADE, G_CC_DECALFADE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
 
-    gsDPLoadTextureBlock(intro_seg7_texture_0700B4A0, G_IM_FMT_RGBA, G_IM_SIZ_16b, 128, 16, 0, G_TX_CLAMP, G_TX_CLAMP, 7, 4, G_TX_NOLOD, G_TX_NOLOD),
+    //gsSPSetOtherMode(G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0),
+
+    gsDPLoadTextureBlock_4b(/*intro_seg7_texture_0700B4A0*/ copyright, G_IM_FMT_I, 256, 32, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
     gsSPVertex(intro_seg7_vertex_0700B420, 4, 0),
     gsSP2Triangles( 0,  1,  2, 0x0,  0,  2,  3, 0x0),
 
-    gsDPLoadTextureBlock(intro_seg7_texture_0700C4A0, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 16, 0, G_TX_CLAMP, G_TX_CLAMP, 4, 4, G_TX_NOLOD, G_TX_NOLOD),
-    gsSPVertex(intro_seg7_vertex_0700B460, 4, 0),
-    gsSP2Triangles( 0,  1,  2, 0x0,  0,  2,  3, 0x0),
+    //gsSPSetOtherMode(G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0x3000),
+
+    // gsDPLoadTextureBlock(intro_seg7_texture_0700C4A0, G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 16, 0, G_TX_CLAMP, G_TX_CLAMP, 4, 4, G_TX_NOLOD, G_TX_NOLOD),
+    // gsSPVertex(intro_seg7_vertex_0700B460, 4, 0),
+    // gsSP2Triangles( 0,  1,  2, 0x0,  0,  2,  3, 0x0),
 
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
     gsDPPipeSync(),
@@ -3419,3 +3427,5 @@ const f32 intro_seg7_table_0700C880[] = {
     0.048600f, 0.048600f, 0.012800f, 0.012800f,
     0.012800f, 0.000000f, 0.000000f, 0.000000f,
 };
+
+#include "levels/intro/title_screen/model.inc.c"

@@ -49,6 +49,8 @@
 #include "src/s2d_engine/icons/djinn.h"
 #include "src/s2d_engine/icons/stats.c"
 #include "src/s2d_engine/icons/stats.h"
+#include "src/s2d_engine/icons/range.c"
+#include "src/s2d_engine/icons/range.h"
 
 extern u32 gGetScreenCoords;
 extern Vec3f g3DtoScreenCoords;
@@ -1512,6 +1514,19 @@ void call_spell_sprite_dl(int idx, int x, int y, uObjMtx *buffer) {
 	gSPObjSprite(gDisplayListHead++, &spell_obj);
 }
 
+uObjMtx rangebuf[6];
+void call_range_sprite_dl(int idx, int x, int y, uObjMtx *buffer) {
+	gDPPipeSync(gDisplayListHead++);
+	gSPDisplayList(gDisplayListHead++, s2d_init_dl);
+	gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
+	gDPSetRenderMode(gDisplayListHead++, G_RM_XLU_SPRITE, G_RM_XLU_SPRITE2);
+	gSPObjRenderMode(gDisplayListHead++, G_OBJRM_XLU | G_OBJRM_BILERP);
+	gSPObjLoadTxtr(gDisplayListHead++, &range_tex[idx]);
+	setup_mtx(&buffer[0], x, y, 1);
+	gSPObjMatrix(gDisplayListHead++, &buffer[0]);
+	gSPObjSprite(gDisplayListHead++, &range_obj);
+}
+
 uObjMtx ebuf[8];
 uObjMtx hebuf2[6];
 char spbuf[512];
@@ -1550,6 +1565,7 @@ void render_psynergy_menu(void) {
             if(movePool[i]->baseLevel <= gSaveBuffer.files[gCurrSaveFileNum - 1][0].level) {
                 call_spell_sprite_dl(movePool[i]->sprite, 120, 96 + j*24, &ebuf[j]);
                 call_element_sprite_dl(gBattleInfo.selectingUser, 280, 100 + j*24, &hebuf2[j]);
+                call_range_sprite_dl(movePool[i]->range, 292, 100 + j*24, &rangebuf[j]);
                 sprintf(spbuf, "%s", movePool[i]->name);
                 gs_print(136, 100 + j*24, spbuf, SHADOW, WHITE);
                 sprintf(spbuf, "PP %d", movePool[i]->PP);
