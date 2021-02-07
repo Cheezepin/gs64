@@ -1,4 +1,5 @@
 #include <ultra64.h>
+#include <PR/ultratypes.h>
 #include "sm64.h"
 #include "surface_terrains.h"
 #include "moving_texture_macros.h"
@@ -40,3 +41,5 @@
 #include "levels/jrb/areas/2/macro.inc.c"
 #include "levels/jrb/areas/2/movtext.inc.c"
 #include "levels/jrb/leveldata.inc.c"
+#include "src/s2d_engine/icons/end.c"
+#include "src/s2d_engine/icons/end.h"
