@@ -16,7 +16,8 @@ void bhv_liftrock_update(void) {
         struct Object *affectedObj;
         affectedObj = cur_obj_find_nearest_object_with_behavior(bhvPuddle, &dist2lol);
         if(affectedObj != 0 && dist2lol < 100.0f) {
-            affectedObj->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+            //affectedObj->activeFlags = ACTIVE_FLAG_DEACTIVATED;
+            affectedObj->oPosY -= 50000.0f;
         }
     }
 }

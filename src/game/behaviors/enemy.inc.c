@@ -138,7 +138,7 @@ void bhv_enemy_init(void) {
             o->oAnimations = koopa_seg6_anims_06011364;
             cur_obj_init_animation(9);
             o->hitboxRadius = 72.0f;
-            o->hitboxHeight = 175.0f;
+            o->hitboxHeight = 100.0f;
             o->oInitialAnim = 9;
             enemy->expYield = 38;
             enemy->psynergyChance = 5;
@@ -176,7 +176,7 @@ void bhv_enemy_init(void) {
         case ENEMY_KING_BOBOMB:
             enemy->HP = enemy->baseHP = 120;
             enemy->agility = 100;
-            enemy->attack = 22;
+            enemy->attack = 25;
             enemy->defense = 10;
             enemy->element = MARS;
             sprintf(enemy->name, "King Bob-Omb");
@@ -190,10 +190,10 @@ void bhv_enemy_init(void) {
             enemy->psynergyChance = 3;
             break;
         case ENEMY_PORKY:
-            enemy->HP = enemy->baseHP = 200;
+            enemy->HP = enemy->baseHP = 220;
             enemy->agility = 20;
-            enemy->attack = 24;
-            enemy->defense = 14;
+            enemy->attack = 32;
+            enemy->defense = 16;
             enemy->element = VENUS;
             sprintf(enemy->name, "Porky");
             cur_obj_set_model(MODEL_PORKY);
@@ -212,10 +212,10 @@ void bhv_enemy_init(void) {
     }
 
     //level scaling
-    enemy->HP += (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level) + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked*2);
-    enemy->attack += ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].level*1)/2) + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked/2);
+    enemy->HP += (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level / 2) + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked*2);
+    enemy->attack += ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].level*7)/8) + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked/3);
     enemy->defense += ((gSaveBuffer.files[gCurrSaveFileNum - 1][0].level*1)/2) + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].charactersUnlocked/2);
-    enemy->agility += (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level);
+    enemy->agility += (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level / 3);
 }
 
 void bhv_enemy_update(void) {

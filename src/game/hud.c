@@ -551,4 +551,8 @@ void render_hud(void) {
         gHudDisplay.flags = HUD_DISPLAY_NONE;
         render_credits();
     }
+    
+    if(gCurrLevelNum == LEVEL_CCM) {
+        gHudDisplay.flags = HUD_DISPLAY_NONE;
+    }
 }

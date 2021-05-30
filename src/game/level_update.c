@@ -1210,7 +1210,7 @@ s32 init_level(void) {
                             file->exp = 0;
                             for(i = 0; i < 4; i++) {
                                 file->player[i].HP = file->player[i].baseHP = file->player[i].trueBaseHP = 20;
-                                file->player[i].PP = file->player[i].basePP = file->player[i].trueBasePP = 15;
+                                file->player[i].PP = file->player[i].basePP = file->player[i].trueBasePP = 10;
                                 switch(i) {
                                     case 0:
                                         file->player[i].attack = 6;
@@ -1279,6 +1279,12 @@ s32 init_level(void) {
 /**
  * Initialize the current level if initOrUpdate is 0, or update the level if it is 1.
  */
+
+s32 warp_to_credits_from_ccm(s16 a, s16 b) {
+	level_trigger_warp(gMarioState, WARP_OP_CREDITS_END);
+    return 0;
+}
+
 s32 lvl_init_or_update(s16 initOrUpdate, UNUSED s32 unused) {
     s32 result = 0;
 
@@ -1334,6 +1340,7 @@ s32 lvl_set_current_level(UNUSED s16 arg0, s32 levelNum) {
     sWarpCheckpointActive = FALSE;
     gCurrLevelNum = levelNum;
     gCurrCourseNum = gLevelToCourseNumTable[levelNum - 1];
+	if (gCurrLevelNum == LEVEL_CCM) return 0;
 	if (gCurrLevelNum == LEVEL_JRB) return 0;
 	if (gCurrLevelNum == LEVEL_WF) return 0;
 	if (gCurrLevelNum == LEVEL_CASTLE_GROUNDS) return 0;

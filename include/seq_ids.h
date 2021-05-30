@@ -52,6 +52,7 @@ enum SeqId {
     SEQ_CREDITS,                      // 0x2A
     SEQ_MENU,                         // 0x2B
     SEQ_PORKY_FIGHT,                  // 0x2C
+    SEQ_MAIN_THEME,                   // 0x2D
     SEQ_COUNT
 };
 

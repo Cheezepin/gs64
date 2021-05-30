@@ -74,7 +74,7 @@ const LevelScript level_wf_entry[] = {
 		MARIO_POS(0x01, 0, 0, 0, 0),
 		TERRAIN(wf_area_1_collision),
 		MACRO_OBJECTS(wf_area_1_macro_objs),
-		SET_BACKGROUND_MUSIC(0x00, SEQ_CREDITS),
+		SET_BACKGROUND_MUSIC(0x00, SEQ_MAIN_THEME),
 		TERRAIN_TYPE(TERRAIN_GRASS),
 	END_AREA(),
 

@@ -1892,13 +1892,13 @@ void print_main_menu_strings(void) {
     if((gSaveBuffer.files[2][0].bossFlags & BOSS_PORKY) != 0) {
         print_menu_generic_string(MARIOTEXT_X1 + 45, 105, textStar);
     } else if((gSaveBuffer.files[2][0].bossFlags & BOSS_KING_BOBOMB) != 0) {
-        print_menu_generic_string(MARIOTEXT_X1 + 45, 65, textUnfilledStar);
+        print_menu_generic_string(MARIOTEXT_X1 + 45, 105, textUnfilledStar);
     }
     print_menu_generic_string(MARIOTEXT_X2, 105, textMarioD);
     if((gSaveBuffer.files[3][0].bossFlags & BOSS_PORKY) != 0) {
         print_menu_generic_string(MARIOTEXT_X2 + 45, 105, textStar);
     } else if((gSaveBuffer.files[3][0].bossFlags & BOSS_KING_BOBOMB) != 0) {
-        print_menu_generic_string(MARIOTEXT_X2 + 45, 65, textUnfilledStar);
+        print_menu_generic_string(MARIOTEXT_X2 + 45, 105, textUnfilledStar);
     }
     if(gSaveBuffer.menuData[0].secretBossUnlocked != 0) {
         print_menu_generic_string(281, 189, textStar);

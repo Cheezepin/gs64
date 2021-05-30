@@ -259,7 +259,7 @@ go! Shred those enemies!"))
 
 DEFINE_DIALOG(DIALOG_017, 1, 3, 30, 200, _("\
 So, you all are here to\n\
-retrieve the elemental,\n\
+retrieve the elemental\n\
 orbs?\n\
 Ha! You make me laugh.\n\
 You think you can compare\n\

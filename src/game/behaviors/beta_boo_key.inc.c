@@ -22,25 +22,25 @@
  */
 void bhv_alpha_boo_key_loop(void) {
     // Rotate the key
-    o->oFaceAngleRoll += 0x200;
-    o->oFaceAngleYaw += 0x200;
+    // o->oFaceAngleRoll += 0x200;
+    // o->oFaceAngleYaw += 0x200;
 
-    if (obj_check_if_collided_with_object(o, gMarioObject)) {
-        // This line makes the object inside the key's parent boo drop.
-        // Was this intended to make the boo die when the key is collected?
-        // Boos don't read from oBooDeathStatus, they only set it to let the
-        // objects inside them know when to drop.
-        // Due to this line, the key will cause the game to crash if collected
-        // when its parent object is NULL.
-        // Another theory is that the boo key was intended to be spawned by a
-        // spawner that used object field 0x00 for something else. This
-        // is elaborated on more in beta_boo_key_dropped_loop.
-        o->parentObj->oBooDeathStatus = BOO_DEATH_STATUS_DYING;
+    // if (obj_check_if_collided_with_object(o, gMarioObject)) {
+    //     // This line makes the object inside the key's parent boo drop.
+    //     // Was this intended to make the boo die when the key is collected?
+    //     // Boos don't read from oBooDeathStatus, they only set it to let the
+    //     // objects inside them know when to drop.
+    //     // Due to this line, the key will cause the game to crash if collected
+    //     // when its parent object is NULL.
+    //     // Another theory is that the boo key was intended to be spawned by a
+    //     // spawner that used object field 0x00 for something else. This
+    //     // is elaborated on more in beta_boo_key_dropped_loop.
+    //     o->parentObj->oBooDeathStatus = BOO_DEATH_STATUS_DYING;
 
-        // Delete the object and spawn sparkles
-        obj_mark_for_deletion(o);
-        spawn_object(o, MODEL_SPARKLES, bhvGoldenCoinSparkles);
-    }
+    //     // Delete the object and spawn sparkles
+    //     obj_mark_for_deletion(o);
+    //     spawn_object(o, MODEL_SPARKLES, bhvGoldenCoinSparkles);
+    // }
 }
 
 // For some reason, the action functions for the beta boo key
@@ -170,5 +170,5 @@ static void (*sBetaBooKeyActions[])(void) = { beta_boo_key_inside_boo_loop, beta
  * Update function for bhvBetaBooKey.
  */
 void bhv_beta_boo_key_loop(void) {
-    cur_obj_call_action_function(sBetaBooKeyActions);
+    //cur_obj_call_action_function(sBetaBooKeyActions);
 }

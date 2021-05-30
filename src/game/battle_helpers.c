@@ -51,6 +51,8 @@
 #include "src/s2d_engine/icons/stats.h"
 #include "src/s2d_engine/icons/range.c"
 #include "src/s2d_engine/icons/range.h"
+//#include "src/s2d_engine/icons/end.c"
+#include "src/s2d_engine/icons/end.h"
 
 extern u32 gGetScreenCoords;
 extern Vec3f g3DtoScreenCoords;
@@ -241,7 +243,7 @@ struct Spell Revive = {
     SPELL_REVIVE,
     0,
     4,
-    20,
+    15,
     RANGE_SINGLE_PARTY,
 };
 
@@ -277,9 +279,9 @@ struct Spell Glacier = {
 
 struct Spell Ply = {
     "Ply",
-    "Restore 50 HP with faith's power.",
+    "Restore 15 HP with faith's power.",
     SPELL_PLY,
-    50,
+    15,
     2,
     7,
     RANGE_SINGLE_PARTY,
@@ -287,9 +289,9 @@ struct Spell Ply = {
 
 struct Spell PlyWell = {
     "Ply Well",
-    "Restore 150 HP with faith's power.",
+    "Restore 50 HP with faith's power.",
     SPELL_PLY_WELL,
-    150,
+    50,
     6,
     12,
     RANGE_SINGLE_PARTY,
@@ -297,9 +299,9 @@ struct Spell PlyWell = {
 
 struct Spell Wish = {
     "Wish",
-    "Restore 80 HP to the whole party.",
+    "Restore 30 HP to the whole party.",
     SPELL_WISH,
-    80,
+    30,
     8,
     15,
     RANGE_ALL_PARTY,
@@ -388,7 +390,7 @@ struct Spell *KingBobombPool[4] = {
 struct Spell *PorkyPool[4] = {
     &FlareStorm,
     &QuakeSphere,
-    &Whirlwind,
+    &Tornado,
     &Glacier,
 };
 
@@ -1535,6 +1537,7 @@ u8 psynergyMax = 0;
 void render_psynergy_menu(void) {
     struct Spell **movePool;
     u8 i, j = 0;
+    u8 myColor = 0;
     determine_menu_switch();
     determine_joystick_increment(0, 255, 0);
     s2d_init();
@@ -1566,10 +1569,15 @@ void render_psynergy_menu(void) {
                 call_spell_sprite_dl(movePool[i]->sprite, 120, 96 + j*24, &ebuf[j]);
                 call_element_sprite_dl(gBattleInfo.selectingUser, 280, 100 + j*24, &hebuf2[j]);
                 call_range_sprite_dl(movePool[i]->range, 292, 100 + j*24, &rangebuf[j]);
+                if(movePool[i]->PP <= gBattleInfo.player[gBattleInfo.selectingUser].PP) {
+                    myColor = WHITE;
+                } else {
+                    myColor = RED;
+                }
                 sprintf(spbuf, "%s", movePool[i]->name);
-                gs_print(136, 100 + j*24, spbuf, SHADOW, WHITE);
+                gs_print(136, 100 + j*24, spbuf, SHADOW, myColor);
                 sprintf(spbuf, "PP %d", movePool[i]->PP);
-                gs_print(232, 100 + j*24, spbuf, SHADOW, WHITE);
+                gs_print(232, 100 + j*24, spbuf, SHADOW, myColor);
                 if(selectedPsynergy == j)
                     displayedSelectedPsynergy = i;
                 j++;
@@ -1591,7 +1599,7 @@ void render_djinn_menu(void) {
     determine_joystick_increment(0, 255, 0);
     s2d_init();
     render_bar_wh(224, 120, 96, 120);
-    render_bar_wh(0, 88, 224, 152);
+    render_bar_wh(64, 88, 160, 152);
     render_bar_wh(0, 56, 320, 32);
     djinni = djinniPool[gBattleInfo.selectingUser];
     if((gSaveBuffer.files[gCurrSaveFileNum - 1][0].courseStars[0] & (1 << gBattleInfo.selectingUser)) != 0) {
@@ -1615,6 +1623,33 @@ void render_djinn_menu(void) {
         gs_print(240, 132 + j*24, spbuf, SHADOW, color);
         sprintf(spbuf, "%s", djinni->tooltip);
         gs_print(4, 68, spbuf, SHADOW, WHITE);
+        sprintf(spbuf, "HP      %d", gBattleInfo.player[gBattleInfo.selectingUser].baseHP);
+        gs_print(72, 100, spbuf, SHADOW, WHITE);
+        sprintf(spbuf, "PP      %d", gBattleInfo.player[gBattleInfo.selectingUser].basePP);
+        gs_print(72, 112, spbuf, SHADOW, WHITE);
+        sprintf(spbuf, "Attack  %d", gBattleInfo.player[gBattleInfo.selectingUser].attack);
+        gs_print(72, 124, spbuf, SHADOW, WHITE);
+        sprintf(spbuf, "Defense %d", gBattleInfo.player[gBattleInfo.selectingUser].defense);
+        gs_print(72, 136, spbuf, SHADOW, WHITE);
+        sprintf(spbuf, "Agility %d", gBattleInfo.player[gBattleInfo.selectingUser].agility);
+        gs_print(72, 148, spbuf, SHADOW, WHITE);
+        if(gSaveBuffer.files[gCurrSaveFileNum - 1][0].djinn[gBattleInfo.selectingUser].activeState == DJINN_ACTIVE) {
+            call_stats_sprite_dl(1, 154, 96, &buf[1]);
+            sprintf(spbuf, " %d", gBattleInfo.player[gBattleInfo.selectingUser].trueBaseHP);
+            gs_print(160, 100, spbuf, SHADOW, WHITE);
+            call_stats_sprite_dl(1, 154, 108, &buf[2]);
+            sprintf(spbuf, " %d", gBattleInfo.player[gBattleInfo.selectingUser].trueBasePP);
+            gs_print(160, 112, spbuf, SHADOW, WHITE);
+            call_stats_sprite_dl(1, 154, 120, &buf[3]);
+            sprintf(spbuf, " %d", gBattleInfo.player[gBattleInfo.selectingUser].baseAttack);
+            gs_print(160, 124, spbuf, SHADOW, WHITE);
+            call_stats_sprite_dl(1, 154, 132, &buf[4]);
+            sprintf(spbuf, " %d", gBattleInfo.player[gBattleInfo.selectingUser].baseDefense);
+            gs_print(160, 136, spbuf, SHADOW, WHITE);
+            call_stats_sprite_dl(1, 154, 144, &buf[5]);
+            sprintf(spbuf, " %d", gBattleInfo.player[gBattleInfo.selectingUser].baseAgility);
+            gs_print(160, 148, spbuf, SHADOW, WHITE);
+        }
     }
     call_portrait_sprite_dl(gBattleInfo.selectingUser, 0, 176, &elbuf[5]);
     call_icons_sprite_dl(OVER_DJINN, 200, 208, &buf[0], 0, 1.0f);
@@ -1744,6 +1779,7 @@ void render_select_menu(void) {
     if(gBattleInfo.prevMenu == MENU_PSYNERGY) {
         call_icons_sprite_dl(OVER_PSYNERGY, 80, 208, &buf[0], 0, 1.0f);
         call_spell_sprite_dl(movePool[displayedSelectedPsynergy]->sprite, 120, 216, &ebuf[0]);
+        call_range_sprite_dl(movePool[displayedSelectedPsynergy]->range, 292, 219, &rangebuf[0]);
         call_element_sprite_dl(gBattleInfo.selectingUser, 280, 220, &hebuf2[0]);
         sprintf(spbuf, "%s", movePool[displayedSelectedPsynergy]->name);
         gs_print(136, 220, spbuf, SHADOW, WHITE);
@@ -1760,10 +1796,16 @@ void render_select_menu(void) {
         gs_print(132, 220, cbuf, SHADOW, WHITE);
     } else if(gBattleInfo.prevMenu == MENU_DJINN) {
         call_icons_sprite_dl(OVER_DJINN, 80, 208, &buf[0], 0, 1.0f);
+        call_element_sprite_dl(djinni->element, 124, 220, &hebuf2[0]);
+        sprintf(spbuf, "%s", djinni->name);
+        gs_print(134, 220, spbuf, SHADOW, WHITE);
         gBattleInfo.player[gBattleInfo.selectingUser].action = ACT_DJINN;
         gBattleInfo.player[gBattleInfo.selectingUser].subAction = djinni->id;
     } else {
         call_icons_sprite_dl(OVER_SUMMON, 80, 208, &buf[0], 0, 1.0f);
+        call_element_sprite_dl(summonPool[gBattleInfo.player[gBattleInfo.selectingUser].subAction]->element, 124, 220, &hebuf2[0]);
+        sprintf(spbuf, "%s", summonPool[gBattleInfo.player[gBattleInfo.selectingUser].subAction]->name);
+        gs_print(134, 220, spbuf, SHADOW, WHITE);
         if(gBattleInfo.player[gBattleInfo.selectingUser].action != ACT_SUMMON) {
             gBattleInfo.player[gBattleInfo.selectingUser].action = 0;
             gBattleInfo.player[gBattleInfo.selectingUser].subAction = 0;
@@ -1892,7 +1934,7 @@ u8 enemy_select_target(u8 element) {
     return target;
 }
 
-s16 calculate_damage(s16 attack, s16 defense, u8 attackerElement, u8 defenderElement) {
+s16 calculate_damage(s16 attack, s16 defense, u8 attackerElement, u8 defenderElement, u8 defendingPlayer) {
     s16 damage;
 
     if(attackerElement == (defenderElement + 2) % 4)
@@ -1900,6 +1942,10 @@ s16 calculate_damage(s16 attack, s16 defense, u8 attackerElement, u8 defenderEle
     if(attackerElement == defenderElement)
         defense += (defense / 4);
     damage = attack - defense;
+
+    if(defendingPlayer != 0xFF && gBattleInfo.player[defendingPlayer].action == ACT_DEFEND) {
+        damage /= 2;
+    }
 
     if(damage <= 0)
         damage = 1;
@@ -2276,7 +2322,7 @@ u8 psynergy_anim(u8 target, u8 turnUserID, u8 psynergyAnimType) {
         playerObj = gBattleInfo.enemy[turnUserID - 4].obj;
     }
     if(attackAnimDone == 0 && turnUserUsingAnim != turnUserID) {
-        if(gBattleInfo.enemy[0].id == ENEMY_PORKY && attackAnimTimer == 0) {
+        if(gBattleInfo.enemy[0].id == ENEMY_PORKY && attackAnimTimer == 0 && turnUserID >= 4) {
             struct Object *tempObject = gBattleInfo.enemy[0].obj;
             geo_obj_init_animation(&tempObject->header.gfx, &tempObject->oAnimations[1]);
         }
@@ -2417,17 +2463,21 @@ u8 psynergy_anim(u8 target, u8 turnUserID, u8 psynergyAnimType) {
             case SPELL_TUNDRA:
             case SPELL_GLACIER:
                 if(attackAnimTimer == 0) {
+                    u8 cringeTarget;
                     psynergyObj = spawn_object(targetObj, MODEL_GLACIER, bhvPsynergy);
                     obj_scale(psynergyObj, 0.25f);
+                    if(gBattleInfo.enemy[target].obj != 0) {
+                        cringeTarget = target;
+                    } else {
+                        for(i = 0; i < 2; i++) {
+                            if(gBattleInfo.enemy[i].obj != 0) {
+                                cringeTarget = i;
+                            }
+                        }
+                    }
                     if(psynergyAnimType == SPELL_FROST) {
                         psynergyObj->oPosY -= 375.0f;
-                        psynergyObj->oOpacity = target;
                         psynergyObj->oBehParams2ndByte = SPELL_FROST;
-                        if(turnUserID < 4) {
-                            gBattleInfo.camFocus = target + 5;
-                        } else {
-                            gBattleInfo.camFocus = target + 1;
-                        }
                     } else if(psynergyAnimType == SPELL_TUNDRA) {
                         psynergyObj->header.gfx.scale[0] = 1.0f;
                         psynergyObj->header.gfx.scale[1] = 0.375f;
@@ -2435,7 +2485,6 @@ u8 psynergy_anim(u8 target, u8 turnUserID, u8 psynergyAnimType) {
                         psynergyObj->oPosX = 375.0f;
                         psynergyObj->oPosZ = -375.0f;
                         psynergyObj->oBehParams2ndByte = SPELL_TUNDRA;
-                        gBattleInfo.camFocus = 8;
                     } else if(psynergyAnimType == SPELL_GLACIER) {
                         psynergyObj->header.gfx.scale[0] = 1.5f;
                         psynergyObj->header.gfx.scale[1] = psynergyObj->header.gfx.scale[2] = 0.5f;
@@ -2443,9 +2492,22 @@ u8 psynergy_anim(u8 target, u8 turnUserID, u8 psynergyAnimType) {
                         psynergyObj->oPosX = 375.0f;
                         psynergyObj->oPosZ = -375.0f;
                         psynergyObj->oBehParams2ndByte = SPELL_GLACIER;
-                        gBattleInfo.camFocus = 8;
                     }
+                    psynergyObj->oOpacity = cringeTarget;
                 }
+
+                if(psynergyAnimType == SPELL_FROST) {
+                    if(turnUserID < 4) {
+                        gBattleInfo.camFocus = target + 5;
+                    } else {
+                        gBattleInfo.camFocus = target + 1;
+                    }
+                } else if(psynergyAnimType == SPELL_TUNDRA) {
+                    gBattleInfo.camFocus = 8;
+                } else if(psynergyAnimType == SPELL_GLACIER) {
+                    gBattleInfo.camFocus = 8;
+                }
+
                 if(attackAnimTimer == 90) {
                     attackAnimDone = 1;
                     attackAnimPlaying = 0;
@@ -2699,7 +2761,11 @@ u8 summon_anim(u8 summonType) {
         if(attackAnimTimer == 0) {
             summonObj = spawn_object(gBattleInfo.player[0].obj, MODEL_STAR, bhvSummonStar);
             summonObj->oBehParams2ndByte = summonType;
-            summonObj->oPosY += 625.0f + gBattleInfo.enemy[0].obj->hitboxHeight;
+            if(gBattleInfo.enemy[1].obj != 0) {
+                summonObj->oPosY += 625.0f + gBattleInfo.enemy[1].obj->hitboxHeight;
+            } else {
+                summonObj->oPosY += 750.0f;
+            }
             summonObj->oPosX = summonObj->oPosZ = 0;
             summonObj->oMoveAngleYaw = random_u16();
         }
@@ -2748,7 +2814,8 @@ u8 search_for_next_enemy(u8 range) {
     u8 counter = 0;
     u8 trueTarget;
     u8 initialTarget = target;
-    //target = -1;
+    if(target > 3 || target < 0)
+        target = -1;
     while(l == 1 && counter < 9) {
         target++;
         if(target > 2) {
@@ -2940,7 +3007,7 @@ void render_battle_attack_text(void) {
                                     render_previous_text();
                                 }
                                 animAboutToPlay = 0;
-                                damage = calculate_damage(gBattleInfo.player[turnUserID].attack + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level / 3), gBattleInfo.enemy[target].defense, 0, 1);
+                                damage = calculate_damage(gBattleInfo.player[turnUserID].attack + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level / 2), gBattleInfo.enemy[target].defense, 0, 1, 0xFF);
                                 sprintf(cbuf, "%s takes %d damage!", gBattleInfo.enemy[target].name, damage);
                             }
                             break;
@@ -2967,7 +3034,7 @@ void render_battle_attack_text(void) {
                                     targetingParty = 1;
                                 else
                                     targetingParty = 0;
-                                if((gBattleInfo.enemy[target].obj == 0 || gBattleInfo.enemy[target].HP <= 0) && targetingParty == 0) {
+                                if((gBattleInfo.enemy[target].obj == 0 || gBattleInfo.enemy[target].HP <= 0) && targetingParty == 0 && movePool[spellUsed]->range != RANGE_ALL_ENEMIES) {
                                     search_for_next_enemy(movePool[spellUsed]->range);
                                 }
                                 else {
@@ -2984,7 +3051,10 @@ void render_battle_attack_text(void) {
                                     }
                                     animAboutToPlay = 0;
                                     if(targetingParty == 0) {
-                                        damage = calculate_damage(gBattleInfo.player[turnUserID].attack + movePool[spellUsed]->damage + (gSaveBuffer.files[gCurrSaveFileNum - 1][0].level / 4), gBattleInfo.enemy[target].defense, gBattleInfo.player[turnUserID].element, gBattleInfo.enemy[target].element);
+                                        f32 spellDmg, levelDmg;
+                                        spellDmg = (f32)movePool[spellUsed]->damage;
+                                        levelDmg = (f32)gSaveBuffer.files[gCurrSaveFileNum - 1][0].level;
+                                        damage = calculate_damage(gBattleInfo.player[turnUserID].attack + (u32)(spellDmg * (1.0f + ((levelDmg) / 20.0f))), gBattleInfo.enemy[target].defense, gBattleInfo.player[turnUserID].element, gBattleInfo.enemy[target].element, 0xFF);
                                         sprintf(cbuf, "%s takes %d damage!", gBattleInfo.enemy[target].name, damage);
                                     } else {
                                         get_party_member_string(target);
@@ -2999,13 +3069,13 @@ void render_battle_attack_text(void) {
                                                 if(animPlaying == 2)
                                                     sprintf(cbuf, "%s recovered all HP!", atkrString);
                                                 else
-                                                    sprintf(cbuf, "%s recovered 50 HP!", atkrString);
+                                                    sprintf(cbuf, "%s recovered 15 HP!", atkrString);
                                                 break;
                                             case SPELL_PLY_WELL:
                                                 if(animPlaying == 2)
                                                     sprintf(cbuf, "%s recovered all HP!", atkrString);
                                                 else
-                                                    sprintf(cbuf, "%s recovered 150 HP!", atkrString);
+                                                    sprintf(cbuf, "%s recovered 50 HP!", atkrString);
                                                 break;
                                             case SPELL_PROTECT:
                                                 sprintf(cbuf, "The party's defense is raised!");
@@ -3017,7 +3087,7 @@ void render_battle_attack_text(void) {
                                                 sprintf(cbuf, "%s is revived!", atkrString);
                                                 break;
                                             case SPELL_WISH:
-                                                sprintf(cbuf, "The party recovered 80 HP!");
+                                                sprintf(cbuf, "The party recovered 30 HP!");
                                                 break;
                                         }
                                         animPlaying = 0;
@@ -3184,7 +3254,7 @@ void render_battle_attack_text(void) {
                                     render_previous_text();
                                 }
                                 animAboutToPlay = 0;
-                                damage = calculate_damage(gBattleInfo.player[turnUserID].attack + summonUsed->damage, gBattleInfo.enemy[target].defense, summonUsed->element, gBattleInfo.enemy[target].element);
+                                damage = calculate_damage(gBattleInfo.player[turnUserID].attack + summonUsed->damage, gBattleInfo.enemy[target].defense, summonUsed->element, gBattleInfo.enemy[target].element, 0xFF);
                                 sprintf(cbuf, "%s takes %d damage!", gBattleInfo.enemy[target].name, damage);
                                 animPlaying = 0;
                             }
@@ -3222,7 +3292,7 @@ void render_battle_attack_text(void) {
                                 }
                                 animAboutToPlay = 0;
                                 get_party_member_string(target);
-                                damage = calculate_damage(currEnemy->attack, gBattleInfo.player[target].defense, 0, 1);
+                                damage = calculate_damage(currEnemy->attack, gBattleInfo.player[target].defense, 0, 1, target);
                                 sprintf(cbuf, "%s takes %d damage!", atkrString, damage);
                             }
                             break;
@@ -3264,7 +3334,7 @@ void render_battle_attack_text(void) {
                                     }
                                     animAboutToPlay = 0;
                                     if(targetingParty == 0) {
-                                        damage = calculate_damage(currEnemy->attack + movePool[spellUsed]->damage, gBattleInfo.player[target].defense, currEnemy->element, gBattleInfo.player[target].element);
+                                        damage = calculate_damage(currEnemy->attack + movePool[spellUsed]->damage, gBattleInfo.player[target].defense, currEnemy->element, gBattleInfo.player[target].element, target);
                                         get_party_member_string(target);
                                         sprintf(cbuf, "%s takes %d damage!", atkrString, damage);
                                     } else {
@@ -3500,7 +3570,7 @@ void calculate_new_stats(u8 newLevel, u8 oldLevel) {
             }
             player->HP = bPlayer->HP;
             tempStat = stat_calc(3, j, 2, 3);
-            bPlayer->basePP = player->basePP = player->trueBasePP += (tempStat + 1);
+            bPlayer->basePP = player->basePP = player->trueBasePP += (tempStat);
             player->PP = bPlayer->PP += (tempStat + 1);
             tempStat = stat_calc(3, j, 0, 0);
             player->attack += (tempStat);
@@ -3953,13 +4023,22 @@ void render_battle(void) {
         }
 
         for(i = 0; i < 4; i++) {
-            if(!(menuState == MENU_TURN && turnOrder[gBattleInfo.turnUser] == i)) {
+            if(!(menuState == MENU_TURN && turnOrder[gBattleInfo.turnUser] == i) && gBattleInfo.player[i].action == ACT_PSYNERGY && SpellPool[i][gBattleInfo.player[i].subAction]->range == RANGE_ALL_ENEMIES) {
                 for(j = 0; j < 3; j++) {
+                    if(gBattleInfo.player[i].target[j] >= 0 && gBattleInfo.player[i].target[j] < 0x4) {
+                        gBattleInfo.player[i].target[j] = 4;
+                    }
                     if(gBattleInfo.player[i].target[j] != 0xFF && gBattleInfo.player[i].target[j] > 3 && gBattleInfo.enemy[gBattleInfo.player[i].target[j] - 4].HP <= 0) {
                         for(k = j; k < 2; k++) {
                             gBattleInfo.player[i].target[k] = gBattleInfo.player[i].target[k + 1];
                         }
                         gBattleInfo.player[i].target[2] = 0xFF;
+                    }
+                    if(gBattleInfo.player[i].target[j] == 0xFF) {
+                        for(k = j + 1; k < 3; k++) {
+                            gBattleInfo.player[i].target[k - 1] = gBattleInfo.player[i].target[k];
+                            gBattleInfo.player[i].target[2] = 0xFF;
+                        }
                     }
                 }
             }
@@ -4160,6 +4239,7 @@ void sick_status_print(struct Spell **movePool) {
 epicbuf[64];
 u8 frozenSelection = 0;
 u8 textTimer = 0;
+u8 savedVal = 0;
 void render_field_psynergy_menu(void) {
     u8 i, j;
     struct Spell **movePool;
@@ -4279,7 +4359,7 @@ void render_field_psynergy_menu(void) {
             menuState = MENU_NONE;
             movePool = FieldSpellPool[frozenSelection];
             sick_status_print(movePool);
-            if(gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[frozenSelection].PP >= movePool[displayedSelectedPsynergy]->PP) {
+            if(gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[frozenSelection].PP >= movePool[displayedSelectedPsynergy]->PP || savedVal == 1) {
                 if(textTimer == 0) {
                     gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[frozenSelection].PP -= movePool[displayedSelectedPsynergy]->PP;
                     switch(movePool[displayedSelectedPsynergy]->sprite) {
@@ -4308,20 +4388,22 @@ void render_field_psynergy_menu(void) {
                 switch(movePool[displayedSelectedPsynergy]->sprite) {
                     get_party_member_string(overIcon);
                     case SPELL_PLY:
-                        sprintf(epicbuf, "%s recovered 50 HP!", atkrString);
+                        sprintf(epicbuf, "%s recovered 15 HP!", atkrString);
                         break;
                     case SPELL_PLY_WELL:
-                        sprintf(epicbuf, "%s recovered 150 HP!", atkrString);
+                        sprintf(epicbuf, "%s recovered 50 HP!", atkrString);
                         break;
                     case SPELL_WISH:
-                        sprintf(epicbuf, "Party recovered 50 HP!");
+                        sprintf(epicbuf, "Party recovered 30 HP!");
                         break;
                     case SPELL_REVIVE:
                         sprintf(epicbuf, "%s is revived!", atkrString);
                         break;
                 }
+                savedVal = 1;
             } else {
                 sprintf(epicbuf, "Not enough PP!", atkrString);
+                savedVal = 2;
             }
 
             gs_print(148, 40, epicbuf, SHADOW, WHITE);
@@ -4329,6 +4411,7 @@ void render_field_psynergy_menu(void) {
             if(textTimer >= 45) {
                 fieldPsynergyMenuState = 0;
                 overIcon = frozenSelection;
+                savedVal = 0;
             }
             textTimer++;
     }
@@ -4494,8 +4577,12 @@ void render_field_item_menu(void) {
                 fieldItemMenuState = 0;
                 play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gGlobalSoundSource);
             } else if (gPlayer1Controller->buttonPressed & A_BUTTON) {
-                fieldItemMenuState = 2;
-                play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                if((inventory[selectedItem].id < ITEM_PSY_CRYSTAL && (gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].HP > 0 && gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].HP < gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].baseHP)) || (inventory[selectedItem].id == ITEM_PSY_CRYSTAL && gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].PP < gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].basePP) || (inventory[selectedItem].id == ITEM_WATER_OF_LIFE && gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].HP <= 0)) {
+                    fieldItemMenuState = 2;
+                    play_sound(SOUND_MENU_CLICK_FILE_SELECT, gGlobalSoundSource);
+                } else {
+                    play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                }
                 textTimer = 0;
             }
             break;
@@ -4522,8 +4609,7 @@ void render_field_item_menu(void) {
                         reducedEncounterFrames += 900;
                         break;
                     case ITEM_WATER_OF_LIFE:
-                        if(gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].HP <= 0)
-                            gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].HP = gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].baseHP;
+                        gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].HP = gSaveBuffer.files[gCurrSaveFileNum - 1][0].player[overIcon].baseHP;
                         break;
                 }
             }
@@ -4798,8 +4884,12 @@ char pbuf[4][25];
 char password[4][25] = {
     "dpbqyhts05ok96lwjoehv46zl",
     "zmnvvtbanus7nkuojel9enfmj",
-    "5opl41qymae513oni6uvxrnn3",
+    "sopl41qymae513oni6uvxrnn3",
     "eesoi920xx8i1jibhck7ft391"
+};
+
+char nutsPassword[16] = {
+    "deeznutsonyoface",
 };
 
 char displaypbuf[26];
@@ -4812,8 +4902,9 @@ void display_pbuf(char *buffer) {
     displaypbuf[25] = 0;
 }
 
+u32 gInvalidPasswordTimer = 0;
 void render_password_screen(void) {
-    u8 i, j;
+    u8 i, j, iLol;
     set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
     barsRendered = 0;
     menuState = MENU_PASSWORD;
@@ -4839,7 +4930,12 @@ void render_password_screen(void) {
         gs_print(24, 140, " 0 1 2 3 4 5 6 7 8 9 a b c d e f g h", SHADOW, WHITE);
         gs_print(32, 160, "i j k l m n o p q r s t u v w x y z", SHADOW, WHITE);
         render_bar_wh(20, 190, 280, 30);
-        gs_print(28, 200, "[A]: Enter [B]: Delete START: Submit", SHADOW, WHITE);
+        if(gInvalidPasswordTimer > 0) {
+            gs_print(58, 200, "Invalid password entered!", SHADOW, WHITE);
+            gInvalidPasswordTimer--;
+        } else {
+            gs_print(28, 200, "[A]: Enter [B]: Delete START: Submit", SHADOW, WHITE);
+        }
 
         s2d_stop();
 
@@ -4887,13 +4983,21 @@ void render_password_screen(void) {
                     }
                 }
             }
+            for(iLol = 0; iLol < 16; iLol++) {
+                if(pbuf[0][iLol] != nutsPassword[iLol]) {
+                    iLol = 99;
+                }
+            }
+            if(i != 100 && j != 100) {
+                gEnteringPassword = 2;
+            } else if(iLol < 99) {
+                gEnteringPassword = 202;
+            } else {
+                play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
+                gInvalidPasswordTimer = 60;
+            }
         }
-        if(i != 100 && j != 100) {
-
-        } else {
-            gEnteringPassword = 2;
-        }
-    } else {
+    } else if(gEnteringPassword < 202) {
         s2d_init();
         render_bar_wh(60, 105, 200, 30);
         gs_print(84, 115, "Secret boss unlocked!", SHADOW, WHITE);
@@ -4906,6 +5010,17 @@ void render_password_screen(void) {
             save_main_menu_data();
         }
         if(gEnteringPassword == 92) {
+            fade_into_special_warp(3, 0);
+        }
+    } else {
+        s2d_init();
+        render_bar_wh(60, 105, 200, 80);
+        gs_print(90, 115, " 508980636487925", SHADOW, WHITE);
+        gs_print(94, 130, "Write this down,", SHADOW, WHITE);
+        gs_print(82, 145, "it's for another hack.", SHADOW, WHITE);
+        gs_print(84, 160, "(Press A to continue)", SHADOW, WHITE);
+        s2d_stop();
+        if(gPlayer1Controller->buttonPressed & A_BUTTON) {
             fade_into_special_warp(3, 0);
         }
     }
@@ -4979,7 +5094,7 @@ const char *credits3[CREDITS3_MAX] = {
     "Inspiration taken from Nintendo",
     "",
     "Logo",
-    "Cheezepin",
+    "HeroTechne",
     "Based off logo by Camelot",
     "",
     "Battle Icons:",
@@ -5036,20 +5151,62 @@ const char *credits4[CREDITS4_MAX] = {
     "",
     "",
     "",
-    "Also, I would like to make my position 100% clear:",
-    "All the Pokemon would beat one billion lions in",
-    "a fight. I'm not debating this. Fuck off.",
+    "",
+    "",
+    "Good luck...",
 };
 
 u32 gCreditsTimer = 0;
 const char *tempString = "this is a temp string. hopefully it will be overwritten that would be kinda epic";
+u32 *bgdls[6] = {
+    &end0_bg_dl,
+    &end1_bg_dl,
+    &end2_bg_dl,
+    &end3_bg_dl,
+    &end4_bg_dl,
+    &end5_bg_dl,
+};
 
 void render_credits(void) {
     u8 i, j;
+    u8 opacity;
     s32 x, y;
+    Mtx *mtx;
     set_mario_action(gMarioState, ACT_WAITING_FOR_DIALOG, 0);
     barsRendered = 0;
     gSPSetOtherMode(gDisplayListHead++, G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0);
+
+    s2d_init();
+    j = 0xFF;
+    for(i = 0; i < 6; i++) {
+        if(gCreditsTimer > (i*360) + 60 && gCreditsTimer < (i+1)*360 + 60) {
+            j = i;
+        }
+    }
+    if(j < 6) {
+        if(gCreditsTimer < (j*360) + 110) {
+            opacity = 0xFF - ((gCreditsTimer - ((j*360) + 60))*5);
+        } else if (gCreditsTimer > (j*360) + 360) {
+            opacity = 0xFF;
+        } else if(gCreditsTimer > (j*360) + 310) {
+            opacity = ((gCreditsTimer - ((j*360) + 310))*5);
+        } else {
+            opacity = 0;
+        }
+        gSPDisplayList(gDisplayListHead++, bgdls[j]);
+    }
+    //gSPDisplayList(gDisplayListHead++, end1_bg_dl);
+    s2d_stop();
+
+    create_dl_ortho_matrix();
+    create_dl_translation_matrix(G_MTX_PUSH, 160.0f, 120.0f, 1.0f);
+    mtx = alloc_display_list(sizeof(Mtx));
+    guScale(mtx, 20.0f, 20.0f, 1.0f);
+    gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(mtx), G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);
+    gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, opacity);
+    gSPDisplayList(gDisplayListHead++, &transition_obj_mesh);
+    gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
     s2d_init();
     if((gSaveBuffer.files[gCurrSaveFileNum - 1][0].bossFlags & BOSS_PORKY) != 0) {
         for(i = 0; i < (CREDITS_MAX + CREDITS2_MAX + CREDITS3_MAX); i++) {
@@ -5066,7 +5223,11 @@ void render_credits(void) {
                 gs_print(x, y, tempString, NO_SHADOW, WHITE);
             }
             if(gCreditsTimer == 0xA00) {
-                level_trigger_warp(gMarioState, WARP_OP_CREDITS_END);
+                // level_trigger_warp(gMarioState, WARP_OP_CREDITS_END);
+                sDelayedWarpTimer = 0x3C;
+                sSourceWarpNodeId = 0x1;
+                sDelayedWarpOp = WARP_OP_TELEPORT;
+                play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 0x3C, 0x00, 0x00, 0x00);
             }
         }
     } else {
@@ -5084,11 +5245,16 @@ void render_credits(void) {
                 gs_print(x, y, tempString, NO_SHADOW, WHITE);
             }
             if(gCreditsTimer == 0xB40) {
-                level_trigger_warp(gMarioState, WARP_OP_CREDITS_END);
+                //level_trigger_warp(gMarioState, WARP_OP_CREDITS_END);
+                sDelayedWarpTimer = 0x3C;
+                sSourceWarpNodeId = 0x1;
+                sDelayedWarpOp = WARP_OP_TELEPORT;
+                play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 0x3C, 0x00, 0x00, 0x00);
             }
         }
     }
     gCreditsTimer++;
+
     s2d_stop();
     gSPSetOtherMode(gDisplayListHead++, G_SETOTHERMODE_H, G_MDSFT_TEXTFILT, 2, 0x3000);
 }

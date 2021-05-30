@@ -58,6 +58,8 @@ void bhv_purple_switch_loop(void) {
                         homeZ = cringeObject->oHomeZ;
                         cringeObject->activeFlags = ACTIVE_FLAG_DEACTIVATED;
                         spawn_object_abs_with_rot(o, 0, MODEL_ICYBLOCK, bhvIcyBlock, homeX, homeY, homeZ, 0, 0, 0);
+                    } else {
+                        spawn_object_abs_with_rot(o, 0, MODEL_ICYBLOCK, bhvIcyBlock, 248.6855f, 0, 3874.3f, 0, 0, 0);
                     }
                 } else {
                     if (o->oTimer < 360) {
